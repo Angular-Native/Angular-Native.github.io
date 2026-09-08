@@ -1,0 +1,413 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Accessibility on Apple | angular-native</title><link rel="canonical" href="https://angular-native.github.io/accessibility/apple/"/><link rel="alternate" hreflang="en" href="https://angular-native.github.io/accessibility/apple/"/><link rel="alternate" hreflang="es" href="https://angular-native.github.io/es/accessibility/apple/"/><link rel="alternate" hreflang="x-default" href="https://angular-native.github.io/accessibility/apple/"/><link rel="sitemap" href="/sitemap-index.xml"/><link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.1"/><meta name="generator" content="Starlight v0.42.0"/><meta property="og:title" content="Accessibility on Apple"/><meta property="og:type" content="article"/><meta property="og:url" content="https://angular-native.github.io/accessibility/apple/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Where the six accessibility props land in UIKit, AppKit and SwiftUI, what has no equivalent on each, and how it is checked by reading the tree from outside the app."/><meta property="og:site_name" content="angular-native"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Where the six accessibility props land in UIKit, AppKit and SwiftUI, what has no equivalent on each, and how it is checked by reading the tree from outside the app."/><meta name="theme-color" content="#12151a" media="(prefers-color-scheme: dark)"/><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)"/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/_astro/common.B2GuNxy_.css"><style>@layer starlight.components{.card-grid:where(.astro-7qmvx3iy){grid-template-columns:100%;gap:1rem;display:grid}.card-grid:where(.astro-7qmvx3iy)>*{margin-top:0!important}@media (width>=50rem){.card-grid:where(.astro-7qmvx3iy){grid-template-columns:1fr 1fr;gap:1.5rem}.stagger:where(.astro-7qmvx3iy){--stagger-height:5rem;padding-bottom:var(--stagger-height)}.stagger:where(.astro-7qmvx3iy)>:nth-child(2n){transform:translateY(var(--stagger-height))}}starlight-tabs:where(.astro-scn3uvmv){display:block}.tablist-wrapper:where(.astro-scn3uvmv){overflow-x:auto}:where(.astro-scn3uvmv)[role=tablist]{border-bottom:2px solid var(--sl-color-gray-5);padding:0;list-style:none;display:flex}.tab:where(.astro-scn3uvmv){display:flex}.tab:where(.astro-scn3uvmv)>:where(.astro-scn3uvmv)[role=tab]{--sl-tab-color-border:var(--sl-color-gray-5);line-height:var(--sl-line-height-headings);box-shadow:0 2px 0 var(--sl-tab-color-border);color:var(--sl-color-gray-3);outline-offset:var(--sl-outline-offset-inside);overflow-wrap:initial;align-items:center;gap:.5rem;padding:.275rem 1.25rem;text-decoration:none;display:flex}.tab:where(.astro-scn3uvmv) :where(.astro-scn3uvmv)[role=tab][aria-selected=true]{--sl-tab-color-border:var(--sl-color-text-accent);color:var(--sl-color-white);font-weight:600}.tablist-wrapper:where(.astro-scn3uvmv)~[role=tabpanel]{margin-top:1rem}.sl-link-card:where(.astro-zaaezwya){border:1px solid var(--sl-color-gray-5);box-shadow:var(--sl-shadow-sm);border-radius:.5rem;grid-template-columns:1fr auto;gap:.5rem;padding:1rem;display:grid;position:relative}a:where(.astro-zaaezwya){line-height:var(--sl-line-height-headings);text-decoration:none}a:where(.astro-zaaezwya):before{content:"";position:absolute;inset:0}.stack:where(.astro-zaaezwya){flex-direction:column;gap:.5rem}.title:where(.astro-zaaezwya){color:var(--sl-color-white);font-weight:600;font-size:var(--sl-text-lg)}.description:where(.astro-zaaezwya){color:var(--sl-color-gray-3);line-height:1.5}.icon:where(.astro-zaaezwya){color:var(--sl-color-gray-3)}.sl-link-card:where(.astro-zaaezwya):hover{background:var(--sl-color-gray-7,var(--sl-color-gray-6));border-color:var(--sl-color-gray-2)}.sl-link-card:where(.astro-zaaezwya):hover .icon:where(.astro-zaaezwya){color:var(--sl-color-white)}.sl-steps{--bullet-size:calc(var(--sl-line-height) * 1rem);--bullet-margin:.375rem;counter-reset:steps-counter var(--sl-steps-start,0);padding-inline-start:0;list-style:none}.sl-steps>li{counter-increment:steps-counter;padding-inline-start:calc(var(--bullet-size) + 1rem);min-height:calc(var(--bullet-size) + var(--bullet-margin));padding-bottom:1px;position:relative}.sl-steps>li+li{margin-top:0}.sl-steps>li:before{content:counter(steps-counter);top:0;width:var(--bullet-size);height:var(--bullet-size);line-height:var(--bullet-size);font-size:var(--sl-text-xs);text-align:center;color:var(--sl-color-white);background-color:var(--sl-color-gray-6);box-shadow:inset 0 0 0 1px var(--sl-color-gray-5);border-radius:99rem;font-weight:600;position:absolute;inset-inline-start:0}.sl-steps>li:after{--guide-width:1px;content:"";top:calc(var(--bullet-size) + var(--bullet-margin));bottom:var(--bullet-margin);width:var(--guide-width);background-color:var(--sl-color-hairline-light);position:absolute;inset-inline-start:calc((var(--bullet-size) - var(--guide-width)) / 2)}}@layer starlight.content{.sl-steps>li>:first-child{--lh:calc(1em * var(--sl-line-height));--shift-y:calc(.5 * (var(--bullet-size) - var(--lh)));transform:translateY(var(--shift-y));margin-bottom:var(--shift-y)}.sl-steps>li>:first-child:where(h1,h2,h3,h4,h5,h6){--lh:calc(1em * var(--sl-line-height-headings))}@supports (--prop:1lh){.sl-steps>li>:first-child{--lh:1lh}}}
+@layer starlight.components{svg:where(.astro-hkc32dio){color:var(--sl-icon-color);font-size:var(--sl-icon-size,1em);width:1em;height:1em}}
+@layer starlight.components{.sl-link-button:where(.astro-dcqstdaq){font-size:var(--sl-text-sm);outline-offset:.25rem;border:1px solid #0000;border-radius:999rem;align-items:center;gap:.5em;padding:.4375rem 1.125rem;line-height:1.1875;text-decoration:none;display:inline-flex}.sl-link-button:where(.astro-dcqstdaq).primary{background:var(--sl-color-text-accent);border-color:var(--sl-color-text-accent);color:var(--sl-color-black)}.sl-link-button:where(.astro-dcqstdaq).primary:hover{color:var(--sl-color-black)}.sl-link-button:where(.astro-dcqstdaq).secondary{border-color:inherit;color:var(--sl-color-white)}.sl-link-button:where(.astro-dcqstdaq).minimal{color:var(--sl-color-white);padding-inline:0}.sl-link-button:where(.astro-dcqstdaq) svg{flex-shrink:0}@media (width>=50rem){.sl-link-button:where(.astro-dcqstdaq){font-size:var(--sl-text-base);padding:.9375rem 1.25rem}}.sl-markdown-content .sl-link-button:where(.astro-dcqstdaq){margin-inline-end:1rem}.sl-markdown-content .sl-link-button:where(.astro-dcqstdaq):not(:where(p *)){margin-block:1rem}}
+</style><script type="module" src="/_astro/page.Dwipeu-R.js"></script></head><body class="astro-g5ptsecz"><a class="sl-skip-link astro-qb7clj6f" href="#_top">Skip to content</a><div class="page sl-flex astro-yntsjkba"><header class="header astro-yntsjkba"><div class="header astro-by6fddyj"><div class="title-wrapper sl-flex astro-by6fddyj"><a href="/" class="site-title sl-flex astro-6rvad3va"><img class="light:sl-hidden print:hidden astro-6rvad3va" alt src="/_astro/logo-dark.DW_oTXuh.svg" width="38" height="24"><img class="dark:sl-hidden print:block astro-6rvad3va" alt src="/_astro/logo-light.B5c7Bpuj.svg" width="38" height="24"><span class="astro-6rvad3va" translate="no">angular-native</span></a></div><div class="sl-flex print:hidden astro-by6fddyj"><site-search class="astro-by6fddyj astro-b5kgnn7o" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-b5kgnn7o"><svg aria-hidden="true" class="astro-b5kgnn7o astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-b5kgnn7o" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-b5kgnn7o" style="display: none;"><kbd class="astro-b5kgnn7o">Ctrl</kbd><kbd class="astro-b5kgnn7o">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-b5kgnn7o"><div class="dialog-frame sl-flex astro-b5kgnn7o"><button data-close-modal class="sl-flex md:sl-hidden astro-b5kgnn7o">Cancel</button><div class="search-container astro-b5kgnn7o"><div id="starlight__search" class="astro-b5kgnn7o"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.B-Vh4ymV.js"></script></div><div class="sl-hidden md:sl-flex print:hidden right-group astro-by6fddyj"><div class="sl-flex social-icons astro-by6fddyj"><a href="https://github.com/angular-native/angular-native" rel="me" class="sl-flex astro-n2mnl6yq"><span class="sr-only astro-n2mnl6yq">GitHub</span><svg aria-hidden="true" class="astro-n2mnl6yq astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select language</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="/accessibility/apple/" class="astro-2z5xp7gb">English</option><option value="/es/accessibility/apple/" class="astro-2z5xp7gb">Español</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super(),matchMedia(`(min-width: 50em)`).addEventListener(`change`,()=>this.hidePopover()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><sl-sidebar-state-persist data-hash="0yhobux" class="astro-ipdry5cl"><script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script><ul class="top-level astro-rmhv4bp6"><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">Guide</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="0"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><a href="/guide/quick-start/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Quick start</span></a></li><li class="astro-rmhv4bp6"><a href="/guide/installing/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Installing the CLI</span></a></li><li class="astro-rmhv4bp6"><a href="/guide/how-it-works/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">How it works</span></a></li><li class="astro-rmhv4bp6"><a href="/guide/existing-angular-project/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Taking an Angular project to mobile</span></a></li><li class="astro-rmhv4bp6"><a href="/guide/native-wrapper/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Props and the native wrapper</span></a></li><li class="astro-rmhv4bp6"><a href="/guide/gestures-and-animation/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Gestures and animation</span></a></li><li class="astro-rmhv4bp6"><a href="/guide/navigation/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Navigation and the router</span></a></li><li class="astro-rmhv4bp6"><a href="/guide/lists/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Long lists</span></a></li><li class="astro-rmhv4bp6"><a href="/guide/safe-area-and-keyboard/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">The safe area and the keyboard</span></a></li><li class="astro-rmhv4bp6"><a href="/guide/testing/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Checking it without a device</span></a></li><li class="astro-rmhv4bp6"><a href="/guide/signing-and-distribution/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Signing and distribution</span></a></li></ul></details></li><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">Reference</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="1"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">components</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="2"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><a href="/reference/components/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Components</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-view/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-view</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-text/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-text</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-image/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-image</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-scroll-view/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-scroll-view</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-text-input/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-text-input</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-textarea/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-textarea</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-button/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-button</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-switch/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-switch</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-slider/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-slider</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-stepper/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-stepper</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-segmented-control/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-segmented-control</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-select/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-select</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-date-picker/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-date-picker</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-search-bar/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-search-bar</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-tab-bar/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-tab-bar</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-navigation-bar/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-navigation-bar</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-stack-view/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-stack-view</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-modal/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-modal</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-alert/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-alert</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-icon/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-icon</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-progress-bar/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-progress-bar</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-activity-indicator/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-activity-indicator</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-web-view/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-web-view</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-map-view/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-map-view</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-video-view/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-video-view</span></a></li></ul></details></li><li class="astro-rmhv4bp6"><a href="/reference/styles/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Styles and layout</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/cli/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">The an CLI</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/native-modules/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Native modules</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/built-in-modules/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Built-in modules</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/icons/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Icons</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/events/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Events</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/protocol/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">The binary protocol</span></a></li></ul></details></li><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">Platforms</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="3"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><a href="/platforms/ios/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">iOS · iPadOS</span></a></li><li class="astro-rmhv4bp6"><a href="/platforms/android/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Android</span></a></li><li class="astro-rmhv4bp6"><a href="/platforms/macos/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">macOS</span></a></li><li class="astro-rmhv4bp6"><a href="/platforms/tvos/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">tvOS</span></a></li><li class="astro-rmhv4bp6"><a href="/platforms/visionos/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">visionOS</span></a></li><li class="astro-rmhv4bp6"><a href="/platforms/watchos/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">watchOS</span></a></li><li class="astro-rmhv4bp6"><a href="/platforms/wearos/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Wear OS</span></a></li></ul></details></li><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">Accessibility</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="4"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><a href="/accessibility/overview/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">The contract</span></a></li><li class="astro-rmhv4bp6"><a href="/accessibility/apple/" aria-current="page" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Accessibility on Apple</span></a></li><li class="astro-rmhv4bp6"><a href="/accessibility/android/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Accessibility on Android</span></a></li></ul></details></li><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">Extending it</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="5"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">plugins</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="6"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><a href="/extending/plugins/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Plugins</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/plugins/preferences/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">preferences</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/plugins/clipboard/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">clipboard</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/plugins/keychain/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">keychain</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/plugins/biometrics/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">biometrics</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/plugins/geolocation/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">geolocation</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/plugins/camera/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">camera</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/plugins/notifications/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">notifications</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/plugins/updater/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">updater</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/plugins/barcode/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">barcode</span></a></li></ul></details></li><li class="astro-rmhv4bp6"><a href="/extending/plugin-permissions/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Permissions a plugin needs</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/biometrics-and-keychain/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Biometrics and keychain</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/plugins-on-the-mac-and-the-watch/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Plugins on the Mac and the watch</span></a></li></ul></details></li></ul><script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script></sl-sidebar-state-persist><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"><a href="https://github.com/angular-native/angular-native" rel="me" class="sl-flex astro-n2mnl6yq"><span class="sr-only astro-n2mnl6yq">GitHub</span><svg aria-hidden="true" class="astro-n2mnl6yq astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select language</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="/accessibility/apple/" class="astro-2z5xp7gb">English</option><option value="/es/accessibility/apple/" class="astro-2z5xp7gb">Español</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><aside class="right-sidebar-container print:hidden astro-lrzkfocr"><div class="right-sidebar astro-lrzkfocr"><div class="lg:sl-hidden astro-qok35upx"><mobile-starlight-toc data-min-h="2" data-max-h="3" class="astro-66cqc7ze"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-66cqc7ze"><details id="starlight__mobile-toc" class="astro-66cqc7ze"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-66cqc7ze"><span class="toggle sl-flex astro-66cqc7ze">On this page<svg aria-hidden="true" class="caret astro-66cqc7ze astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-66cqc7ze"></span></summary><div class="dropdown astro-66cqc7ze"><ul class="isMobile astro-jugkfwgx" style="--depth: 0;"><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#_top" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Overview</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#three-apis-three-shapes" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Three APIs, three shapes</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#role-platform-by-platform" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Role, platform by platform</span></a><ul class="isMobile astro-jugkfwgx" style="--depth: 1;"><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#none-is-a-role-and-the-role-it-names-is-no-role" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">none is a role, and the role it names is no role</span></a></li></ul></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#state-platform-by-platform" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">State, platform by platform</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#what-the-system-already-got-right" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">What the system already got right</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#a-role-or-a-name-on-its-own-is-not-enough" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">A role or a name on its own is not enough</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#how-this-is-checked" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">How this is checked</span></a><ul class="isMobile astro-jugkfwgx" style="--depth: 1;"><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#what-is-not-verified-this-way" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">What is not verified this way</span></a></li></ul></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#the-example" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">The example</span></a></li></ul></div></details></nav></mobile-starlight-toc><script type="module" src="/_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.BcSo_yiZ.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-qok35upx"><div class="sl-container astro-qok35upx"><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">On this page</h2><ul class="astro-jugkfwgx" style="--depth: 0;"><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#_top" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Overview</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#three-apis-three-shapes" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Three APIs, three shapes</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#role-platform-by-platform" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Role, platform by platform</span></a><ul class="astro-jugkfwgx" style="--depth: 1;"><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#none-is-a-role-and-the-role-it-names-is-no-role" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">none is a role, and the role it names is no role</span></a></li></ul></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#state-platform-by-platform" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">State, platform by platform</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#what-the-system-already-got-right" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">What the system already got right</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#a-role-or-a-name-on-its-own-is-not-enough" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">A role or a name on its own is not enough</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#how-this-is-checked" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">How this is checked</span></a><ul class="astro-jugkfwgx" style="--depth: 1;"><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#what-is-not-verified-this-way" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">What is not verified this way</span></a></li></ul></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#the-example" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">The example</span></a></li></ul></nav></starlight-toc><script type="module" src="/_astro/TableOfContents.astro_astro_type_script_index_0_lang.Csloo1VZ.js"></script></div></div></div></aside><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="en" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="an-pagehead"><p class="an-pagehead__label">Accessibility</p><h1 id="_top" data-page-title>Accessibility on Apple</h1><p class="an-pagehead__lead">Where the six accessibility props land in UIKit, AppKit and SwiftUI, what has no equivalent on each, and how it is checked by reading the tree from outside the app.</p></div></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><p>Six props on every primitive say what a screen reader is told about a view:</p>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.00uqy.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="html"><code><div class="ec-line"><div class="code"><span style="--0:#8B8B8B;--1:#686868">&lt;</span><span style="--0:#55987B;--1:#1E754F">an-view</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#BD976A;--1:#876037">[accessibilityRole]</span><span style="--0:#8B8B8B;--1:#686868">=</span><span style="--0:#C98A7DE4;--1:#96574AFD">"</span><span style="--0:#C98A7D;--1:#96574A">'button'</span><span style="--0:#C98A7DE4;--1:#96574AFD">"</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#BD976A;--1:#876037">[accessibilityLabel]</span><span style="--0:#8B8B8B;--1:#686868">=</span><span style="--0:#C98A7DE4;--1:#96574AFD">"</span><span style="--0:#C98A7D;--1:#96574A">'Play'</span><span style="--0:#C98A7DE4;--1:#96574AFD">"</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#BD976A;--1:#876037">[accessibilityHint]</span><span style="--0:#8B8B8B;--1:#686868">=</span><span style="--0:#C98A7DE4;--1:#96574AFD">"</span><span style="--0:#C98A7D;--1:#96574A">'Starts the track from the beginning'</span><span style="--0:#C98A7DE4;--1:#96574AFD">"</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#BD976A;--1:#876037">[accessibilityValue]</span><span style="--0:#8B8B8B;--1:#686868">=</span><span style="--0:#C98A7DE4;--1:#96574AFD">"</span><span style="--0:#C98A7D;--1:#96574A">'60 per cent'</span><span style="--0:#C98A7DE4;--1:#96574AFD">"</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#BD976A;--1:#876037">[accessibilityState]</span><span style="--0:#8B8B8B;--1:#686868">=</span><span style="--0:#C98A7DE4;--1:#96574AFD">"</span><span style="--0:#C98A7D;--1:#96574A">{ selected: true, disabled: true }</span><span style="--0:#C98A7DE4;--1:#96574AFD">"</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#BD976A;--1:#876037">[accessible]</span><span style="--0:#8B8B8B;--1:#686868">=</span><span style="--0:#C98A7DE4;--1:#96574AFD">"</span><span style="--0:#C98A7D;--1:#96574A">true</span><span style="--0:#C98A7DE4;--1:#96574AFD">"</span><span style="--0:#8B8B8B;--1:#686868">&gt;&lt;/</span><span style="--0:#55987B;--1:#1E754F">an-view</span><span style="--0:#8B8B8B;--1:#686868">&gt;</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="<an-view  [accessibilityRole]=&quot;&#x27;button&#x27;&quot;  [accessibilityLabel]=&quot;&#x27;Play&#x27;&quot;  [accessibilityHint]=&quot;&#x27;Starts the track from the beginning&#x27;&quot;  [accessibilityValue]=&quot;&#x27;60 per cent&#x27;&quot;  [accessibilityState]=&quot;{ selected: true, disabled: true }&quot;  [accessible]=&quot;true&quot;></an-view>"><div></div></button></div></figure></div>
+<p>They are declared once, in <code dir="auto">NativeVisual</code>, and they mean the same thing
+everywhere. What is <strong>not</strong> the same anywhere is how they are written down: the
+three Apple accessibility APIs are not one API with three sets of names, and
+the differences are big enough that each host solves this its own way.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="three-apis-three-shapes">Three APIs, three shapes</h2><a class="sl-anchor-link" href="#three-apis-three-shapes"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Three APIs, three shapes”</span></a></div>
+<p><strong>UIKit</strong> — the role is one bit of a <code dir="auto">u64</code>. <code dir="auto">accessibilityTraits</code> is a mask
+where what a view <em>is</em> (button, header, image), what it <em>is like</em> right now
+(not enabled, selected) and what it <em>does</em> (plays sound, turns pages) all share
+one word. The contract splits role from state, so the host has to put them back
+together, and it has to write the whole mask every time: setting one bit means
+knowing the other sixty-three.</p>
+<p><strong>AppKit</strong> — the role is one string, and the states are not in it.
+<code dir="auto">setAccessibilityRole:</code> takes exactly one role, and <code dir="auto">disabled</code>, <code dir="auto">selected</code> and
+<code dir="auto">expanded</code> are separate properties of the <code dir="auto">NSAccessibility</code> protocol. Nothing to
+rebuild, and room for things UIKit cannot say.</p>
+<p><strong>SwiftUI</strong>, on the watch — neither, because there is no live view to call a
+setter on. The tree is rebuilt from every snapshot, so the translation happens
+in Rust while the snapshot is being built and the shell only attaches
+<code dir="auto">.accessibilityLabel()</code>, <code dir="auto">.accessibilityAddTraits()</code> and the rest to the view it
+is constructing.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="role-platform-by-platform">Role, platform by platform</h2><a class="sl-anchor-link" href="#role-platform-by-platform"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Role, platform by platform”</span></a></div>
+<table>
+<thead>
+<tr>
+<th><code dir="auto">accessibilityRole</code></th>
+<th>UIKit trait</th>
+<th>AppKit role</th>
+<th>SwiftUI trait</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">button</code></td>
+<td><code dir="auto">.button</code></td>
+<td><code dir="auto">AXButton</code></td>
+<td><code dir="auto">.isButton</code></td>
+</tr>
+<tr>
+<td><code dir="auto">link</code></td>
+<td><code dir="auto">.link</code></td>
+<td><code dir="auto">AXLink</code></td>
+<td><code dir="auto">.isLink</code></td>
+</tr>
+<tr>
+<td><code dir="auto">header</code></td>
+<td><code dir="auto">.header</code></td>
+<td><code dir="auto">AXHeading</code></td>
+<td><code dir="auto">.isHeader</code></td>
+</tr>
+<tr>
+<td><code dir="auto">image</code></td>
+<td><code dir="auto">.image</code></td>
+<td><code dir="auto">AXImage</code></td>
+<td><code dir="auto">.isImage</code></td>
+</tr>
+<tr>
+<td><code dir="auto">text</code></td>
+<td><code dir="auto">.staticText</code></td>
+<td><code dir="auto">AXStaticText</code></td>
+<td><code dir="auto">.isStaticText</code></td>
+</tr>
+<tr>
+<td><code dir="auto">checkbox</code></td>
+<td><code dir="auto">.toggleButton</code></td>
+<td><code dir="auto">AXCheckBox</code></td>
+<td><code dir="auto">.isToggle</code></td>
+</tr>
+<tr>
+<td><code dir="auto">radio</code></td>
+<td><strong>none</strong></td>
+<td><code dir="auto">AXRadioButton</code></td>
+<td><strong>none</strong></td>
+</tr>
+<tr>
+<td><code dir="auto">switch</code></td>
+<td><code dir="auto">.toggleButton</code></td>
+<td><code dir="auto">AXCheckBox</code> + <code dir="auto">AXSwitch</code> subrole</td>
+<td><code dir="auto">.isToggle</code></td>
+</tr>
+<tr>
+<td><code dir="auto">slider</code></td>
+<td><code dir="auto">.adjustable</code></td>
+<td><code dir="auto">AXSlider</code></td>
+<td><strong>none</strong></td>
+</tr>
+<tr>
+<td><code dir="auto">search</code></td>
+<td><code dir="auto">.searchField</code></td>
+<td><code dir="auto">AXTextField</code> + <code dir="auto">AXSearchField</code> subrole</td>
+<td><code dir="auto">.isSearchField</code></td>
+</tr>
+<tr>
+<td><code dir="auto">summary</code></td>
+<td><code dir="auto">.summaryElement</code></td>
+<td><strong>none</strong></td>
+<td><code dir="auto">.isSummaryElement</code></td>
+</tr>
+<tr>
+<td><code dir="auto">none</code></td>
+<td>the mask cleared</td>
+<td><code dir="auto">AXUnknown</code></td>
+<td>nothing added</td>
+</tr>
+</tbody>
+</table>
+<p>Three cells say <strong>none</strong>, and none of the three is rounded to the trait next
+door:</p>
+<ul>
+<li><strong><code dir="auto">radio</code> has no UIKit trait.</strong> There is nothing near it either. A radio
+button on iOS is announced by its value and by its position in its group —
+“two of five” — and that is a structure, not a trait. Nothing is applied and
+the host says so once, with the name of what was asked for.</li>
+<li><strong><code dir="auto">slider</code> has no SwiftUI trait.</strong> Adjustable in SwiftUI is not a trait but an
+action, <code dir="auto">accessibilityAdjustableAction</code>. Attaching one that did nothing would
+make the reader offer a gesture that goes nowhere.</li>
+<li><strong><code dir="auto">summary</code> has no AppKit role.</strong> It is a VoiceOver-on-iOS idea: the element
+read on its own when you enter a screen, to sum it up. On a Mac there is no
+such moment — you do not “enter” a window — and there is neither a role nor a
+subrole like it.</li>
+</ul>
+<p>Everything in that table is expressible on Android, which is a different shape
+of platform rather than a better one: it has no role field at all, so most roles
+go in as a widget class name and the three without a widget go in as spoken text
+from a translated string. See <a href="/accessibility/android/">Accessibility on Android</a>.</p>
+<p>Two more things the table hides. <strong>UIKit does not tell a checkbox from a
+switch</strong>: it has one trait, “a button that turns on and off”, and that describes
+both — what separates them is the drawing, and the drawing is not read out.
+SwiftUI does the same. And <strong>AppKit’s subroles are not decoration</strong>: a search
+field in AppKit <em>is</em> an <code dir="auto">AXTextField</code>, and the only thing that tells it apart
+from any other field is its subrole, so setting the role alone would leave it
+indistinguishable from what it is not.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="none-is-a-role-and-the-role-it-names-is-no-role"><code dir="auto">none</code> is a role, and the role it names is no role</h3><a class="sl-anchor-link" href="#none-is-a-role-and-the-role-it-names-is-no-role"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “none is a role, and the role it names is no role”</span></a></div>
+<p><code dir="auto">accessibilityRole="none"</code> is not the same as not writing the prop at all.
+Dropping the binding hands the view back whatever it was — a system button goes
+back to being announced as a button. <code dir="auto">none</code> takes the role away, including the
+one the control underneath was carrying: UIKit clears the mask, AppKit sets
+<code dir="auto">AXUnknown</code>. It is the same split the Android host makes, where <code dir="auto">none</code> is the
+<code dir="auto">android.view.View</code> class, the one that means nothing.</p>
+<p>The element stays in the tree either way, so a name on it is still read. It is
+just announced as nothing in particular.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="state-platform-by-platform">State, platform by platform</h2><a class="sl-anchor-link" href="#state-platform-by-platform"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “State, platform by platform”</span></a></div>
+<table>
+<thead>
+<tr>
+<th><code dir="auto">accessibilityState</code></th>
+<th>UIKit</th>
+<th>AppKit</th>
+<th>SwiftUI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">disabled</code></td>
+<td><code dir="auto">.notEnabled</code> trait</td>
+<td><code dir="auto">setAccessibilityEnabled(false)</code></td>
+<td><strong>none</strong></td>
+</tr>
+<tr>
+<td><code dir="auto">selected</code></td>
+<td><code dir="auto">.selected</code> trait</td>
+<td><code dir="auto">setAccessibilitySelected(true)</code></td>
+<td><code dir="auto">.isSelected</code></td>
+</tr>
+<tr>
+<td><code dir="auto">checked</code></td>
+<td>value <code dir="auto">"1"</code> / <code dir="auto">"0"</code></td>
+<td>value <code dir="auto">0</code> / <code dir="auto">1</code> / <code dir="auto">2</code></td>
+<td>value <code dir="auto">"1"</code> / <code dir="auto">"0"</code></td>
+</tr>
+<tr>
+<td><code dir="auto">checked: 'mixed'</code></td>
+<td><strong>none</strong></td>
+<td>value <code dir="auto">2</code></td>
+<td><strong>none</strong></td>
+</tr>
+<tr>
+<td><code dir="auto">expanded</code></td>
+<td><strong>none</strong></td>
+<td><code dir="auto">setAccessibilityExpanded(true)</code></td>
+<td><strong>none</strong></td>
+</tr>
+<tr>
+<td><code dir="auto">busy</code></td>
+<td><strong>none</strong></td>
+<td><strong>none</strong></td>
+<td><strong>none</strong></td>
+</tr>
+</tbody>
+</table>
+<p><code dir="auto">checked</code> is nobody’s trait. Where it goes is the value, and it goes in with the
+platform’s <strong>own convention</strong> rather than a word of ours: a <code dir="auto">UISwitch</code> publishes
+<code dir="auto">"1"</code> or <code dir="auto">"0"</code> and VoiceOver turns that into “on” or “off” in whatever language
+the device is set to. A string written by this project would come out in English
+on a phone set to Japanese. AppKit uses numbers for the same thing, and that is
+why the halfway state fits there and nowhere else — a macOS checkbox really does
+publish <code dir="auto">2</code>.</p>
+<p>That value is only written over one nobody claimed. If the template set
+<code dir="auto">accessibilityValue</code>, the template’s wins and <code dir="auto">checked</code> does not touch it.</p>
+<p><code dir="auto">busy</code> has no shape on any Apple platform. The nearest thing in AppKit is the
+<code dir="auto">AXBusyIndicator</code> role, which is <em>a spinner</em> — a different view, not a state of
+this one — so setting it would turn a button into a spinner. Android does have
+somewhere to put it, in spoken text, which is why the row above is the only one
+where all three Apple platforms are empty and Android is not.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="what-the-system-already-got-right">What the system already got right</h2><a class="sl-anchor-link" href="#what-the-system-already-got-right"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “What the system already got right”</span></a></div>
+<p>A <code dir="auto">UIButton</code>, a <code dir="auto">UISwitch</code> and an <code dir="auto">NSButton</code> arrive with their name and their
+role already set by the system: an <code dir="auto">NSButton</code>’s accessibility label is its
+title, an <code dir="auto">NSSwitch</code> is already an <code dir="auto">AXCheckBox</code> with the <code dir="auto">AXSwitch</code> subrole.
+Writing over that without looking makes things worse, and the worst case is
+quiet: an empty label is not “no label”, it is a name that overrides the good
+one, and the control goes silent.</p>
+<p>So the rule is that <strong>only what the template really set gets overwritten</strong>: an
+empty string or a cleared binding removes our label rather than writing an empty
+one.</p>
+<p>On UIKit that is the whole story — clearing the label hands back the control’s
+own, and the traits a view carried are saved and restored the same way.</p>
+<p><strong>On AppKit it is not</strong>, and this is the sharpest edge in the whole area.
+Overriding <em>anything</em> on an <code dir="auto">NSView</code> — a label is enough — makes AppKit stop
+working that view’s accessibility out for itself and start serving the
+overrides. The role, which nobody overrode, then comes back <code dir="auto">AXUnknown</code>: a
+button given nothing but a better name stops being announced as a button.</p>
+<p>It cannot be fixed by saving the role and putting it back, because the role
+cannot be read. In-process, <code dir="auto">NSButton.accessibilityRole()</code> answers <code dir="auto">AXUnknown</code>
+while a real assistive client is told <code dir="auto">AXButton</code> — AppKit computes it in the
+cell, on demand, for the client. So what the host writes back is not a saved
+value but the role the primitive genuinely has: an <code dir="auto">an-button</code> mounts an
+<code dir="auto">NSButton</code> and an <code dir="auto">NSButton</code> is an <code dir="auto">AXButton</code>, which is the same fact the
+platform inventory already states as a class name.</p>
+<p>The class name is nearly always enough to know that role, and once it was not.
+<code dir="auto">an-activity-indicator</code> and <code dir="auto">an-progress-bar</code> mount the <strong>same</strong> class, an
+<code dir="auto">NSProgressIndicator</code>, and AppKit tells them apart by style: the bar publishes
+<code dir="auto">AXProgressIndicator</code> and the spinner publishes <code dir="auto">AXBusyIndicator</code>. Writing the
+bar’s role back for both meant a spinner given nothing but a name stopped being
+a spinner and started announcing progress it does not have — a translation on
+its face and an approximation underneath, and the only thing that could tell
+the difference was the walk from outside.</p>
+<p>When a role <strong>is</strong> given it replaces rather than adds. A template writing
+<code dir="auto">accessibilityRole="link"</code> on an <code dir="auto">an-button</code> is saying this reads as a link, not
+as “link, button”.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="a-role-or-a-name-on-its-own-is-not-enough">A role or a name on its own is not enough</h2><a class="sl-anchor-link" href="#a-role-or-a-name-on-its-own-is-not-enough"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “A role or a name on its own is not enough”</span></a></div>
+<p>Neither <code dir="auto">UIView</code> nor <code dir="auto">NSView</code> is an accessibility element by default. A plain
+<code dir="auto">an-view</code> given <code dir="auto">accessibilityRole="slider"</code> and nothing else has its role set
+correctly, is never published to a reader, and produces no error anywhere. The
+same is true of a view given only a label — which is the most common use of the
+whole contract, and was the quietest failure in it.</p>
+<p>So on both hosts a role the platform can honour makes the view an element, and
+so does a name. <code dir="auto">accessible</code> overrules both, because that is the prop that
+exists to say exactly this:</p>
+<table>
+<thead>
+<tr>
+<th>what the template said</th>
+<th>is it a stop?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">accessible="true"</code></td>
+<td>yes, and what is inside stops being separate stops</td>
+</tr>
+<tr>
+<td><code dir="auto">accessible="false"</code></td>
+<td>no, and neither is anything inside it</td>
+</tr>
+<tr>
+<td>a role the platform has, or a label</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>nothing</td>
+<td>whatever the view already was</td>
+</tr>
+</tbody>
+</table>
+<p><code dir="auto">accessible="false"</code> has to reach the children too. Dropping the element on its
+own hides nothing: UIKit needs <code dir="auto">accessibilityElementsHidden</code>, and AppKit needs
+the children list emptied, or a decorative box with a label inside is still a
+stop.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="how-this-is-checked">How this is checked</h2><a class="sl-anchor-link" href="#how-this-is-checked"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “How this is checked”</span></a></div>
+<p><strong>Setting a property does not prove a reader can read it.</strong> Every failure above
+— the lost role, the view that is not an element, the empty label over a good
+one — passes any check that reads back the property it just wrote, and none of
+them shows up in a log or in a screenshot. Every one of them was found by
+reading the tree from outside the app, and none of them would have been found
+any other way.</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#80A665;--1:#4B7231">./scripts/check-accessibility.sh</span><span style="--0:#DBD7CAEE;--1:#393A34">            </span><span style="--0:#818F81FE;--1:#636B63"># in check-all.sh</span></div></div><div class="ec-line"><div class="code"><span style="--0:#80A665;--1:#4B7231">./scripts/check-accessibility-simulator.sh</span><span style="--0:#DBD7CAEE;--1:#393A34">  </span><span style="--0:#818F81FE;--1:#636B63"># needs a simulator; run on purpose</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="./scripts/check-accessibility.sh            # in check-all.sh./scripts/check-accessibility-simulator.sh  # needs a simulator; run on purpose"><div></div></button></div></figure></div>
+<p>Both launch the app and read its tree from a <strong>separate process</strong> —
+<code dir="auto">scripts/ax-dump.swift</code>, which never links against it and has nothing but a
+pid — through <code dir="auto">AXUIElementCopyAttributeValue</code>, the same door VoiceOver and
+Accessibility Inspector use.</p>
+<p>On <strong>macOS</strong> the app runs on the machine itself. On <strong>iOS</strong> it works because the
+Simulator bridges the guest app’s tree into the host’s accessibility API, which
+is how Accessibility Inspector inspects a simulator; the walker asks
+<code dir="auto">Simulator.app</code> instead of the app. What comes back is UIKit’s mask already
+translated into AX attributes by the platform:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#dbd7caee;--1:#393a34">AXGroup[iOSContentGroup]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#dbd7caee;--1:#393a34">  </span></span><span style="--0:#dbd7caee;--1:#393a34">AXHeading label="Settings"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#dbd7caee;--1:#393a34">  </span></span><span style="--0:#dbd7caee;--1:#393a34">AXButton label="Save the draft" help="saves it without leaving the screen"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#dbd7caee;--1:#393a34">  </span></span><span style="--0:#dbd7caee;--1:#393a34">AXLink label="Open the website"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#dbd7caee;--1:#393a34">  </span></span><span style="--0:#dbd7caee;--1:#393a34">AXCheckBox[AXSwitch] label="Select all"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#dbd7caee;--1:#393a34">  </span></span><span style="--0:#dbd7caee;--1:#393a34">AXCheckBox[AXSwitch] label="Alerts" value="1"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#dbd7caee;--1:#393a34">  </span></span><span style="--0:#dbd7caee;--1:#393a34">AXGenericElement label="Volume" value="35 %" enabled=false selected=true</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#dbd7caee;--1:#393a34">  </span></span><span style="--0:#dbd7caee;--1:#393a34">AXGenericElement label="An option"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#dbd7caee;--1:#393a34">  </span></span><span style="--0:#dbd7caee;--1:#393a34">AXSlider label="A range"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#dbd7caee;--1:#393a34">  </span></span><span style="--0:#dbd7caee;--1:#393a34">AXButton label="OK"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#dbd7caee;--1:#393a34">  </span></span><span style="--0:#dbd7caee;--1:#393a34">AXButton label="Save the changes you made"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#dbd7caee;--1:#393a34">  </span></span><span style="--0:#dbd7caee;--1:#393a34">AXGenericElement label="Stripped of its role"</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="AXGroup[iOSContentGroup]  AXHeading label=&quot;Settings&quot;  AXButton label=&quot;Save the draft&quot; help=&quot;saves it without leaving the screen&quot;  AXLink label=&quot;Open the website&quot;  AXCheckBox[AXSwitch] label=&quot;Select all&quot;  AXCheckBox[AXSwitch] label=&quot;Alerts&quot; value=&quot;1&quot;  AXGenericElement label=&quot;Volume&quot; value=&quot;35 %&quot; enabled=false selected=true  AXGenericElement label=&quot;An option&quot;  AXSlider label=&quot;A range&quot;  AXButton label=&quot;OK&quot;  AXButton label=&quot;Save the changes you made&quot;  AXGenericElement label=&quot;Stripped of its role&quot;"><div></div></button></div></figure></div>
+<p>Two rows of that are worth reading twice. <code dir="auto">Select all</code> asked for
+<code dir="auto">checked: 'mixed'</code> and came back with <strong>no value at all</strong>, while <code dir="auto">Alerts</code> asked
+for <code dir="auto">checked: true</code> and came back with <code dir="auto">"1"</code> — which is the halfway state having
+nowhere to go in UIKit, visible rather than asserted. And <code dir="auto">An option</code> asked for
+<code dir="auto">role="radio"</code>: it is a stop, because it has a name, and it is not published as
+anything, because there is no such trait to publish.</p>
+<p>Half the assertions are about what must <strong>not</strong> be in there, because a check
+that only looks for what it expects cannot catch the opposite failure: the
+decorative row is absent, the grouped row’s icon and text are not two extra
+stops of their own, and nothing is published as an <code dir="auto">AXRadioButton</code> on iOS, where
+no such trait exists.</p>
+<p>Both need the Accessibility permission, which is granted by hand per app in
+System Settings and cannot be granted from a script. Without it they say so and
+skip: a machine without the grant has broken nothing, and a check that failed
+for that reason would be a check nobody believes.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="what-is-not-verified-this-way">What is not verified this way</h3><a class="sl-anchor-link" href="#what-is-not-verified-this-way"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “What is not verified this way”</span></a></div>
+<p><strong>tvOS and visionOS</strong> mount the same UIKit host as iOS, so the mapping is the
+same code — but their simulators were not walked, so that is inference, not
+evidence.</p>
+<p><strong>watchOS</strong> has no outside route at all. What is checked there is what can be:
+that the six props travel with the right names, that the role vocabulary in the
+core is exactly the one the contract declares, that every trait name Rust emits
+exists in the Swift table that turns it into an <code dir="auto">AccessibilityTraits</code>, and that
+the shell type-checks. None of that is the same as knowing a reader sees it.</p>
+<p><strong>VoiceOver itself was never running.</strong> It can be switched on in the simulator’s
+defaults, and the app then runs normally — but the VoiceOver process does not
+start, nothing is spoken, and no cursor appears. Reading the tree is as close as
+this gets, and it is worth being clear that “the tree an assistive client would
+see” and “a screen reader said the right words” are two different claims.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="the-example">The example</h2><a class="sl-anchor-link" href="#the-example"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “The example”</span></a></div>
+<p><code dir="auto">examples/a11y</code> is the screen every accessibility check reads — the Android
+device dump as well as both of these. It is one screen and not one per platform
+on purpose: the rows that matter are mostly the same rows, and where a platform
+differs it is far more useful to see the difference on the same line than to
+compare two files.</p>
+<p>It is not meant to be looked at. Every row is a case one of the hosts had to
+decide something about, including the ones no platform can express, so that “it
+is said out loud” is something a check can read in the log rather than something
+a comment claims.</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#80A665;--1:#4B7231">cargo</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">an</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">macos</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">examples/a11y</span><span style="--0:#DBD7CAEE;--1:#393A34">     </span><span style="--0:#818F81FE;--1:#636B63"># on this machine</span></div></div><div class="ec-line"><div class="code"><span style="--0:#80A665;--1:#4B7231">cargo</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">an</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">ios</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">examples/a11y</span><span style="--0:#DBD7CAEE;--1:#393A34">       </span><span style="--0:#818F81FE;--1:#636B63"># in the simulator</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="cargo an macos examples/a11y     # on this machinecargo an ios examples/a11y       # in the simulator"><div></div></button></div></figure></div>
+</div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"><a href="/accessibility/overview/" rel="prev" class="astro-b5raizh3"><svg aria-hidden="true" class="astro-b5raizh3 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17 11H9.41l3.3-3.29a1.004 1.004 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33 1 1 0 0 0 0 .76 1 1 0 0 0 .21.33l5 5a1.002 1.002 0 0 0 1.639-.325 1 1 0 0 0-.219-1.095L9.41 13H17a1 1 0 0 0 0-2Z"/></svg><span class="astro-b5raizh3">Previous<br class="astro-b5raizh3"><span class="link-title astro-b5raizh3">The contract</span></span></a><a href="/accessibility/android/" rel="next" class="astro-b5raizh3"><svg aria-hidden="true" class="astro-b5raizh3 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg><span class="astro-b5raizh3">Next<br class="astro-b5raizh3"><span class="link-title astro-b5raizh3">Accessibility on Android</span></span></a></div></footer></div></div></main></div></div></div></div></body></html>

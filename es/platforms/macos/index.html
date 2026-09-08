@@ -1,0 +1,568 @@
+<!DOCTYPE html><html lang="es" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>macOS | angular-native</title><link rel="canonical" href="https://angular-native.github.io/es/platforms/macos/"/><link rel="alternate" hreflang="en" href="https://angular-native.github.io/platforms/macos/"/><link rel="alternate" hreflang="es" href="https://angular-native.github.io/es/platforms/macos/"/><link rel="alternate" hreflang="x-default" href="https://angular-native.github.io/platforms/macos/"/><link rel="sitemap" href="/sitemap-index.xml"/><link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.1"/><meta name="generator" content="Starlight v0.42.0"/><meta property="og:title" content="macOS"/><meta property="og:type" content="article"/><meta property="og:url" content="https://angular-native.github.io/es/platforms/macos/"/><meta property="og:locale" content="es"/><meta property="og:description" content="Angular como app de escritorio — NSView de verdad, una ventana que se redimensiona, un puntero con forma, y la única plataforma que puedes comprobar sin arrancar nada."/><meta property="og:site_name" content="angular-native"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Angular como app de escritorio — NSView de verdad, una ventana que se redimensiona, un puntero con forma, y la única plataforma que puedes comprobar sin arrancar nada."/><meta name="theme-color" content="#12151a" media="(prefers-color-scheme: dark)"/><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)"/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/_astro/common.B2GuNxy_.css"><style>@layer starlight.components{.card-grid:where(.astro-7qmvx3iy){grid-template-columns:100%;gap:1rem;display:grid}.card-grid:where(.astro-7qmvx3iy)>*{margin-top:0!important}@media (width>=50rem){.card-grid:where(.astro-7qmvx3iy){grid-template-columns:1fr 1fr;gap:1.5rem}.stagger:where(.astro-7qmvx3iy){--stagger-height:5rem;padding-bottom:var(--stagger-height)}.stagger:where(.astro-7qmvx3iy)>:nth-child(2n){transform:translateY(var(--stagger-height))}}starlight-tabs:where(.astro-scn3uvmv){display:block}.tablist-wrapper:where(.astro-scn3uvmv){overflow-x:auto}:where(.astro-scn3uvmv)[role=tablist]{border-bottom:2px solid var(--sl-color-gray-5);padding:0;list-style:none;display:flex}.tab:where(.astro-scn3uvmv){display:flex}.tab:where(.astro-scn3uvmv)>:where(.astro-scn3uvmv)[role=tab]{--sl-tab-color-border:var(--sl-color-gray-5);line-height:var(--sl-line-height-headings);box-shadow:0 2px 0 var(--sl-tab-color-border);color:var(--sl-color-gray-3);outline-offset:var(--sl-outline-offset-inside);overflow-wrap:initial;align-items:center;gap:.5rem;padding:.275rem 1.25rem;text-decoration:none;display:flex}.tab:where(.astro-scn3uvmv) :where(.astro-scn3uvmv)[role=tab][aria-selected=true]{--sl-tab-color-border:var(--sl-color-text-accent);color:var(--sl-color-white);font-weight:600}.tablist-wrapper:where(.astro-scn3uvmv)~[role=tabpanel]{margin-top:1rem}.sl-link-card:where(.astro-zaaezwya){border:1px solid var(--sl-color-gray-5);box-shadow:var(--sl-shadow-sm);border-radius:.5rem;grid-template-columns:1fr auto;gap:.5rem;padding:1rem;display:grid;position:relative}a:where(.astro-zaaezwya){line-height:var(--sl-line-height-headings);text-decoration:none}a:where(.astro-zaaezwya):before{content:"";position:absolute;inset:0}.stack:where(.astro-zaaezwya){flex-direction:column;gap:.5rem}.title:where(.astro-zaaezwya){color:var(--sl-color-white);font-weight:600;font-size:var(--sl-text-lg)}.description:where(.astro-zaaezwya){color:var(--sl-color-gray-3);line-height:1.5}.icon:where(.astro-zaaezwya){color:var(--sl-color-gray-3)}.sl-link-card:where(.astro-zaaezwya):hover{background:var(--sl-color-gray-7,var(--sl-color-gray-6));border-color:var(--sl-color-gray-2)}.sl-link-card:where(.astro-zaaezwya):hover .icon:where(.astro-zaaezwya){color:var(--sl-color-white)}.sl-steps{--bullet-size:calc(var(--sl-line-height) * 1rem);--bullet-margin:.375rem;counter-reset:steps-counter var(--sl-steps-start,0);padding-inline-start:0;list-style:none}.sl-steps>li{counter-increment:steps-counter;padding-inline-start:calc(var(--bullet-size) + 1rem);min-height:calc(var(--bullet-size) + var(--bullet-margin));padding-bottom:1px;position:relative}.sl-steps>li+li{margin-top:0}.sl-steps>li:before{content:counter(steps-counter);top:0;width:var(--bullet-size);height:var(--bullet-size);line-height:var(--bullet-size);font-size:var(--sl-text-xs);text-align:center;color:var(--sl-color-white);background-color:var(--sl-color-gray-6);box-shadow:inset 0 0 0 1px var(--sl-color-gray-5);border-radius:99rem;font-weight:600;position:absolute;inset-inline-start:0}.sl-steps>li:after{--guide-width:1px;content:"";top:calc(var(--bullet-size) + var(--bullet-margin));bottom:var(--bullet-margin);width:var(--guide-width);background-color:var(--sl-color-hairline-light);position:absolute;inset-inline-start:calc((var(--bullet-size) - var(--guide-width)) / 2)}}@layer starlight.content{.sl-steps>li>:first-child{--lh:calc(1em * var(--sl-line-height));--shift-y:calc(.5 * (var(--bullet-size) - var(--lh)));transform:translateY(var(--shift-y));margin-bottom:var(--shift-y)}.sl-steps>li>:first-child:where(h1,h2,h3,h4,h5,h6){--lh:calc(1em * var(--sl-line-height-headings))}@supports (--prop:1lh){.sl-steps>li>:first-child{--lh:1lh}}}
+@layer starlight.components{svg:where(.astro-hkc32dio){color:var(--sl-icon-color);font-size:var(--sl-icon-size,1em);width:1em;height:1em}}
+@layer starlight.components{.sl-link-button:where(.astro-dcqstdaq){font-size:var(--sl-text-sm);outline-offset:.25rem;border:1px solid #0000;border-radius:999rem;align-items:center;gap:.5em;padding:.4375rem 1.125rem;line-height:1.1875;text-decoration:none;display:inline-flex}.sl-link-button:where(.astro-dcqstdaq).primary{background:var(--sl-color-text-accent);border-color:var(--sl-color-text-accent);color:var(--sl-color-black)}.sl-link-button:where(.astro-dcqstdaq).primary:hover{color:var(--sl-color-black)}.sl-link-button:where(.astro-dcqstdaq).secondary{border-color:inherit;color:var(--sl-color-white)}.sl-link-button:where(.astro-dcqstdaq).minimal{color:var(--sl-color-white);padding-inline:0}.sl-link-button:where(.astro-dcqstdaq) svg{flex-shrink:0}@media (width>=50rem){.sl-link-button:where(.astro-dcqstdaq){font-size:var(--sl-text-base);padding:.9375rem 1.25rem}}.sl-markdown-content .sl-link-button:where(.astro-dcqstdaq){margin-inline-end:1rem}.sl-markdown-content .sl-link-button:where(.astro-dcqstdaq):not(:where(p *)){margin-block:1rem}}
+</style><script type="module" src="/_astro/page.Dwipeu-R.js"></script></head><body class="astro-g5ptsecz"><a class="sl-skip-link astro-qb7clj6f" href="#_top">Ir al contenido</a><div class="page sl-flex astro-yntsjkba"><header class="header astro-yntsjkba"><div class="header astro-by6fddyj"><div class="title-wrapper sl-flex astro-by6fddyj"><a href="/es" class="site-title sl-flex astro-6rvad3va"><img class="light:sl-hidden print:hidden astro-6rvad3va" alt src="/_astro/logo-dark.DW_oTXuh.svg" width="38" height="24"><img class="dark:sl-hidden print:block astro-6rvad3va" alt src="/_astro/logo-light.B5c7Bpuj.svg" width="38" height="24"><span class="astro-6rvad3va" translate="no">angular-native</span></a></div><div class="sl-flex print:hidden astro-by6fddyj"><site-search class="astro-by6fddyj astro-b5kgnn7o" data-translations="{&quot;placeholder&quot;:&quot;Buscar&quot;,&quot;clear_search&quot;:&quot;Limpiar&quot;,&quot;load_more&quot;:&quot;Cargar más resultados&quot;,&quot;search_label&quot;:&quot;Buscar página&quot;,&quot;filters_label&quot;:&quot;Filtros&quot;,&quot;zero_results&quot;:&quot;Ningún resultado para: [SEARCH_TERM]&quot;,&quot;many_results&quot;:&quot;[COUNT] resultados para: [SEARCH_TERM]&quot;,&quot;one_result&quot;:&quot;[COUNT] resultado para: [SEARCH_TERM]&quot;,&quot;alt_search&quot;:&quot;Ningún resultado para [SEARCH_TERM]. Mostrando resultados para: [DIFFERENT_TERM]&quot;,&quot;search_suggestion&quot;:&quot;Ningún resultado para [SEARCH_TERM]. Prueba alguna de estas búsquedas:&quot;,&quot;searching&quot;:&quot;Buscando [SEARCH_TERM]...&quot;}"><button data-open-modal disabled aria-label="Buscar" aria-keyshortcuts="Control+K" class="astro-b5kgnn7o"><svg aria-hidden="true" class="astro-b5kgnn7o astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-b5kgnn7o" aria-hidden="true">Buscar</span><kbd class="sl-hidden md:sl-flex astro-b5kgnn7o" style="display: none;"><kbd class="astro-b5kgnn7o">Ctrl</kbd><kbd class="astro-b5kgnn7o">K</kbd></kbd></button><dialog style="padding:0" aria-label="Buscar" class="astro-b5kgnn7o"><div class="dialog-frame sl-flex astro-b5kgnn7o"><button data-close-modal class="sl-flex md:sl-hidden astro-b5kgnn7o">Cancelar</button><div class="search-container astro-b5kgnn7o"><div id="starlight__search" class="astro-b5kgnn7o"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.B-Vh4ymV.js"></script></div><div class="sl-hidden md:sl-flex print:hidden right-group astro-by6fddyj"><div class="sl-flex social-icons astro-by6fddyj"><a href="https://github.com/angular-native/angular-native" rel="me" class="sl-flex astro-n2mnl6yq"><span class="sr-only astro-n2mnl6yq">GitHub</span><svg aria-hidden="true" class="astro-n2mnl6yq astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Tema</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Oscuro</option><option value="light" class="astro-2z5xp7gb">Claro</option><option value="auto" selected class="astro-2z5xp7gb">Automático</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Idioma</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="/platforms/macos/" class="astro-2z5xp7gb">English</option><option value="/es/platforms/macos/" selected class="astro-2z5xp7gb">Español</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Primario"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menú</span></button><script type="module">var e=class extends HTMLElement{constructor(){super(),matchMedia(`(min-width: 50em)`).addEventListener(`change`,()=>this.hidePopover()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><sl-sidebar-state-persist data-hash="01vjav0" class="astro-ipdry5cl"><script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script><ul class="top-level astro-rmhv4bp6"><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">Guía</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="0"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><a href="/es/guide/quick-start/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Empezar</span></a></li><li class="astro-rmhv4bp6"><a href="/es/guide/installing/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Instalar el CLI</span></a></li><li class="astro-rmhv4bp6"><a href="/es/guide/how-it-works/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Cómo funciona</span></a></li><li class="astro-rmhv4bp6"><a href="/es/guide/existing-angular-project/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Llevar un proyecto Angular al móvil</span></a></li><li class="astro-rmhv4bp6"><a href="/es/guide/native-wrapper/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Props y el envoltorio nativo</span></a></li><li class="astro-rmhv4bp6"><a href="/es/guide/gestures-and-animation/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Gestos y animación</span></a></li><li class="astro-rmhv4bp6"><a href="/es/guide/navigation/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Navegación y el router</span></a></li><li class="astro-rmhv4bp6"><a href="/es/guide/lists/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Listas largas</span></a></li><li class="astro-rmhv4bp6"><a href="/es/guide/safe-area-and-keyboard/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">El área segura y el teclado</span></a></li><li class="astro-rmhv4bp6"><a href="/es/guide/testing/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Comprobarlo sin dispositivo</span></a></li><li class="astro-rmhv4bp6"><a href="/es/guide/signing-and-distribution/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Firma y distribución</span></a></li></ul></details></li><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">Referencia</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="1"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">components</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="2"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><a href="/es/reference/components/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Componentes</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/components/an-view/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-view</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/components/an-text/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-text</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/components/an-image/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-image</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/components/an-scroll-view/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-scroll-view</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/components/an-text-input/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-text-input</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/components/an-textarea/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-textarea</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/components/an-button/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-button</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/components/an-switch/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-switch</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/components/an-slider/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-slider</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/components/an-stepper/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-stepper</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/components/an-segmented-control/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-segmented-control</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/components/an-select/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-select</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/components/an-date-picker/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-date-picker</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/components/an-search-bar/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-search-bar</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/components/an-tab-bar/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-tab-bar</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/components/an-navigation-bar/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-navigation-bar</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/components/an-stack-view/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-stack-view</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/components/an-modal/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-modal</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/components/an-alert/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-alert</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/components/an-icon/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-icon</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/components/an-progress-bar/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-progress-bar</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/components/an-activity-indicator/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-activity-indicator</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/components/an-web-view/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-web-view</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/components/an-map-view/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-map-view</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/components/an-video-view/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-video-view</span></a></li></ul></details></li><li class="astro-rmhv4bp6"><a href="/es/reference/styles/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Estilos y layout</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/cli/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">El CLI an</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/native-modules/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Módulos nativos</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/built-in-modules/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Módulos integrados</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/icons/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Iconos</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/events/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Eventos</span></a></li><li class="astro-rmhv4bp6"><a href="/es/reference/protocol/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">El protocolo binario</span></a></li></ul></details></li><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">Plataformas</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="3"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><a href="/es/platforms/ios/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">iOS · iPadOS</span></a></li><li class="astro-rmhv4bp6"><a href="/es/platforms/android/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Android</span></a></li><li class="astro-rmhv4bp6"><a href="/es/platforms/macos/" aria-current="page" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">macOS</span></a></li><li class="astro-rmhv4bp6"><a href="/es/platforms/tvos/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">tvOS</span></a></li><li class="astro-rmhv4bp6"><a href="/es/platforms/visionos/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">visionOS</span></a></li><li class="astro-rmhv4bp6"><a href="/es/platforms/watchos/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">watchOS</span></a></li><li class="astro-rmhv4bp6"><a href="/es/platforms/wearos/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Wear OS</span></a></li></ul></details></li><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">Accesibilidad</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="4"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><a href="/es/accessibility/overview/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">El contrato</span></a></li><li class="astro-rmhv4bp6"><a href="/es/accessibility/apple/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Accesibilidad en Apple</span></a></li><li class="astro-rmhv4bp6"><a href="/es/accessibility/android/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Accesibilidad en Android</span></a></li></ul></details></li><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">Extenderlo</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="5"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">plugins</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="6"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><a href="/es/extending/plugins/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Plugins</span></a></li><li class="astro-rmhv4bp6"><a href="/es/extending/plugins/preferences/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">preferences</span></a></li><li class="astro-rmhv4bp6"><a href="/es/extending/plugins/clipboard/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">clipboard</span></a></li><li class="astro-rmhv4bp6"><a href="/es/extending/plugins/keychain/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">keychain</span></a></li><li class="astro-rmhv4bp6"><a href="/es/extending/plugins/biometrics/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">biometrics</span></a></li><li class="astro-rmhv4bp6"><a href="/es/extending/plugins/geolocation/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">geolocation</span></a></li><li class="astro-rmhv4bp6"><a href="/es/extending/plugins/camera/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">camera</span></a></li><li class="astro-rmhv4bp6"><a href="/es/extending/plugins/notifications/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">notifications</span></a></li><li class="astro-rmhv4bp6"><a href="/es/extending/plugins/updater/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">updater</span></a></li><li class="astro-rmhv4bp6"><a href="/es/extending/plugins/barcode/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">barcode</span></a></li></ul></details></li><li class="astro-rmhv4bp6"><a href="/es/extending/plugin-permissions/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Permisos que necesita un plugin</span></a></li><li class="astro-rmhv4bp6"><a href="/es/extending/biometrics-and-keychain/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Biometría y llavero</span></a></li><li class="astro-rmhv4bp6"><a href="/es/extending/plugins-on-the-mac-and-the-watch/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Plugins en el Mac y en el reloj</span></a></li></ul></details></li></ul><script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script></sl-sidebar-state-persist><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"><a href="https://github.com/angular-native/angular-native" rel="me" class="sl-flex astro-n2mnl6yq"><span class="sr-only astro-n2mnl6yq">GitHub</span><svg aria-hidden="true" class="astro-n2mnl6yq astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Tema</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Oscuro</option><option value="light" class="astro-2z5xp7gb">Claro</option><option value="auto" selected class="astro-2z5xp7gb">Automático</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Idioma</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="/platforms/macos/" class="astro-2z5xp7gb">English</option><option value="/es/platforms/macos/" selected class="astro-2z5xp7gb">Español</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><aside class="right-sidebar-container print:hidden astro-lrzkfocr"><div class="right-sidebar astro-lrzkfocr"><div class="lg:sl-hidden astro-qok35upx"><mobile-starlight-toc data-min-h="2" data-max-h="3" class="astro-66cqc7ze"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-66cqc7ze"><details id="starlight__mobile-toc" class="astro-66cqc7ze"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-66cqc7ze"><span class="toggle sl-flex astro-66cqc7ze">En esta página<svg aria-hidden="true" class="caret astro-66cqc7ze astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-66cqc7ze"></span></summary><div class="dropdown astro-66cqc7ze"><ul class="isMobile astro-jugkfwgx" style="--depth: 0;"><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#_top" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Sinopsis</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#por-qué-esto-es-el-host-de-ios-con-otras-clases" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Por qué esto es el host de iOS con otras clases</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#qué-dibuja-macos" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Qué dibuja macOS</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#la-cabecera-es-la-barra-de-título" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">La cabecera es la barra de título</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#las-tres-cosas-de-escritorio" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Las tres cosas de escritorio</span></a><ul class="isMobile astro-jugkfwgx" style="--depth: 1;"><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#la-ventana-se-redimensiona-y-lo-hace-en-vivo" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">La ventana se redimensiona, y lo hace en vivo</span></a></li><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#hay-un-ratón-no-dedos" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">Hay un ratón, no dedos</span></a></li><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#el-scroll-no-tiene-delegate" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">El scroll no tiene delegate</span></a></li><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#el-menú-es-el-del-sistema" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">El menú es el del sistema</span></a></li><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#esquinas-que-una-capa-no-sabe-hacer" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">Esquinas que una capa no sabe hacer</span></a></li></ul></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#los-cuatro-puntos-que-una-etiqueta-se-guarda" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Los cuatro puntos que una etiqueta se guarda</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#accesibilidad" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Accesibilidad</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#módulos-nativos" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Módulos nativos</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#cómo-se-comprueba" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Cómo se comprueba</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#recursos-dentro-del-bundle" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Recursos dentro del bundle</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#llevarlo-a-otro-mac" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Llevarlo a otro Mac</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#lo-que-falta" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Lo que falta</span></a></li></ul></div></details></nav></mobile-starlight-toc><script type="module" src="/_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.BcSo_yiZ.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-qok35upx"><div class="sl-container astro-qok35upx"><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">En esta página</h2><ul class="astro-jugkfwgx" style="--depth: 0;"><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#_top" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Sinopsis</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#por-qué-esto-es-el-host-de-ios-con-otras-clases" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Por qué esto es el host de iOS con otras clases</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#qué-dibuja-macos" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Qué dibuja macOS</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#la-cabecera-es-la-barra-de-título" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">La cabecera es la barra de título</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#las-tres-cosas-de-escritorio" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Las tres cosas de escritorio</span></a><ul class="astro-jugkfwgx" style="--depth: 1;"><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#la-ventana-se-redimensiona-y-lo-hace-en-vivo" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">La ventana se redimensiona, y lo hace en vivo</span></a></li><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#hay-un-ratón-no-dedos" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">Hay un ratón, no dedos</span></a></li><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#el-scroll-no-tiene-delegate" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">El scroll no tiene delegate</span></a></li><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#el-menú-es-el-del-sistema" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">El menú es el del sistema</span></a></li><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#esquinas-que-una-capa-no-sabe-hacer" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">Esquinas que una capa no sabe hacer</span></a></li></ul></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#los-cuatro-puntos-que-una-etiqueta-se-guarda" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Los cuatro puntos que una etiqueta se guarda</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#accesibilidad" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Accesibilidad</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#módulos-nativos" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Módulos nativos</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#cómo-se-comprueba" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Cómo se comprueba</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#recursos-dentro-del-bundle" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Recursos dentro del bundle</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#llevarlo-a-otro-mac" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Llevarlo a otro Mac</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#lo-que-falta" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Lo que falta</span></a></li></ul></nav></starlight-toc><script type="module" src="/_astro/TableOfContents.astro_astro_type_script_index_0_lang.Csloo1VZ.js"></script></div></div></div></aside><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="es" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="an-pagehead"><p class="an-pagehead__label">Plataformas</p><h1 id="_top" data-page-title>macOS</h1><p class="an-pagehead__lead">Angular como app de escritorio — NSView de verdad, una ventana que se redimensiona, un puntero con forma, y la única plataforma que puedes comprobar sin arrancar nada.</p></div></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><p>Angular ejecutándose como app de escritorio: el mismo core, el mismo layout, el
+mismo bundle, y <code dir="auto">NSView</code> de verdad debajo.</p>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.00uqy.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Ventana de terminal</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#80A665;--1:#4B7231">an</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">macos</span><span style="--0:#DBD7CAEE;--1:#393A34">                     </span><span style="--0:#818F81FE;--1:#636B63"># monta el .app y lo abre en esta máquina</span></div></div><div class="ec-line"><div class="code"><span style="--0:#80A665;--1:#4B7231">an</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">macos</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">examples/desktop</span><span style="--0:#DBD7CAEE;--1:#393A34">    </span><span style="--0:#818F81FE;--1:#636B63"># el puntero y el swipe</span></div></div><div class="ec-line"><div class="code"><span style="--0:#80A665;--1:#4B7231">an</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">macos</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">examples/media</span><span style="--0:#DBD7CAEE;--1:#393A34">      </span><span style="--0:#818F81FE;--1:#636B63"># el mapa y el vídeo</span></div></div><div class="ec-line"><div class="code"><span style="--0:#80A665;--1:#4B7231">./scripts/check-macos.sh</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copiar al portapapeles" data-copied="¡Copiado!" data-code="an macos                     # monta el .app y lo abre en esta máquinaan macos examples/desktop    # el puntero y el swipean macos examples/media      # el mapa y el vídeo./scripts/check-macos.sh"><div></div></button></div></figure></div>
+<p>No hace falta nada más: <code dir="auto">aarch64-apple-darwin</code> está en cualquier toolchain
+estable y el SDK viene con Xcode. No hay simulador que arrancar, ni dispositivo
+que encontrar, ni <code dir="auto">.xcodeproj</code>. Sin argumento de app, <code dir="auto">an macos</code> compila
+<code dir="auto">examples/controls</code>. El bundle acaba en <code dir="auto">build/macos/AngularNativeMac.app</code>, y
+<code dir="auto">--release</code> y <code dir="auto">--no-launch</code> funcionan los dos.</p>
+<p><code dir="auto">an add macos</code> le da al proyecto su propio <code dir="auto">macos/Info.plist</code>, y a partir de ahí
+el nombre y el identificador son suyos: <code dir="auto">MyApp</code> pasa a ser <code dir="auto">MyAppMac</code>, con
+<code dir="auto">.mac</code> al final del identificador, la misma decoración que aplican
+<code dir="auto">an add tvos</code> y <code dir="auto">an add visionos</code>. El <code dir="auto">.app</code> va al directorio de build del
+proyecto y no al del SDK, como todo lo demás que produce <code dir="auto">an</code>.</p>
+<p>La app va <strong>firmada ad-hoc</strong> — <code dir="auto">codesign --force --sign -</code> — y ese paso no es
+opcional. Sin firmar, macOS mata el proceso en el primer <code dir="auto">mmap</code> de código
+generado, que es exactamente lo que hace QuickJS, con un <code dir="auto">Killed: 9</code> y ninguna
+explicación.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="por-qué-esto-es-el-host-de-ios-con-otras-clases">Por qué esto <em>es</em> el host de iOS con otras clases</h2><a class="sl-anchor-link" href="#por-qué-esto-es-el-host-de-ios-con-otras-clases"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Sección titulada «Por qué esto es el host de iOS con otras clases»</span></a></div>
+<p>El reloj necesitó un host propio porque watchOS no tiene jerarquía de <code dir="auto">UIView</code>.
+Aquí eso no pasa. AppKit es imperativo, <code dir="auto">NSView</code> existe, y el modelo de montaje
+de este proyecto —crear una vista, ponerla aquí, cambiarle el frame— encaja tal
+cual. Así que <code dir="auto">an-macos</code> es el hermano de <code dir="auto">an-ios</code>: una vista nativa por nodo
+montable, el frame escrito directamente porque taffy ya resolvió el layout, y
+<code dir="auto">MountOp</code> aplicado a la jerarquía.</p>
+<p>Aun así es un <strong>crate aparte</strong>, que no comparte código con <code dir="auto">an-ios</code>. Hay dos
+tablas duplicadas a sabiendas: la traducción de nombres de SF Symbols, y los
+bindings declarados a mano para <code dir="auto">WKWebView</code>, <code dir="auto">MKMapView</code> y <code dir="auto">AVPlayerView</code> —seis
+métodos cada uno, en lugar de compilar dos crates generados enteros de framework
+en cada build. <code dir="auto">objc2</code> comprueba cada firma contra la real cuando se envía el
+mensaje, así que lo que se ahorra en tiempo de compilación no se paga en
+seguridad.</p>
+<p>El reparto de hilos es el mismo que en iOS: el hilo principal es dueño de las
+vistas, QuickJS y el árbol sombra viven en un worker con una pila de 8 MB, y el
+presupuesto de fotograma para esperar al motor son 12 ms — deliberadamente no
+bajados para pantallas de 120 Hz.</p>
+<p>El FFI son seis funciones — <code dir="auto">an_runtime_new</code>, <code dir="auto">_eval</code>, <code dir="auto">_reload</code>,
+<code dir="auto">_set_viewport</code>, <code dir="auto">_frame</code>, <code dir="auto">_free</code>. La cabecera dice lo que es: la del teléfono,
+menos los plugins.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="qué-dibuja-macos">Qué dibuja macOS</h2><a class="sl-anchor-link" href="#qué-dibuja-macos"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Sección titulada «Qué dibuja macOS»</span></a></div>
+<p>Los veintiséis primitivos montables. Veintidós son un control del sistema, dos
+están ensamblados con vistas del sistema, uno —la cabecera de navegación— macOS
+lo pone donde lo guarda, fuera del árbol de vistas, y uno no le toca construirlo
+a este crate en absoluto: <code dir="auto">an-custom</code> es el agujero por el que un <strong>plugin</strong>
+monta su propia <code dir="auto">NSView</code>. El inventario vive en <code dir="auto">crates/an-macos/src/support.rs</code>, como una tabla en lugar de
+disperso por el match de <code dir="auto">create</code>, para poder leerlo de una vez;
+<code dir="auto">scripts/check-macos.py</code> lo compara con el enum del core para que no pueda
+quedarse atrás.</p>
+<table>
+<thead>
+<tr>
+<th>Primitivo</th>
+<th>macOS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">an-view</code>, <code dir="auto">an-stack-view</code></td>
+<td><code dir="auto">NSView</code> (<code dir="auto">AnFlippedView</code>)</td>
+</tr>
+<tr>
+<td><code dir="auto">an-text</code></td>
+<td><code dir="auto">NSTextField</code>, configurado como etiqueta</td>
+</tr>
+<tr>
+<td><code dir="auto">an-text-input</code>, <code dir="auto">an-search-bar</code></td>
+<td><code dir="auto">NSTextField</code>, <code dir="auto">NSSearchField</code></td>
+</tr>
+<tr>
+<td><code dir="auto">an-textarea</code></td>
+<td><code dir="auto">NSTextView</code></td>
+</tr>
+<tr>
+<td><code dir="auto">an-image</code>, <code dir="auto">an-icon</code></td>
+<td><code dir="auto">NSImageView</code> — los iconos son SF Symbols, por nombre</td>
+</tr>
+<tr>
+<td><code dir="auto">an-scroll-view</code></td>
+<td><code dir="auto">NSScrollView</code></td>
+</tr>
+<tr>
+<td><code dir="auto">an-button</code></td>
+<td><code dir="auto">NSButton</code></td>
+</tr>
+<tr>
+<td><code dir="auto">an-switch</code>, <code dir="auto">an-slider</code></td>
+<td><code dir="auto">NSSwitch</code>, <code dir="auto">NSSlider</code></td>
+</tr>
+<tr>
+<td><code dir="auto">an-activity-indicator</code>, <code dir="auto">an-progress-bar</code></td>
+<td><code dir="auto">NSProgressIndicator</code></td>
+</tr>
+<tr>
+<td><code dir="auto">an-segmented-control</code>, <code dir="auto">an-stepper</code></td>
+<td><code dir="auto">NSSegmentedControl</code>, <code dir="auto">NSStepper</code></td>
+</tr>
+<tr>
+<td><code dir="auto">an-select</code>, <code dir="auto">an-date-picker</code></td>
+<td><code dir="auto">NSPopUpButton</code>, <code dir="auto">NSDatePicker</code></td>
+</tr>
+<tr>
+<td><code dir="auto">an-alert</code></td>
+<td><code dir="auto">NSAlert</code></td>
+</tr>
+<tr>
+<td><code dir="auto">an-web-view</code></td>
+<td><code dir="auto">WKWebView</code></td>
+</tr>
+<tr>
+<td><code dir="auto">an-map-view</code></td>
+<td><code dir="auto">MKMapView</code></td>
+</tr>
+<tr>
+<td><code dir="auto">an-video-view</code></td>
+<td><code dir="auto">AVPlayerView</code></td>
+</tr>
+</tbody>
+</table>
+<p>Dos están ensamblados, y cuáles son se dice en voz alta:</p>
+<ul>
+<li><strong><code dir="auto">an-modal</code></strong> es un <code dir="auto">NSView</code> por encima de la raíz. Lo que de verdad es modal
+en macOS es una hoja (<code dir="auto">beginSheet:</code>) o un <code dir="auto">NSPanel</code>, y los dos sacan el
+contenido de la ventana donde lo puso el layout. Como el core ya maqueta el
+modal a pantalla completa, una capa da el mismo resultado sin dos sistemas de
+coordenadas discutiendo. El diálogo del sistema —<code dir="auto">an-alert</code>— <em>sí</em> es un
+<code dir="auto">NSAlert</code> real.</li>
+<li><strong><code dir="auto">an-tab-bar</code></strong> es un <code dir="auto">NSSegmentedControl</code>. macOS no tiene barra de pestañas;
+un control segmentado es lo que las apps de Mac usan de verdad para cambiar de
+sección. <code dir="auto">NSTabView</code> no vale: eso es la pestaña de documento, con su propio
+marco y su fondo.</li>
+</ul>
+<p>El mapa y el vídeo salieron aquí más baratos que en el teléfono, por el mismo
+motivo: en AppKit son vistas. <code dir="auto">MKMapView</code> hereda de <code dir="auto">NSView</code> y <code dir="auto">AVPlayerView</code>
+también, así que se unen al árbol como cualquier otra cosa. UIKit no tiene una
+<em>vista</em> de vídeo — tiene un <code dir="auto">AVPlayerViewController</code> — y meter eso en el árbol
+significa hacerlo hijo del controlador que preside y recolocar su vista a mano
+en cada fotograma, porque nace después de fijar el frame.</p>
+<p><strong>El mapa nativo no necesita clave.</strong> Quien la pide es MapKit JS, que es otro
+producto. Lo que sí necesita permiso es <code dir="auto">[showsUser]</code>, declarado en el
+<code dir="auto">Info.plist</code> del <code dir="auto">.app</code> como <code dir="auto">NSLocationUsageDescription</code>: sin esa clave el
+sistema deniega la ubicación por su cuenta, el punto no aparece nunca, y no hay
+ningún error que mirar. <code dir="auto">check-macos.py</code> no deja pasar uno sin el otro.</p>
+<p>El match de <code dir="auto">create</code> <strong>no tiene comodín</strong>: añadir un <code dir="auto">NodeKind</code> al core rompe
+esta compilación en lugar de montar nada en silencio.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="la-cabecera-es-la-barra-de-título">La cabecera es la barra de título</h2><a class="sl-anchor-link" href="#la-cabecera-es-la-barra-de-título"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Sección titulada «La cabecera es la barra de título»</span></a></div>
+<p><code dir="auto">an-navigation-bar</code> no se dibuja dentro del contenido: en un Mac la cabecera de
+la pantalla en la que estás vive arriba, en la barra de título de la ventana, y
+pintar otra debajo serían dos. Lo que no se tira es lo que escribió la
+plantilla. El <code dir="auto">[title]</code> acaba siendo el título de la ventana, que es donde lo
+busca un usuario de Mac:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="html"><code><div class="ec-line"><div class="code"><span style="--0:#8B8B8B;--1:#686868">&lt;</span><span style="--0:#55987B;--1:#1E754F">an-navigation-bar</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#BD976A;--1:#876037">[title]</span><span style="--0:#8B8B8B;--1:#686868">=</span><span style="--0:#C98A7DE4;--1:#96574AFD">"</span><span style="--0:#C98A7D;--1:#96574A">'Notas'</span><span style="--0:#C98A7DE4;--1:#96574AFD">"</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#8B8B8B;--1:#686868">/&gt;</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copiar al portapapeles" data-copied="¡Copiado!" data-code="<an-navigation-bar [title]=&quot;&#x27;Notas&#x27;&quot; />"><div></div></button></div></figure></div>
+<p>y la ventana pasa a ser «Notas». Cuando esa pantalla se desmonta, la ventana
+recupera el título que tenía. Se aplica desde <code dir="auto">flush</code> y no desde el setter de la
+propiedad, porque en ese momento puede que la vista todavía no esté en ninguna
+ventana.</p>
+<p>El nodo mide <strong>cero por cero</strong>, y eso está escrito en lugar de salir de que
+nadie lo mida: una cabecera que no se dibuja pero reserva cuarenta y cuatro
+puntos deja una franja vacía bajo la barra de título de verdad, y quien la vea
+no tendrá ni idea de dónde salió.</p>
+<p>Lo que la barra de título no tiene es botón de atrás. <code dir="auto">[showsBack]</code> y
+<code dir="auto">[backTitle]</code> se descartan por eso, y <code dir="auto">(back)</code> avisa al suscribirse: en un Mac se
+vuelve atrás con el menú o con un botón propio de la app, no con una flecha en
+la cabecera.</p>
+<p>Por eso el inventario tiene dos categorías más junto a «control del sistema»,
+«ensamblado con vistas del sistema» y «macOS no lo tiene». <code dir="auto">Elsewhere</code> —se
+honra, pero no con una vista— es la que usa la cabecera, y es la única que la
+usa. <code dir="auto">Plugin</code> es <code dir="auto">an-custom</code>: una <code dir="auto">NSView</code> de verdad, pero de una clase de la
+que este crate no ha oído hablar nunca, así que no es ni un <code dir="auto">Native</code> (el nombre
+sería mentira) ni un <code dir="auto">Assembled</code> (no se ensambla nada — la vista llega hecha).
+Ningún primitivo está <code dir="auto">Missing</code>. Si alguien declara alguno alguna vez, <code dir="auto">check-macos.py</code> lo dice y pide
+que se vuelva a escribir el camino del aviso: un nodo que se monta como una caja
+vacía en silencio es exactamente lo que este repositorio no permite.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="las-tres-cosas-de-escritorio">Las tres cosas de escritorio</h2><a class="sl-anchor-link" href="#las-tres-cosas-de-escritorio"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Sección titulada «Las tres cosas de escritorio»</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="la-ventana-se-redimensiona-y-lo-hace-en-vivo">La ventana se redimensiona, y lo hace en vivo</h3><a class="sl-anchor-link" href="#la-ventana-se-redimensiona-y-lo-hace-en-vivo"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Sección titulada «La ventana se redimensiona, y lo hace en vivo»</span></a></div>
+<p>En un teléfono el viewport cambia al rotar, que pasa de vez en cuando. Aquí
+cambia mientras alguien arrastra una esquina, sesenta veces por segundo.</p>
+<p><code dir="auto">viewDidLayout</code> llama a <code dir="auto">an_runtime_set_viewport</code> en cada paso del arrastre, y la
+función descarta los tamaños repetidos: cada cambio real es un viaje de ida y
+vuelta al hilo del motor que además espera a lo que hubiera en vuelo, y eso no se
+puede pagar en cada <code dir="auto">layout()</code>. El shell llama sin pensarlo y el filtro está en
+Rust, que es donde se conoce el último.</p>
+<p>El reloj del fotograma también cambia: el <code dir="auto">CADisplayLink</code> se le pide a la
+<strong>vista</strong>, no a la pantalla. Un Mac tiene varias pantallas y pueden refrescar a
+distintas frecuencias, así que la buena es la de la pantalla donde está la
+ventana, y quien sabe eso es la vista. Corre en modo <code dir="auto">.common</code> para seguir
+latiendo mientras se arrastra la ventana o hay un menú abierto, que en AppKit
+corren en un bucle de eventos aparte. Pedirle un display link a una vista es
+además lo que fija el objetivo de despliegue en macOS 14.</p>
+<p>La ventana es de 720×820, con título, cerrable, minimizable y <strong>redimensionable</strong>,
+con su marco autoguardado para que el tamaño sobreviva a un relanzamiento. No se
+fija nunca un tamaño mínimo. Hay exactamente una ventana, y la app se cierra
+cuando esa se cierra: nada expone una segunda.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="hay-un-ratón-no-dedos">Hay un ratón, no dedos</h3><a class="sl-anchor-link" href="#hay-un-ratón-no-dedos"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Sección titulada «Hay un ratón, no dedos»</span></a></div>
+<p>Los gestos son los recognisers de AppKit, que no son los de UIKit. <code dir="auto">press</code>,
+<code dir="auto">doublePress</code>, <code dir="auto">longPress</code>, <code dir="auto">pan</code>, <code dir="auto">pinch</code> y <code dir="auto">rotation</code> tienen uno cada uno y se
+comportan como los de iOS, con los umbrales del sistema. El pinch y la rotación
+informan de una <code dir="auto">velocity</code> de cero, porque el trackpad no la da.</p>
+<p><strong>El swipe sí existe, aunque no es un recogniser.</strong> AppKit no tiene
+<code dir="auto">NSSwipeGestureRecognizer</code>. El gesto está; lo que falta es algo que colgar de
+una vista. Un swipe llega como un evento suelto, <code dir="auto">swipeWithEvent:</code>, que sube por
+la cadena de respondedores como una pulsación de tecla. El sistema lo produce a
+partir de lo que el usuario haya configurado en Trackpad, con su umbral y su
+número de dedos, así que el juicio de cuándo cuenta sigue siendo de la
+plataforma.</p>
+<p>Cazarlo exige que el método esté en la clase, y por eso vive con
+<code dir="auto">AnFlippedView</code> —la vista que este host monta para <code dir="auto">an-view</code>, <code dir="auto">an-stack-view</code>,
+<code dir="auto">an-modal</code> y el documento de una scroll view— y no con los demás gestos. Un
+<code dir="auto">NSButton</code> es del sistema y no le puedes añadir un método con la app en marcha,
+así que un <code dir="auto">(swipeLeft)</code> puesto directamente sobre un control avisa al
+suscribirse y dice dónde ponerlo en su lugar. Eso no es un hueco: un
+<code dir="auto">swipeWithEvent:</code> que un control no maneja sube al siguiente respondedor, que es
+su vista padre, así que un swipe sobre un botón llega al <code dir="auto">&lt;an-view&gt;</code> que lo
+envuelve. Y una vista nuestra que no está escuchando esa dirección <strong>también lo
+pasa</strong> en lugar de tragárselo.</p>
+<p>Qué dirección es cada signo sale de <code dir="auto">NSEvent.h</code> y no de una suposición: <code dir="auto">deltaX</code>
+−1 es hacia la derecha y 1 hacia la izquierda; <code dir="auto">deltaY</code> −1 es hacia abajo y 1
+hacia arriba. Vive fuera de la parte que toca AppKit para poder probarlo sin
+trackpad, y hay un test que lo fija.</p>
+<p><strong>El hover y el cursor están aquí, y son los del sistema.</strong> Los dos viven en
+<code dir="auto">NativeVisual</code>, así que en los veinticinco primitivos:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="html"><code><div class="ec-line"><div class="code"><span style="--0:#8B8B8B;--1:#686868">&lt;</span><span style="--0:#55987B;--1:#1E754F">an-view</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#BD976A;--1:#876037">[cursor]</span><span style="--0:#8B8B8B;--1:#686868">=</span><span style="--0:#C98A7DE4;--1:#96574AFD">"</span><span style="--0:#C98A7D;--1:#96574A">'pointer'</span><span style="--0:#C98A7DE4;--1:#96574AFD">"</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#BD976A;--1:#876037">(hover)</span><span style="--0:#8B8B8B;--1:#686868">=</span><span style="--0:#C98A7DE4;--1:#96574AFD">"</span><span style="--0:#C98A7D;--1:#96574A">over.set($event.hovered)</span><span style="--0:#C98A7DE4;--1:#96574AFD">"</span><span style="--0:#8B8B8B;--1:#686868">&gt;</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copiar al portapapeles" data-copied="¡Copiado!" data-code="<an-view [cursor]=&quot;&#x27;pointer&#x27;&quot; (hover)=&quot;over.set($event.hovered)&quot;>"><div></div></button></div></figure></div>
+<ul>
+<li><code dir="auto">(hover)</code> entrega <code dir="auto">{ hovered, x, y }</code>. Una sola salida con un booleano en
+lugar de dos, porque lo que hay debajo también es una cosa: un
+<code dir="auto">NSTrackingArea</code> da la entrada y la salida por el mismo camino.</li>
+<li><code dir="auto">[cursor]</code> acepta siete nombres de CSS — <code dir="auto">default</code>, <code dir="auto">pointer</code>, <code dir="auto">text</code>,
+<code dir="auto">crosshair</code>, <code dir="auto">grab</code>, <code dir="auto">grabbing</code>, <code dir="auto">not-allowed</code> — y cada uno es un <code dir="auto">NSCursor</code>
+del sistema. Ninguno está dibujado. Un nombre no reconocido avisa una vez y
+deja el puntero en paz. Los cursores de redimensionado no están: los que macOS
+ha tenido siempre están obsoletos, y sus reemplazos llegaron en macOS 15, más
+tarde que el mínimo de este host.</li>
+</ul>
+<p>Los dos se montan sobre un <code dir="auto">NSTrackingArea</code> y no sobre la vista, y ahí está el
+truco: <strong>el dueño de un tracking area no tiene por qué ser la vista</strong>. Con un
+objeto dueño aparte, <code dir="auto">(hover)</code> y <code dir="auto">[cursor]</code> funcionan sobre un <code dir="auto">NSButton</code> del
+sistema exactamente igual que sobre uno nuestro, sin subclasear nada. Poner el
+cursor por la otra vía —<code dir="auto">addCursorRect:cursor:</code>— habría exigido sobreescribir
+<code dir="auto">resetCursorRects</code>, que es precisamente lo que no puedes hacerle a un control
+del sistema.</p>
+<p>El área lleva <code dir="auto">InVisibleRect</code>, que es lo que hace innecesario reconstruirla en
+cada layout: AppKit la mantiene pegada al rectángulo de la vista. Sin eso, un
+área se quedaría del tamaño que tenía la vista al suscribirse, y redimensionar
+la ventana —que en un escritorio pasa constantemente— haría que el puntero
+entrara y saliera donde no hay nada.</p>
+<p>Y lleva <code dir="auto">ActiveInActiveApp</code>, no <code dir="auto">ActiveAlways</code>: en un Mac los controles solo se
+iluminan al pasar por encima cuando la app está delante, y este host no va a ser
+la excepción que se comporta distinto del resto del escritorio.</p>
+<p>Nada de esto le quita a los controles del sistema lo que hacen por sí solos —un
+<code dir="auto">NSButton</code> se resalta al pasar por encima y un <code dir="auto">NSTextField</code> convierte el
+puntero en una barra de texto— porque son controles de verdad y no dibujos.</p>
+<p>Ni <code dir="auto">(hover)</code> ni <code dir="auto">[cursor]</code> llegan a iOS ni a Android, y eso no es un hueco: un
+dedo no tiene forma. <code dir="auto">check-wrapper.sh</code> los declara como tales y exige que el
+host de escritorio <em>sí</em> los lea. Mira
+<a href="/es/guide/native-wrapper/">Props y el envoltorio nativo</a>.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="el-scroll-no-tiene-delegate">El scroll no tiene delegate</h3><a class="sl-anchor-link" href="#el-scroll-no-tiene-delegate"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Sección titulada «El scroll no tiene delegate»</span></a></div>
+<p><code dir="auto">(scroll)</code> llega con el mismo <code dir="auto">{ x, y }</code> que envía iOS, contando hacia abajo,
+así que un componente que lo escuche no necesita saber en qué escritorio está.
+Llegar hasta ahí no es lo mismo, eso sí. UIKit tiene <code dir="auto">UIScrollViewDelegate</code>;
+AppKit no tiene nada parecido. Una <code dir="auto">NSScrollView</code> informa del movimiento
+publicando <code dir="auto">NSViewBoundsDidChange</code> desde su <strong>clip view</strong>, y solo si a esa clip
+view se le ha pedido — <code dir="auto">postsBoundsChangedNotifications</code> está apagado por
+defecto, y su ausencia es una suscripción que no dispara nunca, sin ningún
+error por ninguna parte.</p>
+<p>El desplazamiento es el <code dir="auto">bounds.origin</code> de la clip view, y cuenta hacia abajo
+por el mismo motivo que todo lo demás aquí: la vista de documento está
+invertida.</p>
+<p><strong>Y <code dir="auto">[scrollEnabled]="false"</code> lo para de verdad.</strong> AppKit tampoco tiene un
+interruptor para eso, y el sustituto evidente —esconder las barras— no para
+nada: una scroll view hace scroll porque el evento de rueda sube por la cadena
+de responders hasta ella, y que se dibuje una barra o no da igual. Lo que sí lo
+para es la vista de documento, que es una de este host y va antes en esa cadena,
+así que un evento que no pasa adelante nunca llega. Es el mismo motivo por el
+que el swipe vive en <code dir="auto">flipped.rs</code>. Que la barra se vea o no sigue siendo cosa de
+<code dir="auto">[showsScrollIndicator]</code>.</p>
+<p><code dir="auto">scripts/check-macos.sh</code> mueve la clip view 90 puntos en una ventana en marcha
+y exige que la plantilla diga 90. Un evento sintético de rueda no serviría: un
+evento de rueda es una <em>petición</em>, y hasta dónde lo lleva el sistema, en cuántos
+fotogramas y con qué elasticidad es cosa de AppKit, así que una comprobación
+montada sobre uno mide el scroll del sistema en lugar de si llega la
+notificación.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="el-menú-es-el-del-sistema">El menú es el del sistema</h3><a class="sl-anchor-link" href="#el-menú-es-el-del-sistema"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Sección titulada «El menú es el del sistema»</span></a></div>
+<p>En un teléfono no hay menú. En un Mac siempre lo hay, vive en la barra de arriba
+y no dentro de la ventana, así que no cabe en el árbol que monta el core: no hay
+<code dir="auto">NodeKind</code> para él. Lo pone el shell y no se expone a Angular.</p>
+<p>Que <strong>exista</strong> no es cosmético. Los atajos de edición de macOS —⌘X, ⌘C, ⌘V, ⌘Z,
+⌘A— no los implementa <code dir="auto">NSTextField</code>: los despacha el menú por la cadena de
+respondedores. Sin un menú Edición, copiar y pegar en un <code dir="auto">an-text-input</code> no
+funciona, sin error y sin nada que mirar. Por eso el menú mínimo incluye Edición
+y no solo Salir.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="esquinas-que-una-capa-no-sabe-hacer">Esquinas que una capa no sabe hacer</h3><a class="sl-anchor-link" href="#esquinas-que-una-capa-no-sabe-hacer"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Sección titulada «Esquinas que una capa no sabe hacer»</span></a></div>
+<p>Una <code dir="auto">CALayer</code> tiene <strong>un</strong> radio, y de ahí salen tres formas. Las cuatro
+iguales es el radio y nada más. Unas esquinas redondeadas y el resto cuadradas
+sigue siendo un solo radio, con <code dir="auto">maskedCorners</code> diciendo cuáles lo llevan — la
+tarjeta redondeada por arriba, que son la mayoría.</p>
+<p>Dos radios de verdad distintos es lo que una capa no puede, y se dibuja: el
+contorno va a un <code dir="auto">CAShapeLayer</code> usado como máscara de la capa, igual que lo
+dibuja el host de iOS. Eso cuesta una capa para las vistas que lo piden y nada
+para las que no, y se rehace en cada cambio de tamaño, porque una máscara no se
+estira.</p>
+<p>El trazado se construye con <code dir="auto">CGPath</code> y no con <code dir="auto">NSBezierPath</code>, que es lo primero
+a lo que echaría mano un fichero de AppKit. El arco de <code dir="auto">NSBezierPath</code> toma
+<strong>grados</strong>, y su sentido de las agujas del reloj pertenece al sistema de
+coordenadas sin invertir que aquí ha volteado cada vista: dos oportunidades de
+equivocar una esquina sutilmente a cambio de nada. <code dir="auto">addArcToPoint</code> toma las dos
+líneas que se encuentran y un radio, así que no hay ángulos en los que
+equivocarse.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="los-cuatro-puntos-que-una-etiqueta-se-guarda">Los cuatro puntos que una etiqueta se guarda</h2><a class="sl-anchor-link" href="#los-cuatro-puntos-que-una-etiqueta-se-guarda"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Sección titulada «Los cuatro puntos que una etiqueta se guarda»</span></a></div>
+<p>El layout mide el texto con <code dir="auto">boundingRectWithSize:</code>, que mide <strong>el texto</strong> y nada
+más. Un <code dir="auto">NSTextField</code> dibuja ese texto dentro de su celda, y la celda se guarda
+unos puntos a cada lado. Hoy son cuatro.</p>
+<p>Cuatro puntos suenan a nada y son exactamente el peor tamaño de error. La
+etiqueta tiene <code dir="auto">wraps</code> puesto, así que lo que no cabe se va a la línea
+siguiente, y esa línea está fuera de la altura que el layout reservó para una.
+El texto no se recorta: sale <strong>vacío</strong>, sin error, sin rastro, sin nada que
+mirar. Aparece en el momento en que una etiqueta cae en una caja de su tamaño
+exacto — es decir, en cualquier <code dir="auto">align-items: center</code>, que es donde apareció.</p>
+<p>El espaciado entre letras se mide y no solo se dibuja. Estaba en la clave de la
+caché de medición y en ningún otro sitio, así que el host pintaba con el
+kerning y el medidor dimensionaba sin él: un espaciado positivo salía más ancho
+que la caja que había reservado el layout y partía una palabra antes de tiempo
+o se cortaba, uno negativo dejaba un hueco que nadie pidió, y la única
+dirección que parecía correcta era el cero. El atributo se añade solo cuando
+hay alguno — un <code dir="auto">kern</code> vacío y ningún <code dir="auto">kern</code> no son exactamente lo mismo para
+Core Text.</p>
+<p>La medida se le pide al sistema al arrancar, en el hilo principal, junto al
+tamaño natural de todos los demás controles, en lugar de escribirla: es una
+medida de AppKit y cambia con la versión y con los ajustes de accesibilidad,
+exactamente igual que la altura de un <code dir="auto">NSSwitch</code>. El texto en sí se mide con el
+<code dir="auto">boundingRectWithSize:</code> de <code dir="auto">NSAttributedString</code> —no el de <code dir="auto">NSString</code>, que en
+AppKit no tiene las opciones de fragmento de línea que usa el host de iOS— con
+los pesos CSS 100..900 mapeados sobre la escala -1..1 de <code dir="auto">NSFont</code>, cacheado por
+texto, fuente y ancho disponible. La cursiva no se resuelve en el medidor:
+<code dir="auto">NSFont</code> no tiene fábrica de cursiva, va por un trait de descriptor, y eso es
+más trabajo del que compensa por ahora.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="accesibilidad">Accesibilidad</h2><a class="sl-anchor-link" href="#accesibilidad"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Sección titulada «Accesibilidad»</span></a></div>
+<p>Las seis props de accesibilidad aterrizan en el protocolo <code dir="auto">NSAccessibility</code>, y
+la historia entera —incluido el filo más afilado de esta plataforma, que
+sobreescribir <em>cualquier cosa</em> le cuesta a la vista el rol que AppKit le estaba
+calculando, así que el primitivo vuelve a escribir a mano el rol implícito— está
+en <a href="/es/accessibility/apple/">Accesibilidad en Apple</a>.</p>
+<p>Dos props no tienen forma en AppKit y se rechazan en lugar de aproximarse: el
+rol <code dir="auto">summary</code>, que es una idea de VoiceOver-en-iOS sin contraparte en
+<code dir="auto">NSAccessibility</code>, y el estado <code dir="auto">busy</code>, cuyo pariente más cercano es el <em>rol</em>
+<code dir="auto">AXBusyIndicator</code> — otra vista, no un estado de esta.</p>
+<p>Leer el árbol desde fuera necesita el permiso de Accesibilidad concedido a mano;
+el ejemplo es <code dir="auto">examples/a11y</code>.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="módulos-nativos">Módulos nativos</h2><a class="sl-anchor-link" href="#módulos-nativos"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Sección titulada «Módulos nativos»</span></a></div>
+<p><code dir="auto">device</code> está registrado, así que <code dir="auto">Device.info()</code> resuelve aquí. Tres de los
+cinco campos significan exactamente lo que significan en un teléfono; dos no, y
+en lugar de devolver el número que más se le parece, la diferencia queda
+escrita:</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>En macOS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">platform</code></td>
+<td><code dir="auto">'macos'</code></td>
+</tr>
+<tr>
+<td><code dir="auto">systemVersion</code></td>
+<td><code dir="auto">NSProcessInfo.operatingSystemVersion</code>, como <code dir="auto">mayor.menor.parche</code>. No <code dir="auto">operatingSystemVersionString</code>, que dice «Version 15.3.1 (Build 24D70)» y es prosa.</td>
+</tr>
+<tr>
+<td><code dir="auto">model</code></td>
+<td>El identificador de hardware de <code dir="auto">sysctl hw.model</code> — <code dir="auto">Mac15,7</code>, <code dir="auto">MacBookPro18,3</code>. AppKit no tiene <code dir="auto">UIDevice.model</code>, que en un teléfono responde una <em>clase</em> de dispositivo; aquí esa palabra sería «Mac» para todos los Mac jamás fabricados.</td>
+</tr>
+<tr>
+<td><code dir="auto">scale</code></td>
+<td>El <code dir="auto">backingScaleFactor</code> de la pantalla en la que la app <strong>arrancó</strong>. Una ventana se puede arrastrar a una pantalla con otro factor y esto no lo seguirá: se lee una vez, en el hilo principal, porque <code dir="auto">NSScreen</code> no se puede tocar desde el hilo del motor. Sin ninguna pantalla es <code dir="auto">0.0</code>, la misma respuesta que da visionOS, en lugar de un <code dir="auto">2.0</code> inventado.</td>
+</tr>
+<tr>
+<td><code dir="auto">locale</code></td>
+<td><code dir="auto">NSLocale.currentLocale</code>, BCP 47.</td>
+</tr>
+</tbody>
+</table>
+<p>No hay un segundo módulo: todo lo demás sería un plugin, y mira más arriba.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="cómo-se-comprueba">Cómo se comprueba</h2><a class="sl-anchor-link" href="#cómo-se-comprueba"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Sección titulada «Cómo se comprueba»</span></a></div>
+<p>Es la única plataforma que se puede comprobar de verdad sin arrancar nada
+externo: la app corre en la misma máquina que la compiló.
+<code dir="auto">scripts/check-macos.sh</code> la arranca, la deja montar el árbol y <strong>le pide una
+captura</strong>, sobre <code dir="auto">examples/controls</code>, <code dir="auto">examples/desktop</code> y <code dir="auto">examples/media</code>.</p>
+<p>Esa misma propiedad es la que hace posible <code dir="auto">scripts/check-dev-macos.sh</code>, y es el
+único sitio donde el bucle de desarrollo se comprueba de punta a punta: el
+servidor sirve, el <code dir="auto">.app</code> se compila con la URL dentro, la app conecta, se
+guarda un fichero y después se le pregunta a la ventana qué está mostrando. Lo
+que tiene que estar mostrando es la plantilla nueva <em>y</em> el estado de antes de
+guardar — <code dir="auto">hello-angular</code> deja en pantalla un temporizador en marcha y un <code dir="auto">@if</code>
+que se desplegó a los tres segundos, y un reinicio devuelve los dos a nada.</p>
+<p>El modo captura es solo de macOS y lo gobiernan variables de entorno leídas al
+arrancar: <code dir="auto">AN_SCREENSHOT=&lt;ruta&gt;</code> más <code dir="auto">AN_SCREENSHOT_FRAMES</code> (40 por defecto),
+<code dir="auto">AN_SCREENSHOT_PRESS=x,y</code>, <code dir="auto">AN_SCREENSHOT_SWIPE=x,y,dx,dy</code>,
+<code dir="auto">AN_SCREENSHOT_HOVER=x,y</code>, <code dir="auto">AN_SCREENSHOT_WINDOW=1</code>, <code dir="auto">AN_SCREENSHOT_RELOADS=n</code> y
+<code dir="auto">AN_DUMP_TEXT=1</code>, que registra las cadenas que las <code dir="auto">NSView</code> montadas están
+mostrando de verdad — la única cosa que no se le puede preguntar a un PNG. Las
+tres entradas sintéticas disparan dentro de la espera en un orden fijo —la
+pulsación a un cuarto de los fotogramas, el swipe a un tercio, el hover a la
+mitad— y la captura se toma al final. Usa <code dir="auto">cacheDisplay(in:to:)</code>, que no
+necesita permiso de grabación de pantalla, y <code dir="auto">CGWarpMouseCursorPosition</code>, que no
+necesita permiso de accesibilidad. Si nunca se monta nada se rinde a los 600
+fotogramas en lugar de colgarse.</p>
+<p>Una consecuencia de <code dir="auto">ActiveInActiveApp</code>: la aserción del hover se <strong>salta</strong>, y
+lo dice, cuando no se puede traer la app al frente. Un salto se informa y no es
+un aprobado.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="recursos-dentro-del-bundle">Recursos dentro del bundle</h2><a class="sl-anchor-link" href="#recursos-dentro-del-bundle"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Sección titulada «Recursos dentro del bundle»</span></a></div>
+<p>Lo mismo que en iOS, un directorio más allá. Un
+<code dir="auto">&lt;an-image [source]="'logo.png'"&gt;</code> sale de <code dir="auto">resources/</code>, en el proyecto —al lado
+de <code dir="auto">macos/Info.plist</code>, no dentro de <code dir="auto">src/assets/</code>, por los motivos de la
+<a href="/es/platforms/ios/#recursos-dentro-del-bundle">página de iOS</a>— y <code dir="auto">an macos</code>
+copia el árbol a <code dir="auto">Contents/Resources</code>, junto a <code dir="auto">main.js</code>, que es el directorio
+donde busca <code dir="auto">NSImage(named:)</code>. Se conservan los subdirectorios, se saltan los
+ficheros ocultos, y la copia va antes de la firma ad-hoc sin la que esta
+plataforma no arranca.</p>
+<p>Aquí hay dos nombres reservados y no los cuatro de iOS: el ejecutable vive en
+<code dir="auto">Contents/MacOS</code> y el <code dir="auto">Info.plist</code> en <code dir="auto">Contents</code>, así que un recurso no puede
+chocar con ninguno de los dos. Un recurso llamado <code dir="auto">main.js</code> o <code dir="auto">dev-server.txt</code>
+sigue parando la compilación. Un <code dir="auto">[source]</code> que nombra un fichero que no está se
+avisa una vez, por su nombre —<code dir="auto">images.rs</code>, con la misma forma que los avisos de
+medición—, en lugar de dejar un <code dir="auto">NSImageView</code> vacío que se lee como una imagen
+que aún está cargando.</p>
+<p><code dir="auto">examples/controls</code> lleva uno, así que <code dir="auto">scripts/check-macos.sh</code> fotografía una
+ventana con un PNG del bundle de verdad dentro.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="llevarlo-a-otro-mac">Llevarlo a otro Mac</h2><a class="sl-anchor-link" href="#llevarlo-a-otro-mac"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Sección titulada «Llevarlo a otro Mac»</span></a></div>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Ventana de terminal</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#80A665;--1:#4B7231">an</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">macos</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">.</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C99076;--1:#995728">--sign</span><span style="--0:#DBD7CAEE;--1:#393A34">                </span><span style="--0:#818F81FE;--1:#636B63"># Developer ID, hardened runtime</span></div></div><div class="ec-line"><div class="code"><span style="--0:#80A665;--1:#4B7231">an</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">macos</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">.</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C99076;--1:#995728">--notarize</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C99076;--1:#995728">--dmg</span><span style="--0:#DBD7CAEE;--1:#393A34">      </span><span style="--0:#818F81FE;--1:#636B63"># enviado, grapado y empaquetado</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copiar al portapapeles" data-copied="¡Copiado!" data-code="an macos . --sign                # Developer ID, hardened runtimean macos . --notarize --dmg      # enviado, grapado y empaquetado"><div></div></button></div></figure></div>
+<p>La firma ad-hoc de más arriba es lo que deja correr la app <strong>aquí</strong>. En
+cualquier otro sitio Gatekeeper quiere una firma de Developer ID y un tique de
+notarización, y el hardened runtime que exige la notarización no es un cambio de
+flag: prohíbe mapear memoria ejecutable y escribible, que es lo primero que hace
+el motor de JS. Así que la compilación firmada declara
+<code dir="auto">com.apple.security.cs.allow-jit</code>. Sin eso la app muere al arrancar con un
+<code dir="auto">Killed: 9</code> que no menciona ningún entitlement — el mismo fallo que la firma
+ad-hoc existe para evitar, con la única cara que nadie reconoce.</p>
+<p>El <code dir="auto">.dmg</code> se firma y se notariza por derecho propio, porque la imagen es el
+fichero que se descarga. Empaquetar uno sí se comprueba aquí; firmar y notarizar
+necesitan un certificado de Developer ID de pago y no se han ejecutado nunca.
+Mira <a href="/es/guide/signing-and-distribution/">Firma y distribución</a>.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="lo-que-falta">Lo que falta</h2><a class="sl-anchor-link" href="#lo-que-falta"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Sección titulada «Lo que falta»</span></a></div>
+<ul>
+<li><strong>Una vista de plugin no se mide por su contenido.</strong> <code dir="auto">&lt;an-custom&gt;</code> monta lo
+que un plugin registró con <code dir="auto">AnPluginViews.register</code>, llenando la caja que el
+layout le dio al nodo — y un nodo sin tamaño sale a cero, lo que parece un
+plugin que no funciona. Un nombre que nadie registró no monta nada y lo dice
+una vez, nombrando el nombre. Mira
+<a href="/es/extending/plugins/#una-vista-que-trae-un-plugin">una vista que trae un plugin</a>.</li>
+<li><strong>Los entitlements de un plugin necesitan una firma real.</strong> El host carga
+plugins, pero un <code dir="auto">.app</code> firmado ad-hoc que lleve un entitlement respaldado por
+un perfil lo mata el sistema al lanzarse, así que una compilación sin firmar
+deja fuera esas claves y avisa nombrando la clave, el plugin y el flag que las
+devuelve. Mira
+<a href="/es/extending/plugins-on-the-mac-and-the-watch/">Plugins en el Mac y en el reloj</a>.</li>
+<li><strong><code dir="auto">enabled</code> en cualquier cosa que no sea un <code dir="auto">NSControl</code></strong> no hace nada: AppKit
+no tiene <code dir="auto">userInteractionEnabled</code>.</li>
+<li><strong><code dir="auto">animateDelay</code> se funde en la duración</strong> —<code dir="auto">NSAnimationContext</code> no tiene
+retardo— y <code dir="auto">animateEasing</code> solo se aplica para <code dir="auto">ease-in-out</code>.</li>
+<li><strong><code dir="auto">color</code> en <code dir="auto">an-switch</code>, <code dir="auto">an-activity-indicator</code> y <code dir="auto">an-progress-bar</code></strong> es el
+color de acento del sistema y no se puede fijar por vista.</li>
+<li><strong><code dir="auto">resizeMode: 'cover'</code> encaja dentro en lugar de recortar</strong>, porque
+<code dir="auto">NSImageView</code> no puede recortar. Es el único modo que no es una traducción,
+así que pedirlo lo dice una vez en lugar de pasar por <code dir="auto">contain</code>.</li>
+<li><strong><code dir="auto">sheet</code> en <code dir="auto">an-alert</code> se rechaza</strong>: macOS no tiene hoja de acciones, y el
+control más cercano es un menú contextual, que es otra cosa. Antes cambiaba la
+<em>gravedad</em> del diálogo, que no es lo que significa la prop. La alerta en sí se
+presenta con <code dir="auto">beginSheetModalForWindow:</code> y nunca con <code dir="auto">runModal</code>, que
+congelaría el bucle de eventos que mueve el fotograma.</li>
+<li><strong>Toda salida que este host no puede entregar se rechaza al suscribirse</strong>, una
+vez y con su motivo: <code dir="auto">(dismiss)</code> en <code dir="auto">an-modal</code>, <code dir="auto">(refresh)</code> en
+<code dir="auto">an-scroll-view</code>, <code dir="auto">(back)</code> tanto en la stack view como en la barra de
+navegación, y los cuatro swipes —<code dir="auto">(swipeLeft)</code>, <code dir="auto">(swipeRight)</code>, <code dir="auto">(swipeUp)</code> y
+<code dir="auto">(swipeDown)</code>— en cualquier cosa que no sea una vista propia de este host. El
+swipe de AppKit no es un reconocedor colgado de una vista: sube por la cadena
+de respondedores, así que solo lo cazan <code dir="auto">an-view</code>, <code dir="auto">an-stack-view</code>,
+<code dir="auto">an-scroll-view</code> y <code dir="auto">an-modal</code>, y el rechazo nombra el envoltorio al que
+moverlo. Una salida puesta en un primitivo que no la informa se rechaza igual:
+<code dir="auto">(scroll)</code> en un <code dir="auto">an-view</code>, o <code dir="auto">(change)</code> en un <code dir="auto">an-textarea</code>, que AppKit
+informa por un delegado de <code dir="auto">NSTextView</code> que este host no instala.</li>
+<li><strong><code dir="auto">(crown)</code> y <code dir="auto">(crownIdle)</code> son del Apple Watch.</strong> Se declaran en la directiva
+de la que heredan todos los primitivos, así que una plantilla puede
+suscribirse a ellas aquí, y un Mac no tiene rueda que girar: la rueda del
+ratón mueve un <code dir="auto">an-scroll-view</code> y vuelve como <code dir="auto">(scroll)</code>, en puntos y no en
+detenciones. Las dos se rechazan al suscribirse.</li>
+<li><strong><code dir="auto">safeArea</code> responde una vez con los cuatro insets a cero</strong>, a propósito.</li>
+<li>Props aceptadas y descartadas con un aviso único: <code dir="auto">keyboardType</code>,
+<code dir="auto">returnKeyType</code>, <code dir="auto">autoCapitalize</code>, <code dir="auto">autoCorrect</code>, <code dir="auto">secureTextEntry</code>,
+<code dir="auto">thumbColor</code>, <code dir="auto">maximumTrackColor</code>, <code dir="auto">refreshing</code>, <code dir="auto">bounces</code>, <code dir="auto">transition</code>,
+<code dir="auto">showsBack</code>, <code dir="auto">backTitle</code>, <code dir="auto">presentation</code> y <code dir="auto">unselectedColor</code>. Cualquier cosa
+fuera de esa lista imprime «unknown prop», que las comprobaciones tratan como
+un fallo.</li>
+</ul>
+</div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"><a href="/es/platforms/android/" rel="prev" class="astro-b5raizh3"><svg aria-hidden="true" class="astro-b5raizh3 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17 11H9.41l3.3-3.29a1.004 1.004 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33 1 1 0 0 0 0 .76 1 1 0 0 0 .21.33l5 5a1.002 1.002 0 0 0 1.639-.325 1 1 0 0 0-.219-1.095L9.41 13H17a1 1 0 0 0 0-2Z"/></svg><span class="astro-b5raizh3">Página anterior<br class="astro-b5raizh3"><span class="link-title astro-b5raizh3">Android</span></span></a><a href="/es/platforms/tvos/" rel="next" class="astro-b5raizh3"><svg aria-hidden="true" class="astro-b5raizh3 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg><span class="astro-b5raizh3">Siguiente página<br class="astro-b5raizh3"><span class="link-title astro-b5raizh3">tvOS</span></span></a></div></footer></div></div></main></div></div></div></div></body></html>

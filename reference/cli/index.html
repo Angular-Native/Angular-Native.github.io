@@ -1,0 +1,726 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>The `an` CLI | angular-native</title><link rel="canonical" href="https://angular-native.github.io/reference/cli/"/><link rel="alternate" hreflang="en" href="https://angular-native.github.io/reference/cli/"/><link rel="alternate" hreflang="es" href="https://angular-native.github.io/es/reference/cli/"/><link rel="alternate" hreflang="x-default" href="https://angular-native.github.io/reference/cli/"/><link rel="sitemap" href="/sitemap-index.xml"/><link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.1"/><meta name="generator" content="Starlight v0.42.0"/><meta property="og:title" content="The `an` CLI"/><meta property="og:type" content="article"/><meta property="og:url" content="https://angular-native.github.io/reference/cli/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Every command, every flag and every default, read from the code — and the handful of asymmetries between them that are worth knowing before you hit one."/><meta property="og:site_name" content="angular-native"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Every command, every flag and every default, read from the code — and the handful of asymmetries between them that are worth knowing before you hit one."/><meta name="theme-color" content="#12151a" media="(prefers-color-scheme: dark)"/><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)"/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/_astro/common.B2GuNxy_.css"><style>@layer starlight.components{.card-grid:where(.astro-7qmvx3iy){grid-template-columns:100%;gap:1rem;display:grid}.card-grid:where(.astro-7qmvx3iy)>*{margin-top:0!important}@media (width>=50rem){.card-grid:where(.astro-7qmvx3iy){grid-template-columns:1fr 1fr;gap:1.5rem}.stagger:where(.astro-7qmvx3iy){--stagger-height:5rem;padding-bottom:var(--stagger-height)}.stagger:where(.astro-7qmvx3iy)>:nth-child(2n){transform:translateY(var(--stagger-height))}}starlight-tabs:where(.astro-scn3uvmv){display:block}.tablist-wrapper:where(.astro-scn3uvmv){overflow-x:auto}:where(.astro-scn3uvmv)[role=tablist]{border-bottom:2px solid var(--sl-color-gray-5);padding:0;list-style:none;display:flex}.tab:where(.astro-scn3uvmv){display:flex}.tab:where(.astro-scn3uvmv)>:where(.astro-scn3uvmv)[role=tab]{--sl-tab-color-border:var(--sl-color-gray-5);line-height:var(--sl-line-height-headings);box-shadow:0 2px 0 var(--sl-tab-color-border);color:var(--sl-color-gray-3);outline-offset:var(--sl-outline-offset-inside);overflow-wrap:initial;align-items:center;gap:.5rem;padding:.275rem 1.25rem;text-decoration:none;display:flex}.tab:where(.astro-scn3uvmv) :where(.astro-scn3uvmv)[role=tab][aria-selected=true]{--sl-tab-color-border:var(--sl-color-text-accent);color:var(--sl-color-white);font-weight:600}.tablist-wrapper:where(.astro-scn3uvmv)~[role=tabpanel]{margin-top:1rem}.sl-link-card:where(.astro-zaaezwya){border:1px solid var(--sl-color-gray-5);box-shadow:var(--sl-shadow-sm);border-radius:.5rem;grid-template-columns:1fr auto;gap:.5rem;padding:1rem;display:grid;position:relative}a:where(.astro-zaaezwya){line-height:var(--sl-line-height-headings);text-decoration:none}a:where(.astro-zaaezwya):before{content:"";position:absolute;inset:0}.stack:where(.astro-zaaezwya){flex-direction:column;gap:.5rem}.title:where(.astro-zaaezwya){color:var(--sl-color-white);font-weight:600;font-size:var(--sl-text-lg)}.description:where(.astro-zaaezwya){color:var(--sl-color-gray-3);line-height:1.5}.icon:where(.astro-zaaezwya){color:var(--sl-color-gray-3)}.sl-link-card:where(.astro-zaaezwya):hover{background:var(--sl-color-gray-7,var(--sl-color-gray-6));border-color:var(--sl-color-gray-2)}.sl-link-card:where(.astro-zaaezwya):hover .icon:where(.astro-zaaezwya){color:var(--sl-color-white)}.sl-steps{--bullet-size:calc(var(--sl-line-height) * 1rem);--bullet-margin:.375rem;counter-reset:steps-counter var(--sl-steps-start,0);padding-inline-start:0;list-style:none}.sl-steps>li{counter-increment:steps-counter;padding-inline-start:calc(var(--bullet-size) + 1rem);min-height:calc(var(--bullet-size) + var(--bullet-margin));padding-bottom:1px;position:relative}.sl-steps>li+li{margin-top:0}.sl-steps>li:before{content:counter(steps-counter);top:0;width:var(--bullet-size);height:var(--bullet-size);line-height:var(--bullet-size);font-size:var(--sl-text-xs);text-align:center;color:var(--sl-color-white);background-color:var(--sl-color-gray-6);box-shadow:inset 0 0 0 1px var(--sl-color-gray-5);border-radius:99rem;font-weight:600;position:absolute;inset-inline-start:0}.sl-steps>li:after{--guide-width:1px;content:"";top:calc(var(--bullet-size) + var(--bullet-margin));bottom:var(--bullet-margin);width:var(--guide-width);background-color:var(--sl-color-hairline-light);position:absolute;inset-inline-start:calc((var(--bullet-size) - var(--guide-width)) / 2)}}@layer starlight.content{.sl-steps>li>:first-child{--lh:calc(1em * var(--sl-line-height));--shift-y:calc(.5 * (var(--bullet-size) - var(--lh)));transform:translateY(var(--shift-y));margin-bottom:var(--shift-y)}.sl-steps>li>:first-child:where(h1,h2,h3,h4,h5,h6){--lh:calc(1em * var(--sl-line-height-headings))}@supports (--prop:1lh){.sl-steps>li>:first-child{--lh:1lh}}}
+@layer starlight.components{svg:where(.astro-hkc32dio){color:var(--sl-icon-color);font-size:var(--sl-icon-size,1em);width:1em;height:1em}}
+@layer starlight.components{.sl-link-button:where(.astro-dcqstdaq){font-size:var(--sl-text-sm);outline-offset:.25rem;border:1px solid #0000;border-radius:999rem;align-items:center;gap:.5em;padding:.4375rem 1.125rem;line-height:1.1875;text-decoration:none;display:inline-flex}.sl-link-button:where(.astro-dcqstdaq).primary{background:var(--sl-color-text-accent);border-color:var(--sl-color-text-accent);color:var(--sl-color-black)}.sl-link-button:where(.astro-dcqstdaq).primary:hover{color:var(--sl-color-black)}.sl-link-button:where(.astro-dcqstdaq).secondary{border-color:inherit;color:var(--sl-color-white)}.sl-link-button:where(.astro-dcqstdaq).minimal{color:var(--sl-color-white);padding-inline:0}.sl-link-button:where(.astro-dcqstdaq) svg{flex-shrink:0}@media (width>=50rem){.sl-link-button:where(.astro-dcqstdaq){font-size:var(--sl-text-base);padding:.9375rem 1.25rem}}.sl-markdown-content .sl-link-button:where(.astro-dcqstdaq){margin-inline-end:1rem}.sl-markdown-content .sl-link-button:where(.astro-dcqstdaq):not(:where(p *)){margin-block:1rem}}
+</style><script type="module" src="/_astro/page.Dwipeu-R.js"></script></head><body class="astro-g5ptsecz"><a class="sl-skip-link astro-qb7clj6f" href="#_top">Skip to content</a><div class="page sl-flex astro-yntsjkba"><header class="header astro-yntsjkba"><div class="header astro-by6fddyj"><div class="title-wrapper sl-flex astro-by6fddyj"><a href="/" class="site-title sl-flex astro-6rvad3va"><img class="light:sl-hidden print:hidden astro-6rvad3va" alt src="/_astro/logo-dark.DW_oTXuh.svg" width="38" height="24"><img class="dark:sl-hidden print:block astro-6rvad3va" alt src="/_astro/logo-light.B5c7Bpuj.svg" width="38" height="24"><span class="astro-6rvad3va" translate="no">angular-native</span></a></div><div class="sl-flex print:hidden astro-by6fddyj"><site-search class="astro-by6fddyj astro-b5kgnn7o" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-b5kgnn7o"><svg aria-hidden="true" class="astro-b5kgnn7o astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-b5kgnn7o" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-b5kgnn7o" style="display: none;"><kbd class="astro-b5kgnn7o">Ctrl</kbd><kbd class="astro-b5kgnn7o">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-b5kgnn7o"><div class="dialog-frame sl-flex astro-b5kgnn7o"><button data-close-modal class="sl-flex md:sl-hidden astro-b5kgnn7o">Cancel</button><div class="search-container astro-b5kgnn7o"><div id="starlight__search" class="astro-b5kgnn7o"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.B-Vh4ymV.js"></script></div><div class="sl-hidden md:sl-flex print:hidden right-group astro-by6fddyj"><div class="sl-flex social-icons astro-by6fddyj"><a href="https://github.com/angular-native/angular-native" rel="me" class="sl-flex astro-n2mnl6yq"><span class="sr-only astro-n2mnl6yq">GitHub</span><svg aria-hidden="true" class="astro-n2mnl6yq astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select language</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="/reference/cli/" class="astro-2z5xp7gb">English</option><option value="/es/reference/cli/" class="astro-2z5xp7gb">Español</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super(),matchMedia(`(min-width: 50em)`).addEventListener(`change`,()=>this.hidePopover()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><sl-sidebar-state-persist data-hash="0yhobux" class="astro-ipdry5cl"><script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script><ul class="top-level astro-rmhv4bp6"><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">Guide</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="0"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><a href="/guide/quick-start/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Quick start</span></a></li><li class="astro-rmhv4bp6"><a href="/guide/installing/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Installing the CLI</span></a></li><li class="astro-rmhv4bp6"><a href="/guide/how-it-works/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">How it works</span></a></li><li class="astro-rmhv4bp6"><a href="/guide/existing-angular-project/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Taking an Angular project to mobile</span></a></li><li class="astro-rmhv4bp6"><a href="/guide/native-wrapper/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Props and the native wrapper</span></a></li><li class="astro-rmhv4bp6"><a href="/guide/gestures-and-animation/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Gestures and animation</span></a></li><li class="astro-rmhv4bp6"><a href="/guide/navigation/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Navigation and the router</span></a></li><li class="astro-rmhv4bp6"><a href="/guide/lists/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Long lists</span></a></li><li class="astro-rmhv4bp6"><a href="/guide/safe-area-and-keyboard/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">The safe area and the keyboard</span></a></li><li class="astro-rmhv4bp6"><a href="/guide/testing/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Checking it without a device</span></a></li><li class="astro-rmhv4bp6"><a href="/guide/signing-and-distribution/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Signing and distribution</span></a></li></ul></details></li><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">Reference</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="1"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">components</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="2"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><a href="/reference/components/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Components</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-view/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-view</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-text/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-text</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-image/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-image</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-scroll-view/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-scroll-view</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-text-input/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-text-input</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-textarea/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-textarea</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-button/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-button</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-switch/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-switch</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-slider/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-slider</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-stepper/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-stepper</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-segmented-control/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-segmented-control</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-select/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-select</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-date-picker/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-date-picker</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-search-bar/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-search-bar</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-tab-bar/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-tab-bar</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-navigation-bar/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-navigation-bar</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-stack-view/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-stack-view</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-modal/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-modal</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-alert/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-alert</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-icon/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-icon</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-progress-bar/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-progress-bar</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-activity-indicator/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-activity-indicator</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-web-view/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-web-view</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-map-view/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-map-view</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-video-view/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-video-view</span></a></li></ul></details></li><li class="astro-rmhv4bp6"><a href="/reference/styles/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Styles and layout</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/cli/" aria-current="page" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">The an CLI</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/native-modules/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Native modules</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/built-in-modules/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Built-in modules</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/icons/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Icons</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/events/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Events</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/protocol/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">The binary protocol</span></a></li></ul></details></li><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">Platforms</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="3"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><a href="/platforms/ios/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">iOS · iPadOS</span></a></li><li class="astro-rmhv4bp6"><a href="/platforms/android/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Android</span></a></li><li class="astro-rmhv4bp6"><a href="/platforms/macos/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">macOS</span></a></li><li class="astro-rmhv4bp6"><a href="/platforms/tvos/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">tvOS</span></a></li><li class="astro-rmhv4bp6"><a href="/platforms/visionos/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">visionOS</span></a></li><li class="astro-rmhv4bp6"><a href="/platforms/watchos/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">watchOS</span></a></li><li class="astro-rmhv4bp6"><a href="/platforms/wearos/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Wear OS</span></a></li></ul></details></li><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">Accessibility</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="4"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><a href="/accessibility/overview/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">The contract</span></a></li><li class="astro-rmhv4bp6"><a href="/accessibility/apple/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Accessibility on Apple</span></a></li><li class="astro-rmhv4bp6"><a href="/accessibility/android/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Accessibility on Android</span></a></li></ul></details></li><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">Extending it</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="5"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">plugins</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="6"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><a href="/extending/plugins/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Plugins</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/plugins/preferences/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">preferences</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/plugins/clipboard/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">clipboard</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/plugins/keychain/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">keychain</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/plugins/biometrics/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">biometrics</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/plugins/geolocation/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">geolocation</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/plugins/camera/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">camera</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/plugins/notifications/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">notifications</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/plugins/updater/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">updater</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/plugins/barcode/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">barcode</span></a></li></ul></details></li><li class="astro-rmhv4bp6"><a href="/extending/plugin-permissions/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Permissions a plugin needs</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/biometrics-and-keychain/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Biometrics and keychain</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/plugins-on-the-mac-and-the-watch/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Plugins on the Mac and the watch</span></a></li></ul></details></li></ul><script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script></sl-sidebar-state-persist><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"><a href="https://github.com/angular-native/angular-native" rel="me" class="sl-flex astro-n2mnl6yq"><span class="sr-only astro-n2mnl6yq">GitHub</span><svg aria-hidden="true" class="astro-n2mnl6yq astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select language</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="/reference/cli/" class="astro-2z5xp7gb">English</option><option value="/es/reference/cli/" class="astro-2z5xp7gb">Español</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><aside class="right-sidebar-container print:hidden astro-lrzkfocr"><div class="right-sidebar astro-lrzkfocr"><div class="lg:sl-hidden astro-qok35upx"><mobile-starlight-toc data-min-h="2" data-max-h="3" class="astro-66cqc7ze"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-66cqc7ze"><details id="starlight__mobile-toc" class="astro-66cqc7ze"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-66cqc7ze"><span class="toggle sl-flex astro-66cqc7ze">On this page<svg aria-hidden="true" class="caret astro-66cqc7ze astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-66cqc7ze"></span></summary><div class="dropdown astro-66cqc7ze"><ul class="isMobile astro-jugkfwgx" style="--depth: 0;"><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#_top" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Overview</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#an-init" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">an init</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#an-add" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">an add</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#appappearance" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">app.appearance</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#an-env" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">an env</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#the-build-and-run-commands" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">The build-and-run commands</span></a><ul class="isMobile astro-jugkfwgx" style="--depth: 1;"><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#picking-a-device" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">Picking a device</span></a></li><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#toolchain-per-platform" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">Toolchain per platform</span></a></li><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#where-things-land" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">Where things land</span></a></li></ul></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#an-plugins" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">an plugins</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#an-dev" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">an dev</span></a><ul class="isMobile astro-jugkfwgx" style="--depth: 1;"><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#what-a-save-actually-does" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">What a save actually does</span></a></li></ul></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#environment" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Environment</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#what-stops-a-build" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">What stops a build</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#two-things-to-know-before-you-hit-them" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Two things to know before you hit them</span></a></li></ul></div></details></nav></mobile-starlight-toc><script type="module" src="/_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.BcSo_yiZ.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-qok35upx"><div class="sl-container astro-qok35upx"><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">On this page</h2><ul class="astro-jugkfwgx" style="--depth: 0;"><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#_top" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Overview</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#an-init" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">an init</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#an-add" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">an add</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#appappearance" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">app.appearance</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#an-env" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">an env</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#the-build-and-run-commands" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">The build-and-run commands</span></a><ul class="astro-jugkfwgx" style="--depth: 1;"><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#picking-a-device" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">Picking a device</span></a></li><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#toolchain-per-platform" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">Toolchain per platform</span></a></li><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#where-things-land" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">Where things land</span></a></li></ul></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#an-plugins" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">an plugins</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#an-dev" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">an dev</span></a><ul class="astro-jugkfwgx" style="--depth: 1;"><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#what-a-save-actually-does" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">What a save actually does</span></a></li></ul></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#environment" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Environment</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#what-stops-a-build" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">What stops a build</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#two-things-to-know-before-you-hit-them" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Two things to know before you hit them</span></a></li></ul></nav></starlight-toc><script type="module" src="/_astro/TableOfContents.astro_astro_type_script_index_0_lang.Csloo1VZ.js"></script></div></div></div></aside><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="en" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="an-pagehead"><p class="an-pagehead__label">Reference</p><h1 id="_top" data-page-title>The `an` CLI</h1><p class="an-pagehead__lead">Every command, every flag and every default, read from the code — and the handful of asymmetries between them that are worth knowing before you hit one.</p></div></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><p><code dir="auto">an</code> is the whole toolchain. There is no <code dir="auto">.xcodeproj</code>, no Gradle and no
+generated project to keep in sync: it drives <code dir="auto">ngc</code>, esbuild, <code dir="auto">cargo</code>, <code dir="auto">swiftc</code>,
+<code dir="auto">aapt2</code>, <code dir="auto">javac</code>, <code dir="auto">d8</code> and <code dir="auto">apksigner</code> itself, and the only file it leaves in
+your repository is a small manifest.</p>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.00uqy.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#80A665;--1:#4B7231">cargo</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">install</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C99076;--1:#995728">--path</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">crates/an-cli</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="cargo install --path crates/an-cli"><div></div></button></div></figure></div>
+<p>There are <strong>thirteen commands</strong> and no nested subcommands. Every option is
+long-form — there are no short flags anywhere in the CLI.</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">an init [DIR]</code></td>
+<td>Sets an Angular project up.</td>
+</tr>
+<tr>
+<td><code dir="auto">an add &lt;PLATFORM&gt;</code></td>
+<td>Creates the project’s platform directory.</td>
+</tr>
+<tr>
+<td><code dir="auto">an build [APP]</code></td>
+<td>Compiles and bundles the JS, and stops there.</td>
+</tr>
+<tr>
+<td><code dir="auto">an ios [APP]</code></td>
+<td>Builds and runs on the iOS simulator.</td>
+</tr>
+<tr>
+<td><code dir="auto">an tvos [APP]</code></td>
+<td>The Apple TV simulator.</td>
+</tr>
+<tr>
+<td><code dir="auto">an visionos [APP]</code></td>
+<td>The Vision Pro simulator.</td>
+</tr>
+<tr>
+<td><code dir="auto">an watchos [APP]</code></td>
+<td>The Apple Watch simulator.</td>
+</tr>
+<tr>
+<td><code dir="auto">an macos [APP]</code></td>
+<td>Builds a <code dir="auto">.app</code> and opens it on this machine.</td>
+</tr>
+<tr>
+<td><code dir="auto">an android [APP]</code></td>
+<td>Builds an APK and installs it on a connected phone.</td>
+</tr>
+<tr>
+<td><code dir="auto">an wearos [APP]</code></td>
+<td>The same, for a device shaped like a watch.</td>
+</tr>
+<tr>
+<td><code dir="auto">an env &lt;PLATFORM&gt;</code></td>
+<td>Prints the environment a cross-compilation needs.</td>
+</tr>
+<tr>
+<td><code dir="auto">an plugins [APP]</code></td>
+<td>Lists the plugins an app pulls in, and optionally checks one platform.</td>
+</tr>
+<tr>
+<td><code dir="auto">an dev [APP]</code></td>
+<td>Serves the bundle, watches, and hot-refreshes the running app.</td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h2"><h2 id="an-init"><code dir="auto">an init</code></h2><a class="sl-anchor-link" href="#an-init"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “an init”</span></a></div>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#80A665;--1:#4B7231">an</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">init</span><span style="--0:#DBD7CAEE;--1:#393A34"> [DIR] </span><span style="--0:#8B8B8B;--1:#686868">[</span><span style="--0:#DBD7CAEE;--1:#393A34">--name &lt;NAME&gt;</span><span style="--0:#8B8B8B;--1:#686868">]</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#8B8B8B;--1:#686868">[</span><span style="--0:#DBD7CAEE;--1:#393A34">--id &lt;ID&gt;</span><span style="--0:#8B8B8B;--1:#686868">]</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#8B8B8B;--1:#686868">[</span><span style="--0:#DBD7CAEE;--1:#393A34">--force</span><span style="--0:#8B8B8B;--1:#686868">]</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="an init [DIR] [--name <NAME>] [--id <ID>] [--force]"><div></div></button></div></figure></div>
+<table>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">DIR</code></td>
+<td>the current directory</td>
+</tr>
+<tr>
+<td><code dir="auto">--name</code></td>
+<td>the previous <code dir="auto">app.name</code>, else the PascalCase of <code dir="auto">package.json</code>’s <code dir="auto">name</code></td>
+</tr>
+<tr>
+<td><code dir="auto">--id</code></td>
+<td>the previous <code dir="auto">app.bundleId</code>, else <code dir="auto">dev.angularnative.&lt;slug&gt;</code></td>
+</tr>
+<tr>
+<td><code dir="auto">--force</code></td>
+<td>off — rewrites only what <code dir="auto">an</code> generates, never your code</td>
+</tr>
+</tbody>
+</table>
+<p>It refuses to run unless there is an <code dir="auto">angular.json</code> <strong>and</strong> <code dir="auto">@angular/core</code> in
+the dependencies. The bundle id must be at least two dot-separated segments,
+each starting with an ASCII letter and containing only ASCII alphanumerics: no
+hyphens and no underscores.</p>
+<p>What it leaves behind:</p>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">angular-native.json</code></td>
+<td>The manifest: name, bundle id, entry, platforms. Always rewritten.</td>
+</tr>
+<tr>
+<td><code dir="auto">.angular-native/tsconfig.json</code></td>
+<td>The native build’s tsconfig — full AOT, strict templates, <code dir="auto">types: []</code>. <code dir="auto">--force</code> rewrites this.</td>
+</tr>
+<tr>
+<td><code dir="auto">src/main.native.ts</code></td>
+<td>The native entry point. <strong>Never</strong> rewritten, <code dir="auto">--force</code> or not.</td>
+</tr>
+<tr>
+<td><code dir="auto">src/app/app-native.ts</code></td>
+<td>A root component to start from. Never rewritten either.</td>
+</tr>
+<tr>
+<td><code dir="auto">.angular-native/vendor/*.tgz</code></td>
+<td>The two framework packages, compiled with <em>your</em> <code dir="auto">ngc</code> in partial mode and packed. Meant to be committed.</td>
+</tr>
+<tr>
+<td><code dir="auto">.gitignore</code></td>
+<td>One line appended, <code dir="auto">/.angular-native/build/</code>, and only if it is not already there.</td>
+</tr>
+<tr>
+<td><code dir="auto">package.json</code></td>
+<td>The two vendored packages installed by path; <code dir="auto">@angular/compiler-cli</code> added as a dev dependency if no <code dir="auto">ngc</code> is reachable.</td>
+</tr>
+</tbody>
+</table>
+<p>Everything that can fail runs before the manifest is written, so a failed <code dir="auto">init</code>
+leaves the project uninitialised rather than half-initialised. Anything that
+already exists is left alone and reported as such.</p>
+<p><strong>It touches neither <code dir="auto">angular.json</code> nor <code dir="auto">src/main.ts</code> nor the web
+<code dir="auto">tsconfig.json</code>.</strong> <code dir="auto">ng build</code> and <code dir="auto">ng serve</code> keep working exactly as before.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="an-add"><code dir="auto">an add</code></h2><a class="sl-anchor-link" href="#an-add"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “an add”</span></a></div>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#80A665;--1:#4B7231">an</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">add</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">&lt;PLATFORM&gt;</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="an add <PLATFORM>"><div></div></button></div></figure></div>
+<p>The platform is required, and there are exactly five: <strong><code dir="auto">ios</code>, <code dir="auto">tvos</code>,
+<code dir="auto">visionos</code>, <code dir="auto">macos</code>, <code dir="auto">android</code></strong>. There is no <code dir="auto">an add watchos</code> and no
+<code dir="auto">an add wearos</code>.</p>
+<p>Each creates a directory with exactly one file in it — <code dir="auto">ios/Info.plist</code>,
+<code dir="auto">tvos/Info.plist</code>, <code dir="auto">visionos/Info.plist</code>, <code dir="auto">macos/Info.plist</code>,
+<code dir="auto">android/AndroidManifest.xml</code> — derived from the shell’s, with the name and the
+bundle id substituted in. If the file is already there it is left alone; either
+way the platform is recorded in <code dir="auto">angular-native.json</code>.</p>
+<p><code dir="auto">macos</code> decorates both the way <code dir="auto">tvos</code> and <code dir="auto">visionos</code> do: an app called <code dir="auto">MyApp</code>
+becomes <code dir="auto">MyAppMac</code> with <code dir="auto">.mac</code> on the end of its identifier. One project builds
+for the phone and for the desktop from the same manifest, and two bundles
+sharing an identifier are one app as far as the system is concerned — one
+container, one set of defaults, one keychain partition.</p>
+<p>Two things worth knowing:</p>
+<ul>
+<li><code dir="auto">an add</code> only works <strong>inside a project</strong>. Run in the monorepo it errors.</li>
+<li>A project targeting Wear OS needs <code dir="auto">android/AndroidManifest.wear.xml</code>, and
+<code dir="auto">an add</code> never creates it: write it by hand, or let the build fall back to the
+shell’s. <code dir="auto">an add android</code> is what creates the directory it goes in.</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="appappearance"><code dir="auto">app.appearance</code></h2><a class="sl-anchor-link" href="#appappearance"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “app.appearance”</span></a></div>
+<p>One word in <code dir="auto">angular-native.json</code>, and every platform is told in its own:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="json"><code><div class="ec-line"><div class="code"><span style="--0:#C98A7DE4;--1:#96574AFD">"</span><span style="--0:#C98A7D;--1:#96574A">app</span><span style="--0:#C98A7DE4;--1:#96574AFD">"</span><span style="--0:#DBD7CAEE;--1:#393A34">: </span><span style="--0:#8B8B8B;--1:#686868">{</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#B8A965CD;--1:#786713FD">"</span><span style="--0:#B8A965;--1:#786713">name</span><span style="--0:#B8A965CD;--1:#786713FD">"</span><span style="--0:#8B8B8B;--1:#686868">:</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7DE4;--1:#96574AFD">"</span><span style="--0:#C98A7D;--1:#96574A">MyApp</span><span style="--0:#C98A7DE4;--1:#96574AFD">"</span><span style="--0:#8B8B8B;--1:#686868">,</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#B8A965CD;--1:#786713FD">"</span><span style="--0:#B8A965;--1:#786713">bundleId</span><span style="--0:#B8A965CD;--1:#786713FD">"</span><span style="--0:#8B8B8B;--1:#686868">:</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7DE4;--1:#96574AFD">"</span><span style="--0:#C98A7D;--1:#96574A">com.example.myapp</span><span style="--0:#C98A7DE4;--1:#96574AFD">"</span><span style="--0:#8B8B8B;--1:#686868">,</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#B8A965CD;--1:#786713FD">"</span><span style="--0:#B8A965;--1:#786713">appearance</span><span style="--0:#B8A965CD;--1:#786713FD">"</span><span style="--0:#8B8B8B;--1:#686868">:</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7DE4;--1:#96574AFD">"</span><span style="--0:#C98A7D;--1:#96574A">system</span><span style="--0:#C98A7DE4;--1:#96574AFD">"</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#8B8B8B;--1:#686868">}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&quot;app&quot;: { &quot;name&quot;: &quot;MyApp&quot;, &quot;bundleId&quot;: &quot;com.example.myapp&quot;, &quot;appearance&quot;: &quot;system&quot; }"><div></div></button></div></figure></div>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">system</code></td>
+<td>Follow the device. Light phone, light app. <strong>The default.</strong></td>
+</tr>
+<tr>
+<td><code dir="auto">light</code></td>
+<td>Always light, whatever the system says.</td>
+</tr>
+<tr>
+<td><code dir="auto">dark</code></td>
+<td>Always dark.</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Platform</th>
+<th>How it is told</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Android, Wear OS</td>
+<td><code dir="auto">&lt;meta-data&gt;</code> in the merged manifest; the Activity turns it into <code dir="auto">setDefaultNightMode</code> before <code dir="auto">super.onCreate</code>.</td>
+</tr>
+<tr>
+<td>iOS, tvOS, visionOS</td>
+<td><code dir="auto">UIUserInterfaceStyle</code> in the <code dir="auto">Info.plist</code> — <code dir="auto">system</code> is the key’s <strong>absence</strong>, which is what UIKit already does.</td>
+</tr>
+<tr>
+<td>macOS</td>
+<td>The same plist key, read back by the shell into <code dir="auto">NSApp.appearance</code>, because AppKit does not act on a UIKit key by itself.</td>
+</tr>
+<tr>
+<td>watchOS</td>
+<td>Ignored. A watch has no light mode worth having: the screen is OLED and what is not painted draws no power.</td>
+</tr>
+</tbody>
+</table>
+<p>A word that is none of the three stops the build and names the three that are
+not — a typo that silently meant <code dir="auto">system</code> would be a setting that does nothing
+for a reason nobody can see.</p>
+<p>What it does <strong>not</strong> do is paint the screen. That is the app’s own background,
+and the appearance is what the system’s own controls follow: dialogs, date
+pickers, selection handles. An app that follows the device has to paint with
+the device too.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="an-env"><code dir="auto">an env</code></h2><a class="sl-anchor-link" href="#an-env"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “an env”</span></a></div>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#8B8B8B;--1:#686868">$(</span><span style="--0:#80A665;--1:#4B7231">an</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">env</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">android</span><span style="--0:#8B8B8B;--1:#686868">)</span><span style="--0:#DBD7CAEE;--1:#393A34"> cargo build --target aarch64-linux-android -p an-android</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="$(an env android) cargo build --target aarch64-linux-android -p an-android"><div></div></button></div></figure></div>
+<p>Nobody needs this for an ordinary build: <code dir="auto">an android</code> sets the same things on
+the <code dir="auto">cargo</code> it spawns. It exists because those settings stopped being a
+committed <code dir="auto">.cargo/config.toml</code> — they hold this machine’s NDK path, its
+version and this host’s name, none of which belongs in a file everybody clones
+— and something still has to hand them to a <code dir="auto">cargo</code> that is not <code dir="auto">an</code>’s: a
+check script, a CI job, an editor cross-checking.</p>
+<p>It prints an <strong><code dir="auto">env</code> prefix</strong> rather than a list of <code dir="auto">export</code>s, and that is not
+a style choice. Most of the names carry the target triple with its hyphens, and
+a shell cannot export one of those — <code dir="auto">export CC_aarch64-linux-android=…</code> is
+<code dir="auto">not a valid identifier</code>. Nor can the hyphens be swapped for underscores to
+suit it: <code dir="auto">cc</code> would take either, and <strong>bindgen reads only the hyphenated
+form</strong>, so a build that looked fixed would go back to asking Apple’s clang to
+compile for Android and failing to find <code dir="auto">stdio.h</code>. <code dir="auto">env</code> takes <code dir="auto">NAME=VALUE</code> as
+arguments and has no opinion about identifiers.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="the-build-and-run-commands">The build-and-run commands</h2><a class="sl-anchor-link" href="#the-build-and-run-commands"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “The build-and-run commands”</span></a></div>
+<p>They all share the same shape.</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th><code dir="auto">APP</code> default</th>
+<th><code dir="auto">--device</code> default</th>
+<th style="text-align: center"><code dir="auto">--release</code></th>
+<th style="text-align: center"><code dir="auto">--no-launch</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">an build</code></td>
+<td><code dir="auto">examples/hello-angular</code></td>
+<td>—</td>
+<td style="text-align: center">✓</td>
+<td style="text-align: center">—</td>
+</tr>
+<tr>
+<td><code dir="auto">an ios</code></td>
+<td><code dir="auto">examples/hello-angular</code></td>
+<td><code dir="auto">iPhone 17 Pro</code></td>
+<td style="text-align: center">✓</td>
+<td style="text-align: center">✓</td>
+</tr>
+<tr>
+<td><code dir="auto">an tvos</code></td>
+<td><code dir="auto">examples/hello-tv</code></td>
+<td><code dir="auto">Apple TV 4K (3rd generation)</code></td>
+<td style="text-align: center">✓</td>
+<td style="text-align: center">✓</td>
+</tr>
+<tr>
+<td><code dir="auto">an visionos</code></td>
+<td><code dir="auto">examples/hello-vision</code></td>
+<td><code dir="auto">Apple Vision Pro</code></td>
+<td style="text-align: center">✓</td>
+<td style="text-align: center">✓</td>
+</tr>
+<tr>
+<td><code dir="auto">an watchos</code></td>
+<td><code dir="auto">examples/hello-watch</code></td>
+<td><code dir="auto">Apple Watch Series 11 (46mm)</code></td>
+<td style="text-align: center">✓</td>
+<td style="text-align: center"><strong>—</strong></td>
+</tr>
+<tr>
+<td><code dir="auto">an macos</code></td>
+<td><code dir="auto">examples/controls</code></td>
+<td><strong>—</strong></td>
+<td style="text-align: center">✓</td>
+<td style="text-align: center">✓</td>
+</tr>
+<tr>
+<td><code dir="auto">an android</code></td>
+<td><code dir="auto">examples/hello-angular</code></td>
+<td><strong>—</strong></td>
+<td style="text-align: center">✓</td>
+<td style="text-align: center">✓</td>
+</tr>
+<tr>
+<td><code dir="auto">an wearos</code></td>
+<td><code dir="auto">examples/hello-wear</code></td>
+<td>an <code dir="auto">adb</code> serial, no default</td>
+<td style="text-align: center">✓</td>
+<td style="text-align: center">✓</td>
+</tr>
+</tbody>
+</table>
+<p>And the flags that produce something for a device or a store. They are on the
+platform’s own subcommand rather than in a command of their own, because they
+change what that build <em>is</em>, not what happens afterwards:</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Flag</th>
+<th>What comes out</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">an ios</code></td>
+<td><code dir="auto">--physical</code></td>
+<td>Signed for a connected iPhone or iPad, installed with <code dir="auto">devicectl</code>. <code dir="auto">--device</code> then names the device rather than a simulator.</td>
+</tr>
+<tr>
+<td><code dir="auto">an ios</code></td>
+<td><code dir="auto">--archive</code></td>
+<td><code dir="auto">&lt;Name&gt;.xcarchive</code> and <code dir="auto">&lt;Name&gt;.ipa</code>. Implies <code dir="auto">--release</code>. Conflicts with <code dir="auto">--physical</code>.</td>
+</tr>
+<tr>
+<td><code dir="auto">an android</code>, <code dir="auto">an wearos</code></td>
+<td><code dir="auto">--sign</code></td>
+<td>Signed with the release keystore instead of the debug one.</td>
+</tr>
+<tr>
+<td><code dir="auto">an android</code>, <code dir="auto">an wearos</code></td>
+<td><code dir="auto">--aab</code></td>
+<td>An Android App Bundle. Implies <code dir="auto">--sign</code>; never installs.</td>
+</tr>
+<tr>
+<td><code dir="auto">an android</code>, <code dir="auto">an wearos</code></td>
+<td><code dir="auto">--abi</code></td>
+<td>The ABIs inside it: <code dir="auto">arm64-v8a</code>, <code dir="auto">x86_64</code>, <code dir="auto">armeabi-v7a</code>, repeated or comma-separated. Replaces the default rather than adding to it.</td>
+</tr>
+<tr>
+<td><code dir="auto">an macos</code></td>
+<td><code dir="auto">--sign</code></td>
+<td>Developer ID signature with the hardened runtime, instead of ad hoc.</td>
+</tr>
+<tr>
+<td><code dir="auto">an macos</code></td>
+<td><code dir="auto">--notarize</code></td>
+<td>That, submitted to Apple, waited on and stapled. Implies <code dir="auto">--sign</code>.</td>
+</tr>
+<tr>
+<td><code dir="auto">an macos</code></td>
+<td><code dir="auto">--dmg</code></td>
+<td>A <code dir="auto">.dmg</code>, signed and notarised in its own right when those are on.</td>
+</tr>
+</tbody>
+</table>
+<p>All of them need settings that live in <code dir="auto">angular-native.json</code>, and every one of
+them fails before anything is compiled when a credential is missing. See
+<a href="/guide/signing-and-distribution/">Signing and distribution</a>, which is also the
+page that says what to get from Apple and Google.</p>
+<p><code dir="auto">--release</code> and <code dir="auto">--sign</code> are separate on purpose: the first is about the
+compiler, the second about the key. A build for Google Play wants both.</p>
+<p><code dir="auto">--abi</code> defaults to different things for the two artefacts. An APK gets
+<code dir="auto">arm64-v8a</code> alone, because every extra ABI is another cross-compilation of the
+core and the dev loop pays it on every save. A bundle gets <code dir="auto">arm64-v8a</code> and
+<code dir="auto">x86_64</code>, because Play splits a bundle by ABI — nobody downloads the slice they
+cannot run, and a bundle without <code dir="auto">x86_64</code> is one the store does not offer to a
+Chromebook or an emulator. <code dir="auto">armeabi-v7a</code> is in neither: it is opt-in.
+<a href="/platforms/android/#which-abis">Android · Which ABIs</a> says why.</p>
+<p>Four asymmetries in the table above are real and not typos:</p>
+<ul>
+<li><strong><code dir="auto">an watchos</code> has no <code dir="auto">--no-launch</code>.</strong> It is the only build command without
+one.</li>
+<li><strong><code dir="auto">an macos</code> has no <code dir="auto">--device</code></strong> because there is no simulator: the <code dir="auto">.app</code>
+runs on the machine that compiled it.</li>
+<li><strong><code dir="auto">an android</code> has no <code dir="auto">--device</code> either.</strong> The device is picked by shape.
+<code dir="auto">an wearos</code> does take one, because a watch is identified by an <code dir="auto">adb</code> serial
+rather than by a simulator name.</li>
+<li><strong><code dir="auto">an build</code> stops after the bundle</strong> and prints its path on standard output.</li>
+</ul>
+<p><code dir="auto">--no-launch</code> builds the artefact, prints where it landed, and returns.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="picking-a-device">Picking a device</h3><a class="sl-anchor-link" href="#picking-a-device"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Picking a device”</span></a></div>
+<p>On Apple platforms <code dir="auto">--device</code> is a simulator name. The lookup parses
+<code dir="auto">xcrun simctl list devices available -j</code> as JSON — deliberately, because
+<code dir="auto">simctl</code> prints the udid before the name and grepping would return the
+neighbour’s — filters runtimes by family, prefers a booted one, and otherwise
+takes the first match. If no runtime of that family exists at all, it says so
+and gives you the download command rather than claiming it cannot find a device.</p>
+<p>On Android the device is picked by asking <code dir="auto">ro.build.characteristics</code>: <code dir="auto">watch</code>
+selects the Wear device, anything else the phone. With one device of the right
+shape it is used; with none or several you are asked to pass <code dir="auto">--device</code>, and a
+<code dir="auto">--device</code> of the wrong shape is refused. That last check matters: a watch APK
+installs on a phone without complaint, and starts, and paints, and the only
+thing it does not do is be a watch app.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="toolchain-per-platform">Toolchain per platform</h3><a class="sl-anchor-link" href="#toolchain-per-platform"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Toolchain per platform”</span></a></div>
+<table>
+<thead>
+<tr>
+<th>Platform</th>
+<th>Rust target</th>
+<th>Crate</th>
+<th>Toolchain</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>iOS · iPadOS</td>
+<td><code dir="auto">aarch64-apple-ios-sim</code></td>
+<td><code dir="auto">an-ios</code></td>
+<td>stable</td>
+</tr>
+<tr>
+<td>tvOS</td>
+<td><code dir="auto">aarch64-apple-tvos-sim</code></td>
+<td><code dir="auto">an-ios</code></td>
+<td><strong>nightly + <code dir="auto">rust-src</code></strong></td>
+</tr>
+<tr>
+<td>visionOS</td>
+<td><code dir="auto">aarch64-apple-visionos-sim</code></td>
+<td><code dir="auto">an-ios</code></td>
+<td><strong>nightly + <code dir="auto">rust-src</code></strong></td>
+</tr>
+<tr>
+<td>watchOS</td>
+<td><code dir="auto">aarch64-apple-watchos-sim</code></td>
+<td><code dir="auto">an-watch</code></td>
+<td><strong>nightly + <code dir="auto">rust-src</code></strong></td>
+</tr>
+<tr>
+<td>macOS</td>
+<td><code dir="auto">aarch64-apple-darwin</code></td>
+<td><code dir="auto">an-macos</code></td>
+<td>stable</td>
+</tr>
+<tr>
+<td>Android · Wear OS</td>
+<td><code dir="auto">aarch64-linux-android</code></td>
+<td><code dir="auto">an-android</code></td>
+<td>stable</td>
+</tr>
+</tbody>
+</table>
+<p>The three nightly targets are tier 3 and ship no prebuilt <code dir="auto">std</code>, so it is built
+on the spot with <code dir="auto">-Z build-std=std,panic_abort</code>. A cargo failure on one of them
+is re-reported with the two <code dir="auto">rustup</code> commands you need, rather than as a wall of
+build-std output.</p>
+<p>Everything Apple goes through <code dir="auto">xcrun swiftc</code> in a single invocation over
+<code dir="auto">shells/&lt;platform&gt;/Sources</code> plus <code dir="auto">shells/shared</code>, sorted for reproducibility.
+There is no <code dir="auto">.xcodeproj</code> anywhere. macOS names <code dir="auto">WebKit</code>, <code dir="auto">MapKit</code>,
+<code dir="auto">AVFoundation</code> and <code dir="auto">AVKit</code> explicitly on the link line, because a Rust
+<code dir="auto">staticlib</code> does not carry its framework dependencies through — without them the
+app builds, signs, launches and then dies on the first view of that class.</p>
+<p>Android has no Gradle: <code dir="auto">aapt2 compile</code> and <code dir="auto">link</code>, <code dir="auto">javac</code>, <code dir="auto">d8</code>, <code dir="auto">zip</code>,
+<code dir="auto">zipalign</code> and <code dir="auto">apksigner</code>, with a debug keystore created on first use. The
+Material 3 dependencies are resolved once by
+<code dir="auto">python3 scripts/fetch-android-deps.py</code> and
+<code dir="auto">python3 scripts/prepare-android-deps.py</code>.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="where-things-land">Where things land</h3><a class="sl-anchor-link" href="#where-things-land"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Where things land”</span></a></div>
+<p>The build root is <code dir="auto">build/</code> inside the monorepo and <code dir="auto">&lt;project&gt;/.angular-native/build/</code>
+in your own project.</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#dbd7caee;--1:#393a34">build/js/…                        ngc output</span></div></div><div class="ec-line"><div class="code"><span style="--0:#dbd7caee;--1:#393a34">build/bundle/…/main.js            the bundle</span></div></div><div class="ec-line"><div class="code"><span style="--0:#dbd7caee;--1:#393a34">build/ios/&lt;Name&gt;.app</span></div></div><div class="ec-line"><div class="code"><span style="--0:#dbd7caee;--1:#393a34">build/tvos/&lt;Name&gt;TV.app</span></div></div><div class="ec-line"><div class="code"><span style="--0:#dbd7caee;--1:#393a34">build/visionos/&lt;Name&gt;Vision.app</span></div></div><div class="ec-line"><div class="code"><span style="--0:#dbd7caee;--1:#393a34">build/watchos/AngularNativeWatch.app</span></div></div><div class="ec-line"><div class="code"><span style="--0:#dbd7caee;--1:#393a34">build/macos/AngularNativeMac.app</span></div></div><div class="ec-line"><div class="code"><span style="--0:#dbd7caee;--1:#393a34">build/android/&lt;AppName&gt;.apk       and &lt;AppName&gt;-wear.apk for Wear</span></div></div><div class="ec-line"><div class="code"><span style="--0:#dbd7caee;--1:#393a34">build/ios/&lt;Name&gt;.xcarchive        --archive</span></div></div><div class="ec-line"><div class="code"><span style="--0:#dbd7caee;--1:#393a34">build/ios/&lt;Name&gt;.ipa              --archive</span></div></div><div class="ec-line"><div class="code"><span style="--0:#dbd7caee;--1:#393a34">build/macos/&lt;Name&gt;.dmg            --dmg</span></div></div><div class="ec-line"><div class="code"><span style="--0:#dbd7caee;--1:#393a34">build/android/&lt;AppName&gt;-release.apk   --sign</span></div></div><div class="ec-line"><div class="code"><span style="--0:#dbd7caee;--1:#393a34">build/android/&lt;AppName&gt;-release.aab   --aab</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="build/js/…                        ngc outputbuild/bundle/…/main.js            the bundlebuild/ios/<Name>.appbuild/tvos/<Name>TV.appbuild/visionos/<Name>Vision.appbuild/watchos/AngularNativeWatch.appbuild/macos/AngularNativeMac.appbuild/android/<AppName>.apk       and <AppName>-wear.apk for Wearbuild/ios/<Name>.xcarchive        --archivebuild/ios/<Name>.ipa              --archivebuild/macos/<Name>.dmg            --dmgbuild/android/<AppName>-release.apk   --signbuild/android/<AppName>-release.aab   --aab"><div></div></button></div></figure></div>
+<p>The release artefacts are named apart from the debug ones on purpose: a signed
+build quietly overwriting the APK your emulator has been running is how the
+wrong file reaches a store.</p>
+<p>tvOS and visionOS get a name and a bundle-id suffix — <code dir="auto">TV</code>/<code dir="auto">.tv</code> and
+<code dir="auto">Vision</code>/<code dir="auto">.vision</code> — so that building one does not overwrite the other’s <code dir="auto">.app</code>
+and installing one does not uninstall the other.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="an-plugins"><code dir="auto">an plugins</code></h2><a class="sl-anchor-link" href="#an-plugins"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “an plugins”</span></a></div>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#80A665;--1:#4B7231">an</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">plugins</span><span style="--0:#DBD7CAEE;--1:#393A34"> [APP] </span><span style="--0:#8B8B8B;--1:#686868">[</span><span style="--0:#DBD7CAEE;--1:#393A34">--platform ios</span><span style="--0:#CB7676;--1:#9E5252">|</span><span style="--0:#DBD7CAEE;--1:#393A34">android</span><span style="--0:#8B8B8B;--1:#686868">]</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="an plugins [APP] [--platform ios|android]"><div></div></button></div></figure></div>
+<p>Without <code dir="auto">--platform</code> it lists what the app pulls in, one line per plugin: module
+name, package, which platforms it covers, and where it lives. With
+<code dir="auto">--platform</code> it runs the same coverage check the build runs, so it exits
+non-zero exactly when the build would refuse.</p>
+<p><code dir="auto">--platform</code> takes only <code dir="auto">ios</code> and <code dir="auto">android</code>. See
+<a href="/extending/plugins/">Plugins</a> for what coverage means and why a missing
+platform is a hard error.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="an-dev"><code dir="auto">an dev</code></h2><a class="sl-anchor-link" href="#an-dev"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “an dev”</span></a></div>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#80A665;--1:#4B7231">an</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">dev</span><span style="--0:#DBD7CAEE;--1:#393A34"> [APP] </span><span style="--0:#8B8B8B;--1:#686868">[</span><span style="--0:#DBD7CAEE;--1:#393A34">--port &lt;N&gt;</span><span style="--0:#8B8B8B;--1:#686868">]</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#8B8B8B;--1:#686868">[</span><span style="--0:#DBD7CAEE;--1:#393A34">--device &lt;NAME&gt;</span><span style="--0:#8B8B8B;--1:#686868">]</span></div></div><div class="ec-line"><div class="code"><span class="indent">       </span><span style="--0:#8B8B8B;--1:#686868">[</span><span style="--0:#DBD7CAEE;--1:#393A34">--android</span><span style="--0:#8B8B8B;--1:#686868">]</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#8B8B8B;--1:#686868">[</span><span style="--0:#DBD7CAEE;--1:#393A34">--wearos</span><span style="--0:#8B8B8B;--1:#686868">]</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#8B8B8B;--1:#686868">[</span><span style="--0:#DBD7CAEE;--1:#393A34">--watchos</span><span style="--0:#8B8B8B;--1:#686868">]</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#8B8B8B;--1:#686868">[</span><span style="--0:#DBD7CAEE;--1:#393A34">--tvos</span><span style="--0:#8B8B8B;--1:#686868">]</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#8B8B8B;--1:#686868">[</span><span style="--0:#DBD7CAEE;--1:#393A34">--visionos</span><span style="--0:#8B8B8B;--1:#686868">]</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#8B8B8B;--1:#686868">[</span><span style="--0:#DBD7CAEE;--1:#393A34">--macos</span><span style="--0:#8B8B8B;--1:#686868">]</span></div></div><div class="ec-line"><div class="code"><span class="indent">       </span><span style="--0:#8B8B8B;--1:#686868">[</span><span style="--0:#DBD7CAEE;--1:#393A34">--no-launch</span><span style="--0:#8B8B8B;--1:#686868">]</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="an dev [APP] [--port <N>] [--device <NAME>]       [--android] [--wearos] [--watchos] [--tvos] [--visionos] [--macos]       [--no-launch]"><div></div></button></div></figure></div>
+<p>Serves the bundle on <code dir="auto">127.0.0.1:8420</code> — <code dir="auto">--port</code> changes it — and watches for
+changes. The port is bound <em>before</em> anything is built, so a second <code dir="auto">an dev</code>
+fails immediately instead of after a two-minute build.</p>
+<p>The app is given the server’s URL at build time, and it is <code dir="auto">127.0.0.1</code> for
+every target. On the Apple ones that is true on its own: the watch shares the
+Mac’s network and a Mac app is not inside anything at all. On Android it is made
+true — <code dir="auto">adb reverse</code> opens the port on the device pointing back here, which
+works on an emulator and on a phone over USB alike, and replaced the <code dir="auto">10.0.2.2</code>
+that only ever meant anything inside an emulator.</p>
+<p><code dir="auto">--android</code> wins over <code dir="auto">--wearos</code>, which wins over <code dir="auto">--watchos</code>, <code dir="auto">--tvos</code>,
+<code dir="auto">--visionos</code>, <code dir="auto">--macos</code>, and iOS is what you get with none of them. They are not
+declared as mutually exclusive, so <code dir="auto">an dev --android --tvos</code> quietly builds
+Android.</p>
+<p>There is no <code dir="auto">an dev --ios</code> — iOS is the default.</p>
+<p><code dir="auto">--macos</code> has no simulator to launch into: <code dir="auto">an dev --macos</code> kills the window
+that was already open and opens a new one, the same as <code dir="auto">an macos</code>.</p>
+<p><code dir="auto">--device</code> behaves as “if you did not change it, use this platform’s default”:
+<code dir="auto">--watchos</code> gets the watch, <code dir="auto">--tvos</code> the Apple TV, <code dir="auto">--visionos</code> the headset.
+<code dir="auto">--android</code> and <code dir="auto">--macos</code> ignore it entirely — the Mac has no device to name.
+<code dir="auto">an dev --wearos</code> treats it as an <code dir="auto">adb</code> serial.</p>
+<p><code dir="auto">[APP]</code> defaults to <code dir="auto">examples/hello-angular</code>, except with <code dir="auto">--wearos</code>
+(<code dir="auto">examples/hello-wear</code>) and <code dir="auto">--macos</code> (<code dir="auto">examples/controls</code>), which is the same
+default each platform’s own subcommand uses and for the same reason: a phone
+screen is not readable on a round 227-point face, and on the desktop <code dir="auto">controls</code>
+is what shows at a glance what AppKit draws.</p>
+<p>It watches <code dir="auto">&lt;app&gt;/src</code> always, and <code dir="auto">packages/</code> as well when run inside the
+monorepo. Only <code dir="auto">.ts</code>, <code dir="auto">.js</code>, <code dir="auto">.html</code> and <code dir="auto">.json</code> count, debounced 250 ms. A
+compile that fails prints the error and keeps watching — it never takes the
+server down.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="what-a-save-actually-does">What a save actually does</h3><a class="sl-anchor-link" href="#what-a-save-actually-does"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “What a save actually does”</span></a></div>
+<p>The dev bundle is two halves in one file. Everything resolved as a bare package
+— Angular, rxjs, <code dir="auto">@angular-native/*</code> — goes in the top half and is stamped with
+a hash; your own relative modules go in the bottom half and are re-evaluated on
+top.</p>
+<ul>
+<li>If the <strong>top half changed</strong>, the bottom half is not evaluated at all and the
+app restarts. Only one copy of Angular fits in the interpreter, and the
+running one cannot be replaced.</li>
+<li>Otherwise Angular’s metadata is swapped in place, keeping the same class
+objects, so instances and signals survive and you stay on the same screen.
+This is refused — and a restart forced — when the set of components changed
+size, when a key went missing, or when a class changed between component and
+directive.</li>
+<li>A thrown exception anywhere in that path also forces a restart, rather than
+leaving you looking at half-updated code.</li>
+</ul>
+<p>On a cold restart the native views are torn down, the JS engine is new, the tree
+is empty and every signal is back at its initial value. Two things survive a hot
+reload on purpose: the hot-state signals, and the router’s history.</p>
+<p>The restart is <code dir="auto">an dev</code>’s own, not yours: the engine is thrown away and stood
+up again inside the running process, and the app is back on screen without
+anybody touching the terminal. What a restart costs is component state, not the
+dev loop.</p>
+<p><code dir="auto">packages/runtime/runtime.js</code> is the exception to all of the above, and it is
+not in either half. It is <code dir="auto">include_str!</code>-ed into the host crate and evaluated
+when the engine starts, so it travels in the <strong>native binary</strong>: no bundle can
+carry it and no reload can reach it. Saving it rebuilds the app and puts it
+back on the device — which is the one thing here that costs a compile.</p>
+<p>Apple shells talk to the server over a WebSocket; the Android shell long-polls,
+because there is no platform WebSocket there.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="environment">Environment</h2><a class="sl-anchor-link" href="#environment"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Environment”</span></a></div>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Read by</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">AN_HOME</code></td>
+<td><code dir="auto">an</code></td>
+<td>Where the framework’s sources are, when running outside the monorepo. Checked first, and <strong>validated</strong> — pointing it somewhere that is not an SDK is an error, not a fallback.</td>
+</tr>
+<tr>
+<td><code dir="auto">CARGO_TARGET_DIR</code></td>
+<td><code dir="auto">an</code></td>
+<td>Where to look for the compiled staticlibs.</td>
+</tr>
+<tr>
+<td><code dir="auto">ANDROID_HOME</code>, <code dir="auto">ANDROID_SDK_ROOT</code></td>
+<td><code dir="auto">an</code></td>
+<td>The Android SDK, in that order, falling back to <code dir="auto">~/Library/Android/sdk</code>.</td>
+</tr>
+<tr>
+<td><code dir="auto">AN_IOS_TEAM</code>, <code dir="auto">AN_IOS_IDENTITY</code>, <code dir="auto">AN_IOS_PROFILE</code></td>
+<td><code dir="auto">an</code></td>
+<td>Override <code dir="auto">signing.ios.*</code>.</td>
+</tr>
+<tr>
+<td><code dir="auto">AN_MACOS_IDENTITY</code>, <code dir="auto">AN_MACOS_NOTARY_PROFILE</code></td>
+<td><code dir="auto">an</code></td>
+<td>Override <code dir="auto">signing.macos.*</code>.</td>
+</tr>
+<tr>
+<td><code dir="auto">AN_ANDROID_KEYSTORE</code>, <code dir="auto">AN_ANDROID_KEY_ALIAS</code></td>
+<td><code dir="auto">an</code></td>
+<td>Override <code dir="auto">signing.android.*</code>.</td>
+</tr>
+<tr>
+<td><code dir="auto">AN_ANDROID_KEYSTORE_PASSWORD</code>, <code dir="auto">AN_ANDROID_KEY_PASSWORD</code></td>
+<td><code dir="auto">an</code></td>
+<td>The two passwords. They exist <strong>only</strong> here — the manifest names the variable, never the value.</td>
+</tr>
+<tr>
+<td><code dir="auto">AN_BUNDLETOOL</code></td>
+<td><code dir="auto">an</code></td>
+<td>Where <code dir="auto">bundletool.jar</code> is, for <code dir="auto">--aab</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>The signing variables win over <code dir="auto">angular-native.json</code>, which is what CI wants and
+what makes those paths usable from inside this repository, which has no project
+manifest.</p>
+<p>Outside the monorepo, <code dir="auto">an</code> walks up from the working directory looking for an
+<code dir="auto">angular-native.json</code>. The SDK itself is <code dir="auto">AN_HOME</code> if set, otherwise the path
+baked in at compile time — which is what makes <code dir="auto">cargo install --path crates/an-cli</code>
+work from anywhere. Either way the root is validated to contain the runtime, the
+bundler, the shells and the crates. If nothing is found but the directory <em>is</em> an
+Angular project, it says to run <code dir="auto">an init</code> there rather than reporting no root.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="what-stops-a-build">What stops a build</h2><a class="sl-anchor-link" href="#what-stops-a-build"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “What stops a build”</span></a></div>
+<p>Each of these is a hard error with the reason in it, not a warning:</p>
+<ul>
+<li><strong>A plugin that does not cover the platform being built.</strong> Checked before
+anything compiles. See <a href="/extending/plugins/">Plugins</a>.</li>
+<li><strong>Any plugin at all on watchOS or macOS.</strong> Neither host has a plugin registry,
+so the build refuses rather than shipping an app whose every call would be
+rejected at runtime.</li>
+<li><strong>Kotlin in a plugin with no Kotlin compiler vendored.</strong> <code dir="auto">an</code> runs <code dir="auto">kotlinc</code>
+itself — there is no Gradle to do it — and it names the <code dir="auto">.kt</code> it cannot
+compile rather than signing an APK without it. <code dir="auto">python3 scripts/fetch-android-deps.py</code> fetches the compiler once; an app whose plugins
+are all Java never needs it.</li>
+<li><strong>Two plugins claiming the same module name</strong>, or asking for the same
+<code dir="auto">Info.plist</code> key, entitlement or <code dir="auto">uses-feature</code> with different values.</li>
+<li><strong>An <code dir="auto">Info.plist</code> that disagrees with <code dir="auto">angular-native.json</code>.</strong> Checked before
+cargo and swiftc, and it names the <code dir="auto">an add</code> you are missing.</li>
+<li><strong>An <code dir="auto">AndroidManifest.xml</code> that no longer declares <code dir="auto">package="dev.angularnative"</code>.</strong></li>
+<li><strong>An empty Android dependency cache</strong>, pointing at
+<code dir="auto">scripts/prepare-android-deps.py</code>.</li>
+<li><strong>A password written into <code dir="auto">angular-native.json</code>.</strong> Refused by name, by every
+command that runs inside a project — not only the ones that sign.</li>
+<li><strong>A keystore or a profile that git can see</strong>, whether committed or merely not
+ignored.</li>
+<li><strong>Any missing or wrong signing credential</strong>: no section for the platform, a
+profile that is absent, unreadable, expired or for another app, a team that
+disagrees with the profile, a certificate that is not in the keychain, a
+keystore whose password or alias is wrong, a <code dir="auto">bundletool</code> that is not there.
+All of them before <code dir="auto">cargo</code> is called.</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="two-things-to-know-before-you-hit-them">Two things to know before you hit them</h2><a class="sl-anchor-link" href="#two-things-to-know-before-you-hit-them"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Two things to know before you hit them”</span></a></div>
+<p><strong>Outside the monorepo, six invocations fail as written.</strong> <code dir="auto">an macos</code>, <code dir="auto">an tvos</code>,
+<code dir="auto">an visionos</code>, <code dir="auto">an watchos</code>, <code dir="auto">an wearos</code> and <code dir="auto">an dev --wearos</code> always pass their
+default example along, and outside the monorepo an explicit app path that is not
+the project root is an error. Pass the project explicitly:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#80A665;--1:#4B7231">an</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">tvos</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">.</span></div></div><div class="ec-line"><div class="code"><span style="--0:#80A665;--1:#4B7231">an</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">macos</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">.</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="an tvos .an macos ."><div></div></button></div></figure></div>
+<p><code dir="auto">an build</code>, <code dir="auto">an ios</code>, <code dir="auto">an android</code>, <code dir="auto">an plugins</code> and plain <code dir="auto">an dev</code> pass no
+default and are unaffected.</p>
+<p><strong><code dir="auto">an dev --watchos</code> defaults to the phone example.</strong> <code dir="auto">an watchos</code> defaults to
+<code dir="auto">examples/hello-watch</code> because <code dir="auto">hello-angular</code> is unreadable at 205 points;
+<code dir="auto">an dev --watchos</code> does not carry that default over. Name the example.</p>
+</div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"><a href="/reference/styles/" rel="prev" class="astro-b5raizh3"><svg aria-hidden="true" class="astro-b5raizh3 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17 11H9.41l3.3-3.29a1.004 1.004 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33 1 1 0 0 0 0 .76 1 1 0 0 0 .21.33l5 5a1.002 1.002 0 0 0 1.639-.325 1 1 0 0 0-.219-1.095L9.41 13H17a1 1 0 0 0 0-2Z"/></svg><span class="astro-b5raizh3">Previous<br class="astro-b5raizh3"><span class="link-title astro-b5raizh3">Styles and layout</span></span></a><a href="/reference/native-modules/" rel="next" class="astro-b5raizh3"><svg aria-hidden="true" class="astro-b5raizh3 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg><span class="astro-b5raizh3">Next<br class="astro-b5raizh3"><span class="link-title astro-b5raizh3">Native modules</span></span></a></div></footer></div></div></main></div></div></div></div></body></html>

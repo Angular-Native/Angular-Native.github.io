@@ -1,0 +1,653 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>watchOS | angular-native</title><link rel="canonical" href="https://angular-native.github.io/platforms/watchos/"/><link rel="alternate" hreflang="en" href="https://angular-native.github.io/platforms/watchos/"/><link rel="alternate" hreflang="es" href="https://angular-native.github.io/es/platforms/watchos/"/><link rel="alternate" hreflang="x-default" href="https://angular-native.github.io/platforms/watchos/"/><link rel="sitemap" href="/sitemap-index.xml"/><link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.1"/><meta name="generator" content="Starlight v0.42.0"/><meta property="og:title" content="watchOS"/><meta property="og:type" content="article"/><meta property="og:url" content="https://angular-native.github.io/platforms/watchos/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Angular on the Apple Watch — the one host that is not a view hierarchy, the digital crown, and the eight primitives the SDK does not have."/><meta property="og:site_name" content="angular-native"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Angular on the Apple Watch — the one host that is not a view hierarchy, the digital crown, and the eight primitives the SDK does not have."/><meta name="theme-color" content="#12151a" media="(prefers-color-scheme: dark)"/><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)"/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/_astro/common.B2GuNxy_.css"><style>@layer starlight.components{.card-grid:where(.astro-7qmvx3iy){grid-template-columns:100%;gap:1rem;display:grid}.card-grid:where(.astro-7qmvx3iy)>*{margin-top:0!important}@media (width>=50rem){.card-grid:where(.astro-7qmvx3iy){grid-template-columns:1fr 1fr;gap:1.5rem}.stagger:where(.astro-7qmvx3iy){--stagger-height:5rem;padding-bottom:var(--stagger-height)}.stagger:where(.astro-7qmvx3iy)>:nth-child(2n){transform:translateY(var(--stagger-height))}}starlight-tabs:where(.astro-scn3uvmv){display:block}.tablist-wrapper:where(.astro-scn3uvmv){overflow-x:auto}:where(.astro-scn3uvmv)[role=tablist]{border-bottom:2px solid var(--sl-color-gray-5);padding:0;list-style:none;display:flex}.tab:where(.astro-scn3uvmv){display:flex}.tab:where(.astro-scn3uvmv)>:where(.astro-scn3uvmv)[role=tab]{--sl-tab-color-border:var(--sl-color-gray-5);line-height:var(--sl-line-height-headings);box-shadow:0 2px 0 var(--sl-tab-color-border);color:var(--sl-color-gray-3);outline-offset:var(--sl-outline-offset-inside);overflow-wrap:initial;align-items:center;gap:.5rem;padding:.275rem 1.25rem;text-decoration:none;display:flex}.tab:where(.astro-scn3uvmv) :where(.astro-scn3uvmv)[role=tab][aria-selected=true]{--sl-tab-color-border:var(--sl-color-text-accent);color:var(--sl-color-white);font-weight:600}.tablist-wrapper:where(.astro-scn3uvmv)~[role=tabpanel]{margin-top:1rem}.sl-link-card:where(.astro-zaaezwya){border:1px solid var(--sl-color-gray-5);box-shadow:var(--sl-shadow-sm);border-radius:.5rem;grid-template-columns:1fr auto;gap:.5rem;padding:1rem;display:grid;position:relative}a:where(.astro-zaaezwya){line-height:var(--sl-line-height-headings);text-decoration:none}a:where(.astro-zaaezwya):before{content:"";position:absolute;inset:0}.stack:where(.astro-zaaezwya){flex-direction:column;gap:.5rem}.title:where(.astro-zaaezwya){color:var(--sl-color-white);font-weight:600;font-size:var(--sl-text-lg)}.description:where(.astro-zaaezwya){color:var(--sl-color-gray-3);line-height:1.5}.icon:where(.astro-zaaezwya){color:var(--sl-color-gray-3)}.sl-link-card:where(.astro-zaaezwya):hover{background:var(--sl-color-gray-7,var(--sl-color-gray-6));border-color:var(--sl-color-gray-2)}.sl-link-card:where(.astro-zaaezwya):hover .icon:where(.astro-zaaezwya){color:var(--sl-color-white)}.sl-steps{--bullet-size:calc(var(--sl-line-height) * 1rem);--bullet-margin:.375rem;counter-reset:steps-counter var(--sl-steps-start,0);padding-inline-start:0;list-style:none}.sl-steps>li{counter-increment:steps-counter;padding-inline-start:calc(var(--bullet-size) + 1rem);min-height:calc(var(--bullet-size) + var(--bullet-margin));padding-bottom:1px;position:relative}.sl-steps>li+li{margin-top:0}.sl-steps>li:before{content:counter(steps-counter);top:0;width:var(--bullet-size);height:var(--bullet-size);line-height:var(--bullet-size);font-size:var(--sl-text-xs);text-align:center;color:var(--sl-color-white);background-color:var(--sl-color-gray-6);box-shadow:inset 0 0 0 1px var(--sl-color-gray-5);border-radius:99rem;font-weight:600;position:absolute;inset-inline-start:0}.sl-steps>li:after{--guide-width:1px;content:"";top:calc(var(--bullet-size) + var(--bullet-margin));bottom:var(--bullet-margin);width:var(--guide-width);background-color:var(--sl-color-hairline-light);position:absolute;inset-inline-start:calc((var(--bullet-size) - var(--guide-width)) / 2)}}@layer starlight.content{.sl-steps>li>:first-child{--lh:calc(1em * var(--sl-line-height));--shift-y:calc(.5 * (var(--bullet-size) - var(--lh)));transform:translateY(var(--shift-y));margin-bottom:var(--shift-y)}.sl-steps>li>:first-child:where(h1,h2,h3,h4,h5,h6){--lh:calc(1em * var(--sl-line-height-headings))}@supports (--prop:1lh){.sl-steps>li>:first-child{--lh:1lh}}}
+@layer starlight.components{svg:where(.astro-hkc32dio){color:var(--sl-icon-color);font-size:var(--sl-icon-size,1em);width:1em;height:1em}}
+@layer starlight.components{.sl-link-button:where(.astro-dcqstdaq){font-size:var(--sl-text-sm);outline-offset:.25rem;border:1px solid #0000;border-radius:999rem;align-items:center;gap:.5em;padding:.4375rem 1.125rem;line-height:1.1875;text-decoration:none;display:inline-flex}.sl-link-button:where(.astro-dcqstdaq).primary{background:var(--sl-color-text-accent);border-color:var(--sl-color-text-accent);color:var(--sl-color-black)}.sl-link-button:where(.astro-dcqstdaq).primary:hover{color:var(--sl-color-black)}.sl-link-button:where(.astro-dcqstdaq).secondary{border-color:inherit;color:var(--sl-color-white)}.sl-link-button:where(.astro-dcqstdaq).minimal{color:var(--sl-color-white);padding-inline:0}.sl-link-button:where(.astro-dcqstdaq) svg{flex-shrink:0}@media (width>=50rem){.sl-link-button:where(.astro-dcqstdaq){font-size:var(--sl-text-base);padding:.9375rem 1.25rem}}.sl-markdown-content .sl-link-button:where(.astro-dcqstdaq){margin-inline-end:1rem}.sl-markdown-content .sl-link-button:where(.astro-dcqstdaq):not(:where(p *)){margin-block:1rem}}
+</style><script type="module" src="/_astro/page.Dwipeu-R.js"></script></head><body class="astro-g5ptsecz"><a class="sl-skip-link astro-qb7clj6f" href="#_top">Skip to content</a><div class="page sl-flex astro-yntsjkba"><header class="header astro-yntsjkba"><div class="header astro-by6fddyj"><div class="title-wrapper sl-flex astro-by6fddyj"><a href="/" class="site-title sl-flex astro-6rvad3va"><img class="light:sl-hidden print:hidden astro-6rvad3va" alt src="/_astro/logo-dark.DW_oTXuh.svg" width="38" height="24"><img class="dark:sl-hidden print:block astro-6rvad3va" alt src="/_astro/logo-light.B5c7Bpuj.svg" width="38" height="24"><span class="astro-6rvad3va" translate="no">angular-native</span></a></div><div class="sl-flex print:hidden astro-by6fddyj"><site-search class="astro-by6fddyj astro-b5kgnn7o" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-b5kgnn7o"><svg aria-hidden="true" class="astro-b5kgnn7o astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-b5kgnn7o" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-b5kgnn7o" style="display: none;"><kbd class="astro-b5kgnn7o">Ctrl</kbd><kbd class="astro-b5kgnn7o">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-b5kgnn7o"><div class="dialog-frame sl-flex astro-b5kgnn7o"><button data-close-modal class="sl-flex md:sl-hidden astro-b5kgnn7o">Cancel</button><div class="search-container astro-b5kgnn7o"><div id="starlight__search" class="astro-b5kgnn7o"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.B-Vh4ymV.js"></script></div><div class="sl-hidden md:sl-flex print:hidden right-group astro-by6fddyj"><div class="sl-flex social-icons astro-by6fddyj"><a href="https://github.com/angular-native/angular-native" rel="me" class="sl-flex astro-n2mnl6yq"><span class="sr-only astro-n2mnl6yq">GitHub</span><svg aria-hidden="true" class="astro-n2mnl6yq astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select language</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="/platforms/watchos/" class="astro-2z5xp7gb">English</option><option value="/es/platforms/watchos/" class="astro-2z5xp7gb">Español</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super(),matchMedia(`(min-width: 50em)`).addEventListener(`change`,()=>this.hidePopover()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><sl-sidebar-state-persist data-hash="0yhobux" class="astro-ipdry5cl"><script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script><ul class="top-level astro-rmhv4bp6"><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">Guide</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="0"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><a href="/guide/quick-start/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Quick start</span></a></li><li class="astro-rmhv4bp6"><a href="/guide/installing/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Installing the CLI</span></a></li><li class="astro-rmhv4bp6"><a href="/guide/how-it-works/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">How it works</span></a></li><li class="astro-rmhv4bp6"><a href="/guide/existing-angular-project/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Taking an Angular project to mobile</span></a></li><li class="astro-rmhv4bp6"><a href="/guide/native-wrapper/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Props and the native wrapper</span></a></li><li class="astro-rmhv4bp6"><a href="/guide/gestures-and-animation/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Gestures and animation</span></a></li><li class="astro-rmhv4bp6"><a href="/guide/navigation/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Navigation and the router</span></a></li><li class="astro-rmhv4bp6"><a href="/guide/lists/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Long lists</span></a></li><li class="astro-rmhv4bp6"><a href="/guide/safe-area-and-keyboard/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">The safe area and the keyboard</span></a></li><li class="astro-rmhv4bp6"><a href="/guide/testing/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Checking it without a device</span></a></li><li class="astro-rmhv4bp6"><a href="/guide/signing-and-distribution/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Signing and distribution</span></a></li></ul></details></li><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">Reference</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="1"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">components</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="2"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><a href="/reference/components/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Components</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-view/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-view</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-text/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-text</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-image/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-image</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-scroll-view/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-scroll-view</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-text-input/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-text-input</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-textarea/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-textarea</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-button/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-button</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-switch/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-switch</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-slider/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-slider</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-stepper/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-stepper</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-segmented-control/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-segmented-control</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-select/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-select</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-date-picker/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-date-picker</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-search-bar/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-search-bar</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-tab-bar/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-tab-bar</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-navigation-bar/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-navigation-bar</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-stack-view/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-stack-view</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-modal/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-modal</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-alert/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-alert</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-icon/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-icon</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-progress-bar/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-progress-bar</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-activity-indicator/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-activity-indicator</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-web-view/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-web-view</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-map-view/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-map-view</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/components/an-video-view/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">an-video-view</span></a></li></ul></details></li><li class="astro-rmhv4bp6"><a href="/reference/styles/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Styles and layout</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/cli/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">The an CLI</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/native-modules/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Native modules</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/built-in-modules/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Built-in modules</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/icons/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Icons</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/events/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Events</span></a></li><li class="astro-rmhv4bp6"><a href="/reference/protocol/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">The binary protocol</span></a></li></ul></details></li><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">Platforms</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="3"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><a href="/platforms/ios/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">iOS · iPadOS</span></a></li><li class="astro-rmhv4bp6"><a href="/platforms/android/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Android</span></a></li><li class="astro-rmhv4bp6"><a href="/platforms/macos/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">macOS</span></a></li><li class="astro-rmhv4bp6"><a href="/platforms/tvos/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">tvOS</span></a></li><li class="astro-rmhv4bp6"><a href="/platforms/visionos/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">visionOS</span></a></li><li class="astro-rmhv4bp6"><a href="/platforms/watchos/" aria-current="page" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">watchOS</span></a></li><li class="astro-rmhv4bp6"><a href="/platforms/wearos/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Wear OS</span></a></li></ul></details></li><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">Accessibility</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="4"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><a href="/accessibility/overview/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">The contract</span></a></li><li class="astro-rmhv4bp6"><a href="/accessibility/apple/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Accessibility on Apple</span></a></li><li class="astro-rmhv4bp6"><a href="/accessibility/android/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Accessibility on Android</span></a></li></ul></details></li><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">Extending it</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="5"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">plugins</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="6"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><a href="/extending/plugins/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Plugins</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/plugins/preferences/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">preferences</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/plugins/clipboard/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">clipboard</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/plugins/keychain/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">keychain</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/plugins/biometrics/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">biometrics</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/plugins/geolocation/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">geolocation</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/plugins/camera/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">camera</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/plugins/notifications/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">notifications</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/plugins/updater/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">updater</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/plugins/barcode/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">barcode</span></a></li></ul></details></li><li class="astro-rmhv4bp6"><a href="/extending/plugin-permissions/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Permissions a plugin needs</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/biometrics-and-keychain/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Biometrics and keychain</span></a></li><li class="astro-rmhv4bp6"><a href="/extending/plugins-on-the-mac-and-the-watch/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Plugins on the Mac and the watch</span></a></li></ul></details></li></ul><script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script></sl-sidebar-state-persist><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"><a href="https://github.com/angular-native/angular-native" rel="me" class="sl-flex astro-n2mnl6yq"><span class="sr-only astro-n2mnl6yq">GitHub</span><svg aria-hidden="true" class="astro-n2mnl6yq astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select language</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="/platforms/watchos/" class="astro-2z5xp7gb">English</option><option value="/es/platforms/watchos/" class="astro-2z5xp7gb">Español</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><aside class="right-sidebar-container print:hidden astro-lrzkfocr"><div class="right-sidebar astro-lrzkfocr"><div class="lg:sl-hidden astro-qok35upx"><mobile-starlight-toc data-min-h="2" data-max-h="3" class="astro-66cqc7ze"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-66cqc7ze"><details id="starlight__mobile-toc" class="astro-66cqc7ze"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-66cqc7ze"><span class="toggle sl-flex astro-66cqc7ze">On this page<svg aria-hidden="true" class="caret astro-66cqc7ze astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-66cqc7ze"></span></summary><div class="dropdown astro-66cqc7ze"><ul class="isMobile astro-jugkfwgx" style="--depth: 0;"><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#_top" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Overview</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#why-this-is-not-the-ios-host-with-a-cfg" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Why this is not the iOS host with a cfg</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#the-toolchain-which-is-the-part-that-may-not-be-there" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">The toolchain, which is the part that may not be there</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#the-seventeen-it-draws" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">The seventeen it draws</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#the-nine-it-does-not" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">The nine it does not</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#moving-things" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Moving things</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#the-digital-crown" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">The digital crown</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#gestures" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Gestures</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#the-state-a-finger-moves" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">The state a finger moves</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#hot-refresh" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Hot refresh</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#driving-the-watch-from-outside" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Driving the watch from outside</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#nothing-fails-in-silence" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Nothing fails in silence</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#native-modules" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Native modules</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#resources-in-the-bundle" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Resources in the bundle</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#what-is-missing" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">What is missing</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#accessibility-and-the-one-thing-that-cannot-be-proved" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Accessibility, and the one thing that cannot be proved</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#walls-that-were-expected-and-were-not-there" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Walls that were expected and were not there</span></a></li></ul></div></details></nav></mobile-starlight-toc><script type="module" src="/_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.BcSo_yiZ.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-qok35upx"><div class="sl-container astro-qok35upx"><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">On this page</h2><ul class="astro-jugkfwgx" style="--depth: 0;"><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#_top" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Overview</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#why-this-is-not-the-ios-host-with-a-cfg" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Why this is not the iOS host with a cfg</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#the-toolchain-which-is-the-part-that-may-not-be-there" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">The toolchain, which is the part that may not be there</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#the-seventeen-it-draws" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">The seventeen it draws</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#the-nine-it-does-not" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">The nine it does not</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#moving-things" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Moving things</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#the-digital-crown" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">The digital crown</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#gestures" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Gestures</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#the-state-a-finger-moves" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">The state a finger moves</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#hot-refresh" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Hot refresh</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#driving-the-watch-from-outside" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Driving the watch from outside</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#nothing-fails-in-silence" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Nothing fails in silence</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#native-modules" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Native modules</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#resources-in-the-bundle" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Resources in the bundle</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#what-is-missing" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">What is missing</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#accessibility-and-the-one-thing-that-cannot-be-proved" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Accessibility, and the one thing that cannot be proved</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#walls-that-were-expected-and-were-not-there" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Walls that were expected and were not there</span></a></li></ul></nav></starlight-toc><script type="module" src="/_astro/TableOfContents.astro_astro_type_script_index_0_lang.Csloo1VZ.js"></script></div></div></div></aside><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="en" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="an-pagehead"><p class="an-pagehead__label">Platforms</p><h1 id="_top" data-page-title>watchOS</h1><p class="an-pagehead__lead">Angular on the Apple Watch — the one host that is not a view hierarchy, the digital crown, and the eight primitives the SDK does not have.</p></div></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><p>Same core, same layout, same bundle. What changes is who paints.</p>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.00uqy.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#80A665;--1:#4B7231">an</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">watchos</span><span style="--0:#DBD7CAEE;--1:#393A34">                          </span><span style="--0:#818F81FE;--1:#636B63"># examples/hello-watch in the simulator</span></div></div><div class="ec-line"><div class="code"><span style="--0:#80A665;--1:#4B7231">an</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">watchos</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">examples/watch-controls</span><span style="--0:#DBD7CAEE;--1:#393A34">  </span><span style="--0:#818F81FE;--1:#636B63"># everything the watch knows how to draw</span></div></div><div class="ec-line"><div class="code"><span style="--0:#80A665;--1:#4B7231">an</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">dev</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C99076;--1:#995728">--watchos</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">examples/watch-controls</span></div></div><div class="ec-line"><div class="code"><span style="--0:#80A665;--1:#4B7231">./scripts/check-watchos.sh</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="an watchos                          # examples/hello-watch in the simulatoran watchos examples/watch-controls  # everything the watch knows how to drawan dev --watchos examples/watch-controls./scripts/check-watchos.sh"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="why-this-is-not-the-ios-host-with-a-cfg">Why this is not the iOS host with a <code dir="auto">cfg</code></h2><a class="sl-anchor-link" href="#why-this-is-not-the-ios-host-with-a-cfg"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Why this is not the iOS host with a cfg”</span></a></div>
+<p>watchOS has no <code dir="auto">UIView</code> hierarchy. The interface is SwiftUI and there is no way
+around it: there is no container to add subviews to and no frame to move.</p>
+<p>That collides head-on with this project’s mounting model, which is imperative —
+create a view, put it here, change its colour — while SwiftUI only accepts
+state: you describe what there is and it decides what to redraw.</p>
+<p>The way out is to mirror the tree Rust maintains into a model SwiftUI observes,
+and turn every <code dir="auto">MountOp</code> into a mutation of that model.</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#dbd7caee;--1:#393a34">  </span></span><span style="--0:#dbd7caee;--1:#393a34">Rust                                   Swift</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#dbd7caee;--1:#393a34">  </span></span><span style="--0:#dbd7caee;--1:#393a34">────────────────────────────────       ─────────────────────────────</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#dbd7caee;--1:#393a34">  </span></span><span style="--0:#dbd7caee;--1:#393a34">QuickJS ─▶ ShadowTree ─▶ taffy         Timer at 30 Hz</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#dbd7caee;--1:#393a34">                 </span></span><span style="--0:#dbd7caee;--1:#393a34">│ commit                       │ an_watch_runtime_frame</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#dbd7caee;--1:#393a34">                 </span></span><span style="--0:#dbd7caee;--1:#393a34">▼                              ▼</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#dbd7caee;--1:#393a34">           </span></span><span style="--0:#dbd7caee;--1:#393a34">Frame { MountOp[] }            did the revision change?</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#dbd7caee;--1:#393a34">                 </span></span><span style="--0:#dbd7caee;--1:#393a34">│                              │ yes</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#dbd7caee;--1:#393a34">                 </span></span><span style="--0:#dbd7caee;--1:#393a34">▼                              ▼</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#dbd7caee;--1:#393a34">            </span></span><span style="--0:#dbd7caee;--1:#393a34">WatchHost (model)   ──JSON──▶  AnTree (@Observable)</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#dbd7caee;--1:#393a34">                                                 </span></span><span style="--0:#dbd7caee;--1:#393a34">│</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#dbd7caee;--1:#393a34">                                                 </span></span><span style="--0:#dbd7caee;--1:#393a34">▼</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#dbd7caee;--1:#393a34">                                           </span></span><span style="--0:#dbd7caee;--1:#393a34">ZStack + .position</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="  Rust                                   Swift  ────────────────────────────────       ─────────────────────────────  QuickJS ─▶ ShadowTree ─▶ taffy         Timer at 30 Hz                 │ commit                       │ an_watch_runtime_frame                 ▼                              ▼           Frame { MountOp[] }            did the revision change?                 │                              │ yes                 ▼                              ▼            WatchHost (model)   ──JSON──▶  AnTree (@Observable)                                                 │                                                 ▼                                           ZStack + .position"><div></div></button></div></figure></div>
+<p><code dir="auto">WatchHost</code> implements <code dir="auto">HostRenderer</code> but owns no views: a <code dir="auto">MountOp</code> lands in a
+<code dir="auto">HashMap&lt;NodeId, WatchNode&gt;</code> and every mutation bumps a revision counter. Once
+per frame, <code dir="auto">snapshot()</code> serialises <strong>the whole tree</strong> to JSON — a picture, never
+a diff. A watch screen is ten or fifteen nodes, so <code dir="auto">Codable</code> decodes it with no
+hand-written parser and one FFI crossing replaces the hundreds that one call per
+<code dir="auto">MountOp</code> would cost. <code dir="auto">AnTree</code> reads the revision first and returns early when
+it has not changed, so a still frame decodes nothing and SwiftUI does not
+recompose.</p>
+<p>The JS thread runs with an 8 MB stack and a 25 ms frame budget: 33 ms at 30 Hz,
+with 8 ms left over for SwiftUI to recompose. <code dir="auto">CADisplayLink</code> does not exist on
+watchOS, which is why the loop is a <code dir="auto">Timer</code>.</p>
+<p><strong>The layout is still taffy’s.</strong> There is not one <code dir="auto">VStack</code>, one <code dir="auto">HStack</code> or one
+<code dir="auto">.padding</code> in the whole shell. Two layout engines deciding the same thing means
+whichever runs last wins, so every node is placed with <code dir="auto">.frame(width:height:)</code>
+plus <code dir="auto">.position</code> — <code dir="auto">.position</code>, not <code dir="auto">.offset</code>, which would displace the view
+from wherever SwiftUI had centred it — inside a <code dir="auto">ZStack(alignment: .topLeading)</code>,
+which is the coordinate system taffy hands over. <code dir="auto">check-watchos.sh</code> enforces
+this: a <code dir="auto">VStack</code> or a <code dir="auto">.padding</code> appearing in the files that draw the tree fails
+the check.</p>
+<p>Colours are resolved to 0..1 RGBA in Rust. Swift never parses <code dir="auto">#rrggbb</code>.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="the-toolchain-which-is-the-part-that-may-not-be-there">The toolchain, which is the part that may not be there</h2><a class="sl-anchor-link" href="#the-toolchain-which-is-the-part-that-may-not-be-there"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “The toolchain, which is the part that may not be there”</span></a></div>
+<p><code dir="auto">aarch64-apple-watchos-sim</code> is a <strong>tier 3</strong> target: rustup lists it but ships no
+prebuilt <code dir="auto">std</code>. It has to be built on the spot, and that needs nightly:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#80A665;--1:#4B7231">rustup</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">toolchain</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">install</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">nightly</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C99076;--1:#995728">--component</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">rust-src</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="rustup toolchain install nightly --component rust-src"><div></div></button></div></figure></div>
+<p>One command, and it is the one CI runs. Nightly without <code dir="auto">rust-src</code> skips here
+exactly as no nightly at all does, so the component is not an optional second
+step.</p>
+<p>That is why <code dir="auto">an watchos</code> calls <code dir="auto">cargo +nightly</code> rather than the toolchain in
+<code dir="auto">rust-toolchain.toml</code>, which pins stable with the two iOS and two Android
+targets — every target the suite cross-compiles to whose <code dir="auto">std</code> rustup can
+install. The three tier-3 Apple ones are deliberately absent from it: rustup
+cannot install what it does not ship. <code dir="auto">check-watchos.sh</code> skips the
+cross-compilation step — saying so — when it cannot find a nightly with
+<code dir="auto">rust-src</code>: somebody missing a toolchain should not bring down the rest of the
+checks.</p>
+<p>There is no <code dir="auto">.xcodeproj</code>. <code dir="auto">an watchos</code> calls <code dir="auto">xcrun swiftc</code> directly with
+<code dir="auto">-sdk watchsimulator</code>, <code dir="auto">-target arm64-apple-watchos11.0-simulator</code> and
+<code dir="auto">-parse-as-library</code> — without that last flag swiftc treats the SwiftUI <code dir="auto">@main</code>
+as a top-level script and it is silently never used. The sources are
+<code dir="auto">shells/watchos/Sources</code> plus one file from <code dir="auto">shells/shared</code>.</p>
+<p><strong>QuickJS compiles and runs on the watch untouched.</strong> It was the big risk of the
+port and it did not materialise.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="the-seventeen-it-draws">The seventeen it draws</h2><a class="sl-anchor-link" href="#the-seventeen-it-draws"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “The seventeen it draws”</span></a></div>
+<p>Every one of them is the system control, not a drawing that resembles it: they
+bring the haptics, the highlight and the crown behaviour watchOS gives them.</p>
+<table>
+<thead>
+<tr>
+<th>Primitive</th>
+<th>What it is on the watch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">an-view</code></td>
+<td><code dir="auto">ZStack(alignment: .topLeading)</code> — background, corners (one radius or four), border, opacity, transform and whatever gestures the template asks for.</td>
+</tr>
+<tr>
+<td><code dir="auto">an-text</code></td>
+<td><code dir="auto">Text</code>. Font, weight, italic, family, <code dir="auto">letterSpacing</code>, underline and strikethrough, alignment and <code dir="auto">numberOfLines</code>. Measured with the real <code dir="auto">UIFont</code>.</td>
+</tr>
+<tr>
+<td><code dir="auto">an-button</code></td>
+<td><code dir="auto">Button</code> with <code dir="auto">.buttonStyle(.plain)</code>: the highlight and the haptics are the system’s, the background is the app’s.</td>
+</tr>
+<tr>
+<td><code dir="auto">an-scroll-view</code></td>
+<td><code dir="auto">ScrollView(.vertical)</code>. The crown scrolls it because SwiftUI scrolls it — that is not something worth imitating.</td>
+</tr>
+<tr>
+<td><code dir="auto">an-image</code></td>
+<td>From the bundle or from an <code dir="auto">http(s)</code> URL, through an actor-backed cache; reports its natural size through <code dir="auto">(load)</code>, which is what layout needs to place it.</td>
+</tr>
+<tr>
+<td><code dir="auto">an-icon</code></td>
+<td><code dir="auto">Image(systemName:)</code>. The name is translated to an SF Symbol in Rust, by <code dir="auto">an_core::icons</code>.</td>
+</tr>
+<tr>
+<td><code dir="auto">an-switch</code></td>
+<td><code dir="auto">Toggle().labelsHidden()</code>.</td>
+</tr>
+<tr>
+<td><code dir="auto">an-slider</code></td>
+<td><code dir="auto">Slider</code>. On the watch it comes with the minus and the plus at the sides, which is its shape there.</td>
+</tr>
+<tr>
+<td><code dir="auto">an-stepper</code></td>
+<td><code dir="auto">Stepper</code>, the system’s two buttons.</td>
+</tr>
+<tr>
+<td><code dir="auto">an-progress-bar</code></td>
+<td><code dir="auto">ProgressView(value:)</code>.</td>
+</tr>
+<tr>
+<td><code dir="auto">an-activity-indicator</code></td>
+<td>Indeterminate <code dir="auto">ProgressView()</code>; with <code dir="auto">[animating]</code> false it becomes <code dir="auto">Color.clear</code>, the way <code dir="auto">hidesWhenStopped</code> behaves.</td>
+</tr>
+<tr>
+<td><code dir="auto">an-text-input</code></td>
+<td><code dir="auto">TextField</code> / <code dir="auto">SecureField</code>. Tapping it opens the watch’s <strong>own</strong> input screen — dictation, scribble or keyboard — and hands the text back.</td>
+</tr>
+<tr>
+<td><code dir="auto">an-select</code></td>
+<td><code dir="auto">Picker().labelsHidden()</code>: the wheel the crown turns. There is no dropdown on a watch.</td>
+</tr>
+<tr>
+<td><code dir="auto">an-date-picker</code></td>
+<td><code dir="auto">DatePicker</code>, the watch’s dial picker.</td>
+</tr>
+<tr>
+<td><code dir="auto">an-stack-view</code></td>
+<td><code dir="auto">ZStack</code> showing the last child, with transitions: <code dir="auto">pop</code> comes in leading and leaves trailing, <code dir="auto">none</code> is the identity, and the default is the reverse. <code dir="auto">.easeOut</code> over 0.25 s, or whatever <code dir="auto">[animate]</code> says.</td>
+</tr>
+<tr>
+<td><code dir="auto">an-alert</code></td>
+<td><code dir="auto">.alert</code>, with its buttons and its <code dir="auto">(select)</code>. With no buttons it gets an <code dir="auto">OK</code>.</td>
+</tr>
+<tr>
+<td><code dir="auto">an-modal</code></td>
+<td><code dir="auto">.sheet</code>, or <code dir="auto">.fullScreenCover</code> when <code dir="auto">[presentation]</code> is <code dir="auto">fullScreen</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Two things a template has to know:</p>
+<ul>
+<li><strong><code dir="auto">an-text-input</code> needs <code dir="auto">[style.height]</code>.</strong> taffy measures it the way it
+measures a <code dir="auto">&lt;Text&gt;</code> — one line — because on iOS a borderless <code dir="auto">UITextField</code> is
+exactly that. On the watch the field always draws inside its own rounded
+container, <strong>40 points</strong> tall whatever frame it is given, so without an
+explicit height it eats the row below. The shell logs once when the frame
+comes in shorter than that. <code dir="auto">.textFieldStyle(.plain)</code> does not remove the
+container: it was tried on watchOS 26 and changes nothing.</li>
+<li><strong><code dir="auto">an-alert</code> and <code dir="auto">an-modal</code> leave the tree.</strong> In SwiftUI they are not views
+you place, they are modifiers on the root, so Rust sends them separately, in
+<code dir="auto">overlays</code>, and the shell hangs them off <code dir="auto">RootView</code>. An <code dir="auto">an-modal</code> <strong>does</strong>
+still take up room in the layout — the core decides that, exactly as on iOS —
+and on a 248-point-tall screen that is half the display: give it
+<code dir="auto">[style.position]="'absolute'"</code> with the size of the screen, which is also the
+frame its contents get laid out in.</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="the-nine-it-does-not">The nine it does not</h2><a class="sl-anchor-link" href="#the-nine-it-does-not"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “The nine it does not”</span></a></div>
+<p>With the reason, which is almost always the SDK’s and not an opinion. When the
+tree asks for one of these the node is not created, the gap the layout measured
+is left, and the host says so once — with the reason, not with a labelled box.
+The shell draws <code dir="auto">Color.clear</code> at the laid-out size on purpose.</p>
+<table>
+<thead>
+<tr>
+<th>Primitive</th>
+<th>Why not</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">an-tab-bar</code></td>
+<td>A tab bar does not fit in 205 points of width. What a watch does is swipe between full-screen sections — a container, not a bar with a frame, so it is a different primitive.</td>
+</tr>
+<tr>
+<td><code dir="auto">an-navigation-bar</code></td>
+<td>The strip at the top of a watch is already the system’s: the time and the app’s title. A bar of our own would paint under it or over it.</td>
+</tr>
+<tr>
+<td><code dir="auto">an-segmented-control</code></td>
+<td><code dir="auto">SegmentedPickerStyle</code> is <code dir="auto">@available(watchOS, unavailable)</code> in SwiftUI. What the watch uses instead is <code dir="auto">an-select</code>.</td>
+</tr>
+<tr>
+<td><code dir="auto">an-search-bar</code></td>
+<td>Search on a watch is a system screen, not a field with a magnifier. <code dir="auto">.searchable</code> exists, but it is a navigation modifier, not a framed view.</td>
+</tr>
+<tr>
+<td><code dir="auto">an-textarea</code></td>
+<td><code dir="auto">TextEditor</code> is <code dir="auto">@available(watchOS, unavailable)</code>. Long text is dictated or scribbled, and <code dir="auto">an-text-input</code> already gives you that.</td>
+</tr>
+<tr>
+<td><code dir="auto">an-web-view</code></td>
+<td>WebKit is not in the watchOS SDK.</td>
+</tr>
+<tr>
+<td><code dir="auto">an-map-view</code></td>
+<td>SwiftUI’s <code dir="auto">Map</code> does exist on watchOS, but it takes neither a centre nor a zoom from the app: it would show a place the template did not choose.</td>
+</tr>
+<tr>
+<td><code dir="auto">an-video-view</code></td>
+<td>AVKit on watchOS ships neither <code dir="auto">AVPlayerViewController</code> nor <code dir="auto">VideoPlayer</code>. Its headers declare types and no playback view at all.</td>
+</tr>
+<tr>
+<td><code dir="auto">an-custom</code></td>
+<td>The view a plugin brings is a native view somebody else built, and this host has no hierarchy to put one in: it mirrors the tree into a model SwiftUI redraws. The watch’s plugin protocol has no <code dir="auto">attach</code> for the same reason.</td>
+</tr>
+</tbody>
+</table>
+<p><code dir="auto">check-watchos.sh</code> checks that the supported list and the unsupported list
+together cover the whole vocabulary, and that no primitive appears in both or in
+neither.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="moving-things">Moving things</h2><a class="sl-anchor-link" href="#moving-things"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Moving things”</span></a></div>
+<p><code dir="auto">[animate]</code>, <code dir="auto">[translateX]</code>, <code dir="auto">[translateY]</code>, <code dir="auto">[scale]</code>, <code dir="auto">[scaleX]</code>, <code dir="auto">[scaleY]</code>
+and <code dir="auto">[rotate]</code> are base props — every primitive has them — and on the watch each
+one is a SwiftUI modifier.</p>
+<table>
+<thead>
+<tr>
+<th>Prop</th>
+<th>On the watch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">[translateX]</code>, <code dir="auto">[translateY]</code></td>
+<td><code dir="auto">.offset(x:y:)</code>.</td>
+</tr>
+<tr>
+<td><code dir="auto">[scale]</code>, <code dir="auto">[scaleX]</code>, <code dir="auto">[scaleY]</code></td>
+<td><code dir="auto">.scaleEffect(x:y:)</code>. <code dir="auto">scale</code> sets both axes and the two named ones override the axis they name; the three are folded into two in Rust, so the shell reads one number per axis.</td>
+</tr>
+<tr>
+<td><code dir="auto">[rotate]</code></td>
+<td><code dir="auto">.rotationEffect(.radians:)</code>. Radians, the unit <code dir="auto">(rotation)</code> reports.</td>
+</tr>
+<tr>
+<td><code dir="auto">[animate]</code>, <code dir="auto">[animateDelay]</code>, <code dir="auto">[animateEasing]</code></td>
+<td><code dir="auto">.animation(_:value:)</code>, <code dir="auto">ease-out</code> by default, <code dir="auto">.delay</code> when there is one. Milliseconds in the template, seconds in SwiftUI.</td>
+</tr>
+</tbody>
+</table>
+<p>SwiftUI is a <strong>better</strong> fit for this than UIKit, not a worse one: <code dir="auto">UIView.animate</code>
+needs the starting state in place before the block is entered, and here the value
+the view came from is still in the view tree. What was missing was never the
+drawing — nothing carried the numbers across.</p>
+<p>Three things are decided in Rust or in the placement, not in the drawing:</p>
+<ul>
+<li><strong>A transform takes no part in the layout.</strong> taffy placed the node and none of
+this moves it back: a scaled view still occupies its unscaled box. That is the
+contract on every host, and it is what makes a transform cheap enough to
+follow a finger with.</li>
+<li><strong>The order is scale, then rotate, then translate</strong>, which is the order
+<code dir="auto">an-ios</code> multiplies its <code dir="auto">CGAffineTransform</code> in. The other way round the
+rotation turns the translation with it, and dragging something tilted goes off
+diagonally instead of following the finger.</li>
+<li><strong>The modifiers go before <code dir="auto">.position</code>.</strong> <code dir="auto">.position</code> hands back a view the size
+of the whole container with the content placed inside it, so a <code dir="auto">.scaleEffect</code>
+after it would scale about <em>that</em> centre and the node would travel across the
+screen instead of growing where it stands.</li>
+</ul>
+<p>What <code dir="auto">[animate]</code> covers is the frame, the opacity and the transform — the three
+things <code dir="auto">an-ios</code> puts inside an animation block. A colour or a label changing is a
+cut on every host. The identity never travels: a zero shift, a scale of one and
+no turn are an absent key, which is also what a template animating a transform
+back to nothing produces.</p>
+<p>The animation modifier is attached only to the nodes that ask for one, rather
+than <code dir="auto">.animation(nil, value:)</code> on every node in the tree: an <code dir="auto">an-stack-view</code>
+plays a transition on its screens, and a stray animation scope reaching into it
+is not the kind of thing a check finds later. The cost is that switching
+<code dir="auto">[animate]</code> on or off changes the branch, and with it the node’s identity, so the
+first frame after it is turned on is not animated.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="the-digital-crown">The digital crown</h2><a class="sl-anchor-link" href="#the-digital-crown"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “The digital crown”</span></a></div>
+<p>It is the watch’s own control and the only one with no equivalent on a phone:
+analogue, with inertia and with haptics, and used without a finger covering the
+screen. A template asks for it like any other event:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="html"><code><div class="ec-line"><div class="code"><span style="--0:#8B8B8B;--1:#686868">&lt;</span><span style="--0:#55987B;--1:#1E754F">an-view</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#BD976A;--1:#876037">(crown)</span><span style="--0:#8B8B8B;--1:#686868">=</span><span style="--0:#C98A7DE4;--1:#96574AFD">"</span><span style="--0:#C98A7D;--1:#96574A">turned($event)</span><span style="--0:#C98A7DE4;--1:#96574AFD">"</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#BD976A;--1:#876037">(crownIdle)</span><span style="--0:#8B8B8B;--1:#686868">=</span><span style="--0:#C98A7DE4;--1:#96574AFD">"</span><span style="--0:#C98A7D;--1:#96574A">stopped()</span><span style="--0:#C98A7DE4;--1:#96574AFD">"</span><span style="--0:#8B8B8B;--1:#686868">&gt;</span><span style="--0:#DBD7CAEE;--1:#393A34"> … </span><span style="--0:#8B8B8B;--1:#686868">&lt;/</span><span style="--0:#55987B;--1:#1E754F">an-view</span><span style="--0:#8B8B8B;--1:#686868">&gt;</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="<an-view (crown)=&quot;turned($event)&quot; (crownIdle)=&quot;stopped()&quot;> … </an-view>"><div></div></button></div></figure></div>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">delta</code></td>
+<td>How far it has turned since the previous event.</td>
+</tr>
+<tr>
+<td><code dir="auto">offset</code></td>
+<td>Accumulated since the view took the crown.</td>
+</tr>
+<tr>
+<td><code dir="auto">velocity</code></td>
+<td>Signed, in turns per second — SwiftUI’s own <code dir="auto">velocity</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><code dir="auto">delta</code> is not something SwiftUI gives: <code dir="auto">DigitalCrownEvent</code> carries <code dir="auto">offset</code> and
+<code dir="auto">velocity</code>, and the shell subtracts. What a template almost always wants is
+“move the value by however far it turned”, and doing that subtraction in every
+template would mean repeating it in every template. <code dir="auto">(crownIdle)</code> arrives when
+it stops, and is deliberately a different thing from a <code dir="auto">(crown)</code> with a delta of
+zero — SwiftUI’s <code dir="auto">onIdle</code> is a separate callback and there is nothing to invent.</p>
+<p>The modifier is attached only to container nodes, and only when the node
+actually listens for <code dir="auto">crown</code>.</p>
+<p>Three things worth knowing, and all three cost something to find out:</p>
+<ul>
+<li><strong>The crown goes to whoever has focus, and focus is singular.</strong> That is not a
+shell decision, it is how watchOS works. A view with <code dir="auto">(crown)</code> declares itself
+<code dir="auto">focusable</code> and asks for the starting focus with <code dir="auto">defaultFocus</code>, so if nobody
+else holds it, it keeps it. With several <code dir="auto">(crown)</code> views, the first in paint
+order wins.</li>
+<li><strong>Assigning the <code dir="auto">FocusState</code> by hand does not work.</strong> It was tried from the
+root and from the node’s own <code dir="auto">onAppear</code>: SwiftUI swallows the assignment
+without a word if the view is not on screen yet, and the crown is left dead
+with nothing saying so. <code dir="auto">defaultFocus</code> is what works.</li>
+<li><strong>A <code dir="auto">ScrollView</code> keeps the crown.</strong> If the <code dir="auto">(crown)</code> view is inside one, the
+crown scrolls the list until the view is tapped. Every watch app behaves that
+way, but it is worth knowing: <code dir="auto">examples/watch-controls</code> puts its crown screen
+<strong>outside</strong> an <code dir="auto">an-scroll-view</code> on purpose. Touching a <code dir="auto">Slider</code>, a <code dir="auto">Stepper</code>
+or a <code dir="auto">Picker</code> also moves focus to that control, and you have to tap the view
+again to get the crown back.</li>
+</ul>
+<p>The controls that use it — <code dir="auto">an-slider</code>, <code dir="auto">an-stepper</code>, <code dir="auto">an-select</code> — receive it
+from the system without asking for anything: when they have focus, the crown
+moves them. The crown accumulator is kept in a dictionary separate from the
+control state, because one node can be both an <code dir="auto">an-slider</code> and a <code dir="auto">(crown)</code>
+listener.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="gestures">Gestures</h2><a class="sl-anchor-link" href="#gestures"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Gestures”</span></a></div>
+<table>
+<thead>
+<tr>
+<th>Gesture</th>
+<th>On the watch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">(press)</code></td>
+<td><code dir="auto">onTapGesture</code>. On an <code dir="auto">an-button</code> the <code dir="auto">Button</code> itself sends it, with its highlight and its haptics.</td>
+</tr>
+<tr>
+<td><code dir="auto">(doublePress)</code></td>
+<td><code dir="auto">onTapGesture(count: 2)</code>.</td>
+</tr>
+<tr>
+<td><code dir="auto">(longPress)</code></td>
+<td>A half-second <code dir="auto">LongPressGesture</code>, in a <code dir="auto">simultaneousGesture</code>.</td>
+</tr>
+<tr>
+<td><code dir="auto">(pan)</code></td>
+<td><code dir="auto">DragGesture</code>, with <code dir="auto">translation</code> and <code dir="auto">velocity</code>. The phases are <code dir="auto">begin</code>, <code dir="auto">move</code> and <code dir="auto">end</code>.</td>
+</tr>
+<tr>
+<td><code dir="auto">(swipeLeft)</code>, <code dir="auto">(swipeRight)</code>, <code dir="auto">(swipeUp)</code>, <code dir="auto">(swipeDown)</code></td>
+<td>The same <code dir="auto">DragGesture</code>, reading the balance on release: 24 points or more on the dominant axis.</td>
+</tr>
+<tr>
+<td><code dir="auto">(crown)</code>, <code dir="auto">(crownIdle)</code></td>
+<td>The crown.</td>
+</tr>
+</tbody>
+</table>
+<p>Only what the template asks for is attached. One recogniser too many eats the
+drag of the <code dir="auto">ScrollView</code> underneath, and watchOS highlights whatever it thinks
+is tappable, so wrapping everything in a gesture would make half the screen
+flicker when it is brushed.</p>
+<p><strong><code dir="auto">(longPress)</code> and dragging cannot be two separate gestures.</strong> With
+<code dir="auto">.onLongPressGesture</code> on a view that also listened for <code dir="auto">(swipeLeft)</code>, the long
+press never arrived: the two fight over the finger and the drag won. It goes in
+a <code dir="auto">simultaneousGesture</code>, and the touch position comes out of the drag itself
+rather than from a second zero-distance <code dir="auto">DragGesture</code>, which was the same
+problem again.</p>
+<p>And what does not arrive, warned once per gesture:</p>
+<table>
+<thead>
+<tr>
+<th>Gesture</th>
+<th>Why not</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">(pinch)</code>, <code dir="auto">(rotation)</code></td>
+<td><code dir="auto">MagnifyGesture</code> and <code dir="auto">RotateGesture</code> are <code dir="auto">@available(watchOS, unavailable)</code>. Two fingers do not fit on 40 mm.</td>
+</tr>
+<tr>
+<td><code dir="auto">(back)</code></td>
+<td>Outside a <code dir="auto">NavigationStack</code> the watch gives no edge drag, and mounting one would put SwiftUI’s layout inside taffy’s.</td>
+</tr>
+<tr>
+<td><code dir="auto">(refresh)</code></td>
+<td>You do not pull a list to reload on a watch: that is the crown, which already arrives as <code dir="auto">(crown)</code>.</td>
+</tr>
+<tr>
+<td><code dir="auto">(scroll)</code></td>
+<td>SwiftUI’s <code dir="auto">ScrollView</code> does not publish its offset on watchOS 11, which is this shell’s minimum.</td>
+</tr>
+<tr>
+<td><code dir="auto">(safeArea)</code></td>
+<td>The app owns the whole screen and the system reserves no queryable margin — so <code dir="auto">an-safe-area</code> mounts and does nothing there.</td>
+</tr>
+<tr>
+<td><code dir="auto">(focus)</code>, <code dir="auto">(blur)</code></td>
+<td>Not yet: watch focus is the same focus that decides who owns the crown, and two owners would make it jump.</td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h2"><h2 id="the-state-a-finger-moves">The state a finger moves</h2><a class="sl-anchor-link" href="#the-state-a-finger-moves"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “The state a finger moves”</span></a></div>
+<p>This is the part you cannot see and the easiest one to break. Both sides carry
+the same value at different rates: a SwiftUI <code dir="auto">Slider</code> needs a <code dir="auto">Binding</code> it can
+write to immediately — the finger is on it — while the real value lives in an
+Angular signal on the other side of QuickJS and does not come back until the
+next frame. Without something in between, the slider would jump backwards on
+every drag, because each snapshot would put it back to the old value.</p>
+<p>That something is <code dir="auto">AnControls</code>, and it has one rule:</p>
+<blockquote>
+<p>if the value arriving from Rust <strong>is different from the one that arrived last
+time</strong>, the app changed it, and the app wins. If it is the same, whatever the
+finger did wins.</p>
+</blockquote>
+<p>So a signal that changes the value from code shows up straight away, and a drag
+is not overwritten by the echo of its own event.</p>
+<p>Presentations need the same thing: pressing a button on an <code dir="auto">an-alert</code> closes it
+in SwiftUI while <code dir="auto">[visible]</code> stays <code dir="auto">true</code> until JS reacts to the <code dir="auto">(select)</code>, and
+the frame in between would reopen it. The dialog is recorded as closed until the
+template catches up.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="hot-refresh">Hot refresh</h2><a class="sl-anchor-link" href="#hot-refresh"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Hot refresh”</span></a></div>
+<p><code dir="auto">an dev --watchos</code> works the way it does on the phone: the app connects to the
+server over WebSocket and saving reloads the bundle without restarting. The
+watch simulator shares the Mac’s network, so the bundle is served at
+<code dir="auto">127.0.0.1:&lt;port&gt;</code>. The command has no <code dir="auto">--device</code> of its own — a <code dir="auto">--device</code> left
+at the default phone is swapped for the default watch.</p>
+<p><strong>The state survives</strong>, and that was the fight worth winning, because the tree
+is rebuilt whole thirty times a second. It survives because on a hot reload the
+core keeps the tree mounted under the same ids, so <code dir="auto">AnControls</code> never notices;
+and when the reload is cold the host clears the tree, the ids disappear, and
+reconciliation takes with it what no longer exists. Nothing has to be emptied by
+hand, which is exactly where this would have broken.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="driving-the-watch-from-outside">Driving the watch from outside</h2><a class="sl-anchor-link" href="#driving-the-watch-from-outside"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Driving the watch from outside”</span></a></div>
+<p><code dir="auto">xcrun simctl</code> <strong>has no verb for this</strong>: there is <code dir="auto">io … screenshot</code>,
+<code dir="auto">io … recordVideo</code>, <code dir="auto">ui</code>, <code dir="auto">spawn</code>, <code dir="auto">push</code>… and none of them sends a tap or a
+turn. It is the same situation as the Apple TV remote, and the way out is the
+same as <code dir="auto">tv-remote.sh</code>: move Simulator’s own mouse.</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#80A665;--1:#4B7231">./scripts/watch-input.sh</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">tap</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#4C9A91;--1:#2C7181">104</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#4C9A91;--1:#2C7181">200</span><span style="--0:#DBD7CAEE;--1:#393A34">          </span><span style="--0:#818F81FE;--1:#636B63"># a tap, in watch points</span></div></div><div class="ec-line"><div class="code"><span style="--0:#80A665;--1:#4B7231">./scripts/watch-input.sh</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">hold</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#4C9A91;--1:#2C7181">104</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#4C9A91;--1:#2C7181">120</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#4C9A91;--1:#2C7181">900</span><span style="--0:#DBD7CAEE;--1:#393A34">     </span><span style="--0:#818F81FE;--1:#636B63"># a long press</span></div></div><div class="ec-line"><div class="code"><span style="--0:#80A665;--1:#4B7231">./scripts/watch-input.sh</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">drag</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#4C9A91;--1:#2C7181">104</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#4C9A91;--1:#2C7181">220</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#4C9A91;--1:#2C7181">104</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#4C9A91;--1:#2C7181">60</span><span style="--0:#DBD7CAEE;--1:#393A34">  </span><span style="--0:#818F81FE;--1:#636B63"># a drag: scrolls a list</span></div></div><div class="ec-line"><div class="code"><span style="--0:#80A665;--1:#4B7231">./scripts/watch-input.sh</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">turn</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C99076;--1:#995728">-12</span><span style="--0:#DBD7CAEE;--1:#393A34">             </span><span style="--0:#818F81FE;--1:#636B63"># twelve crown steps</span></div></div><div class="ec-line"><div class="code"><span style="--0:#80A665;--1:#4B7231">./scripts/watch-input.sh</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">shot</span><span style="--0:#DBD7CAEE;--1:#393A34"> </span><span style="--0:#C98A7D;--1:#96574A">/tmp/a.png</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="./scripts/watch-input.sh tap 104 200          # a tap, in watch points./scripts/watch-input.sh hold 104 120 900     # a long press./scripts/watch-input.sh drag 104 220 104 60  # a drag: scrolls a list./scripts/watch-input.sh turn -12             # twelve crown steps./scripts/watch-input.sh shot /tmp/a.png"><div></div></button></div></figure></div>
+<p>The thing that took longest to find, and is written at the top of the script:
+<strong>the mouse wheel only turns the crown while the pointer is over the window’s
+“Crown” button</strong>, not over the screen. Over the screen absolutely nothing
+happens — not even a warning — and it is easy to conclude the crown cannot be
+driven from outside at all.</p>
+<p>It has the same two conditions as the TV remote: the Mac’s screen cannot be
+locked, and Simulator stays in the foreground while the script runs.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="nothing-fails-in-silence">Nothing fails in silence</h2><a class="sl-anchor-link" href="#nothing-fails-in-silence"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Nothing fails in silence”</span></a></div>
+<p>Four warnings, each once per case and never once per frame — at 30 Hz, one
+warning per frame is an unreadable log:</p>
+<ul>
+<li><strong>A prop nobody reads.</strong> The per-kind allow-list is in <code dir="auto">reads()</code>, next to the
+code that uses it; <code dir="auto">[cursor]</code>, which only the desktop host has a pointer for,
+is one of the props that lands here today. The <code dir="auto">ios:</code> and <code dir="auto">android:</code> prefixes
+and <code dir="auto">ng-version</code> are exempt.</li>
+<li><strong>A prop that cannot be painted</strong>, with the reason, in <code dir="auto">unpaintable()</code>. It is
+deliberately not the same message as the one above: “nobody reads this yet” is
+a gap somebody can close and “there is nothing here to draw on” is not, and an
+app author who cannot tell them apart waits for a release that is never
+coming. A <code dir="auto">[borderWidth]</code> or a <code dir="auto">[rotate]</code> on an <code dir="auto">an-alert</code> are the cases that
+exist today — the system presents the dialog and the app hands it a title, a
+message and buttons, not a frame to stroke, to move or to time.</li>
+<li><strong>An event that cannot be delivered</strong>, warned once per kind and event name.</li>
+<li><strong>A primitive that is not drawn</strong>, with the SDK’s reason.</li>
+</ul>
+<p>Event payloads are flat only. A nested object or an array is rejected with a
+log, because the value type on the wire cannot represent them.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="native-modules">Native modules</h2><a class="sl-anchor-link" href="#native-modules"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Native modules”</span></a></div>
+<p><code dir="auto">device</code> is registered, so <code dir="auto">Device.info()</code> resolves and <code dir="auto">'watchos'</code> — a value of
+<code dir="auto">NativePlatform</code> that until then no host produced — is a value an app can
+actually read.</p>
+<p>The four fields it answers come <strong>from the shell</strong>, handed to
+<code dir="auto">an_watch_runtime_new</code> as JSON alongside the control sizes: <code dir="auto">systemVersion</code>,
+<code dir="auto">model</code> and <code dir="auto">scale</code> are <code dir="auto">WKInterfaceDevice</code>’s, which is WatchKit, has no Rust
+binding, and would be four trips through Objective-C for what Swift settles in
+one line. Android does exactly this with <code dir="auto">AnHost.deviceInfo()</code>.</p>
+<p><code dir="auto">platform</code> is the one field the shell does <strong>not</strong> send. That is the crate’s
+word — this host cannot be running anywhere but a watch — for the same reason
+<code dir="auto">an-ios</code> takes it from the <code dir="auto">cfg</code>: asking somebody else would only be room to get
+it wrong. With nothing handed over, the call is rejected saying so, rather than
+answering an object with holes in it that would read as real data.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="resources-in-the-bundle">Resources in the bundle</h2><a class="sl-anchor-link" href="#resources-in-the-bundle"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Resources in the bundle”</span></a></div>
+<p>An <code dir="auto">&lt;an-image [source]="'logo.png'"&gt;</code> — a path with no scheme — is a file that
+travelled with the app, and it comes out of <code dir="auto">resources/</code> in the project, the
+same directory as on the <a href="/platforms/ios/#resources-in-the-bundle">phone</a>.
+<code dir="auto">an watchos</code> copies the tree into the root of the <code dir="auto">.app</code>, beside <code dir="auto">main.js</code>,
+keeping subdirectories and skipping dotfiles.</p>
+<p>That is where iOS puts them too, and not for the same reason. On the phone the
+root is where <code dir="auto">UIImage(named:)</code> searches; on watchOS that call resolves names
+against an asset catalogue, and a bundle assembled by bare <code dir="auto">swiftc</code> with no
+<code dir="auto">.xcodeproj</code> has none. What decides it here is the shape of the bundle: a watch
+<code dir="auto">.app</code> is flat — <code dir="auto">WKApplication</code>, no <code dir="auto">Contents/</code> — so <code dir="auto">Bundle.main.resourcePath</code>
+is the <code dir="auto">.app</code> itself, which is already the directory the shell reads <code dir="auto">main.js</code>
+out of and the one it builds an image’s path from. A <code dir="auto">Resources/</code> subdirectory
+of our own would be a directory nothing in Foundation looks into.</p>
+<p>Four names are reserved, as on iOS and for the iOS reason — the bundle is flat,
+so even the executable shares a directory with the resources: <code dir="auto">main.js</code>,
+<code dir="auto">Info.plist</code>, <code dir="auto">dev-server.txt</code> and <code dir="auto">AngularNativeWatch</code>. A resource that would
+land on one of them stops the build, naming the file. There is no signature for
+the copy to come before: the watch simulator takes the bundle unsigned.</p>
+<p>A <code dir="auto">[source]</code> naming a file that is not there is <strong>warned once</strong>, with the name
+and where the file should have come from — the same sentence <code dir="auto">an-ios</code> says,
+because it is the same mistake. It cannot be a build check: only the device
+knows which strings a template really produced. And it must not be an empty
+view, which on a watch is indistinguishable from an image still loading.
+<code dir="auto">examples/watch-controls</code> carries one now, next to the heading of its first
+screen; until the build could take it there, that example had no image at all,
+since an example in this repository cannot be made to depend on a server being
+up.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="what-is-missing">What is missing</h2><a class="sl-anchor-link" href="#what-is-missing"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “What is missing”</span></a></div>
+<ul>
+<li><strong>A view a plugin brings.</strong> A plugin’s <em>methods</em> work here: <code dir="auto">an-watch</code> has
+the same registry every other host has, and <code dir="auto">an watchos</code> now refuses a build
+only when a plugin says it cannot cover a watch — see
+<a href="/extending/plugins-on-the-mac-and-the-watch/">Plugins on the Mac and the watch</a>.
+What has nowhere to go is <code dir="auto">&lt;an-custom&gt;</code>. This host mirrors the tree into a
+model SwiftUI redraws, so there is no view hierarchy to mount a plugin’s view
+into, and the watch’s <code dir="auto">AnPlugin</code> protocol has no <code dir="auto">attach</code> for the same reason:
+a stand-in that handed over nothing would only hide that until run time. A
+module name reached at run time that is not there is rejected with the name
+<em>and</em> the reason there is nothing under it, which is not the message a typo
+would get.</li>
+<li><strong>Moving a dialog or a sheet.</strong> Everywhere else this is done now:
+<code dir="auto">[animate]</code>, <code dir="auto">[translateX]</code>, <code dir="auto">[scale]</code> and <code dir="auto">[rotate]</code> are <code dir="auto">.offset</code>,
+<code dir="auto">.scaleEffect</code>, <code dir="auto">.rotationEffect</code> and <code dir="auto">.animation(_:value:)</code> on the frame
+taffy gave, and SwiftUI needs no starting state handed to it because the value
+the view came from is still in the tree. An <code dir="auto">an-alert</code> and an <code dir="auto">an-modal</code> have
+no such frame: <code dir="auto">.alert</code> and <code dir="auto">.sheet</code> are modifiers on the root, and the system
+decides where the presentation comes from and how long it takes. Those props
+are refused there, with the reason, rather than quietly dropped.</li>
+<li><strong>Per-side borders.</strong> There are none, here or anywhere else in the project.
+<code dir="auto">[borderWidth]</code> is one number and it is drawn; <code dir="auto">borderTopWidth</code> and its three
+siblings are <em>layout</em> styles — taffy resolves them, they inset the children
+and they never reach a host as something to paint. SwiftUI has no shape for
+them either, so drawing them on the watch alone would mean butting four
+rectangles together and having the watch show an edge the phone does not. The
+core says so once per name when a template writes one, so it is refused out
+loud rather than dropped; see <a href="/reference/styles/">Styles</a>.</li>
+<li><strong>The whole snapshot instead of the mutations.</strong> Every changed frame
+serialises the whole tree. For ten or fifteen nodes it does not show. When a
+long list turns up, the ops will have to be sent on their own, and what
+changes is <code dir="auto">snapshot.rs</code> and the Swift <code dir="auto">Decodable</code>, not the host.</li>
+<li><strong>Complications and notifications.</strong> A different system surface, with its own
+lifecycle. They share nothing with this.</li>
+<li><strong>A real device.</strong> There is no device path anywhere: no <code dir="auto">aarch64-apple-watchos</code>
+target, no codesigning, no <code dir="auto">devicectl</code>. Everything here was seen in the
+simulator, on an Apple Watch Series 11 (46 mm), the default device.</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="accessibility-and-the-one-thing-that-cannot-be-proved">Accessibility, and the one thing that cannot be proved</h2><a class="sl-anchor-link" href="#accessibility-and-the-one-thing-that-cannot-be-proved"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Accessibility, and the one thing that cannot be proved”</span></a></div>
+<p>Roles, traits and values are translated in Rust and merely attached in Swift, on
+every node rather than per <code dir="auto">case</code>. What is set and what is refused is in
+<a href="/accessibility/apple/">Accessibility on Apple</a>.</p>
+<p>The gap worth stating here is a testing one: the other three Apple hosts can be
+read from outside by walking the accessibility tree. watchOS cannot — there is
+no route into a watch simulator’s tree — so nothing proves a screen reader would
+announce any of it. The Rust test only checks the snapshot carries the right
+names.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="walls-that-were-expected-and-were-not-there">Walls that were expected and were not there</h2><a class="sl-anchor-link" href="#walls-that-were-expected-and-were-not-there"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Walls that were expected and were not there”</span></a></div>
+<p>Documented because they were on the list of things that might stop this:</p>
+<ul>
+<li><strong>The simulator takes the bundle unsigned.</strong> <code dir="auto">simctl install</code> asks for no
+signature, just like iOS. A real device would.</li>
+<li><strong><code dir="auto">@main</code> on a SwiftUI <code dir="auto">App</code> works with bare <code dir="auto">swiftc</code></strong>, no <code dir="auto">.xcodeproj</code>,
+as long as <code dir="auto">-parse-as-library</code> is passed.</li>
+<li><strong>The <code dir="auto">Info.plist</code> needs <code dir="auto">WKApplication</code>.</strong> It is what distinguishes a
+watchOS 7-and-later app from the old “WatchKit App + WatchKit Extension”
+pair. Without that key <code dir="auto">simctl</code> installs the bundle and then cannot find
+anything to launch. The plist also carries <code dir="auto">WKWatchOnly</code> — standalone, with no
+companion iPhone app — <code dir="auto">UIDeviceFamily [4]</code> and portrait only.</li>
+<li><strong>Text measurement is the real thing.</strong> watchOS ships a trimmed UIKit with no
+<code dir="auto">UIView</code> but <strong>with</strong> <code dir="auto">UIFont</code> and Foundation’s string drawing, so the watch
+measurer measures the same as the iOS one and with the same weight table:
+CSS 100..900 mapped onto UIKit’s -0.8..0.62. Off-watch it falls back to the
+naive measurer so <code dir="auto">cargo test</code> runs on a Mac. Control sizes cannot be asked
+for — there is no <code dir="auto">UISwitch</code> to query — so Swift hard-codes them and passes
+them in at startup.</li>
+</ul>
+</div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"><a href="/platforms/visionos/" rel="prev" class="astro-b5raizh3"><svg aria-hidden="true" class="astro-b5raizh3 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17 11H9.41l3.3-3.29a1.004 1.004 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33 1 1 0 0 0 0 .76 1 1 0 0 0 .21.33l5 5a1.002 1.002 0 0 0 1.639-.325 1 1 0 0 0-.219-1.095L9.41 13H17a1 1 0 0 0 0-2Z"/></svg><span class="astro-b5raizh3">Previous<br class="astro-b5raizh3"><span class="link-title astro-b5raizh3">visionOS</span></span></a><a href="/platforms/wearos/" rel="next" class="astro-b5raizh3"><svg aria-hidden="true" class="astro-b5raizh3 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg><span class="astro-b5raizh3">Next<br class="astro-b5raizh3"><span class="link-title astro-b5raizh3">Wear OS</span></span></a></div></footer></div></div></main></div></div></div></div></body></html>
